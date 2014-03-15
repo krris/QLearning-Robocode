@@ -1,5 +1,7 @@
 package io.github.krris.qlearning;
 
+import com.google.common.base.Objects;
+
 public class Range {
 	public final int min;
 	public final int max;
@@ -35,6 +37,22 @@ public class Range {
 	}
 
     /**
+     *
+     * @param value
+     * @param possibleRanges
+     * @return The range which can contain a given value.
+     */
+    static public Range getRange(double value, final Range[] possibleRanges) {
+        for (Range range: possibleRanges) {
+            if (range.fits(value)) {
+                return range;
+            }
+        }
+        // FIXME
+        throw new IllegalStateException("");
+    }
+
+    /**
      * Range is equal when min and max value of another Range object are the same.
      * Value is not considered.
      * @param other
@@ -52,10 +70,15 @@ public class Range {
         }
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.min, this.max);
+    }
 	
 	@Override
 	public String toString() {
-		return "Range: [" + min + ", " + max + "]";
+		return "Range: [" + min + ", " + max + ")";
 	}
 
 	public double getValue() {
