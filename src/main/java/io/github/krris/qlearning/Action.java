@@ -1,6 +1,6 @@
-package krris.learning.robot;
+package io.github.krris.qlearning;
 
-import krris.learning.robot.Constants;
+import io.github.krris.qlearning.Constants;
 
 /**
  * Created by krris on 15.03.14.

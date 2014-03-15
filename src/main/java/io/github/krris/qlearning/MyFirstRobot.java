@@ -1,4 +1,4 @@
-package krris.learning.robot;
+package io.github.krris.qlearning;
 
 import robocode.*;
 
