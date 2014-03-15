@@ -1,3 +1,4 @@
+import io.github.krris.qlearning.Constants;
 import io.github.krris.qlearning.Range;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,5 +47,11 @@ public class RangeTest {
             assertTrue(range.equals(other));
             assertFalse(range.equals(different));
         }
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void getRangeTest() {
+        int wrongValue = -9999;
+        Range.getRange(wrongValue, Constants.DISTANCES_TO_ENEMY);
     }
 }

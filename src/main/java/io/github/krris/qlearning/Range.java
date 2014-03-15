@@ -1,8 +1,14 @@
 package io.github.krris.qlearning;
 
 import com.google.common.base.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 public class Range {
+    private static Logger LOG = LoggerFactory.getLogger(Range.class);
+
 	public final int min;
 	public final int max;
 	
@@ -48,8 +54,10 @@ public class Range {
                 return range;
             }
         }
-        // FIXME
-        throw new IllegalStateException("");
+
+        LOG.error("Value: [{}] does not fit to any range: {}", value, possibleRanges);
+        throw new IllegalStateException("Value [" + value + "] does not fit to any range " +
+                Arrays.toString(possibleRanges));
     }
 
     /**
@@ -78,7 +86,7 @@ public class Range {
 	
 	@Override
 	public String toString() {
-		return "Range: [" + min + ", " + max + ")";
+		return "[" + min + ", " + max + ")";
 	}
 
 	public double getValue() {
