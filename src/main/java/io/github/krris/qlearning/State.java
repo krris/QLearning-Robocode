@@ -14,12 +14,12 @@ public final class State {
         private Range distanceToEnemy;
         private Range distanceToWall;
 
-        public Builder distanceToEnemy(int distance) {
+        public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
             return this;
         }
 
-        public Builder distanceToWall(int distance) {
+        public Builder distanceToWall(double distance) {
             this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
             return this;
         }
