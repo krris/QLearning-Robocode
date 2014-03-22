@@ -13,17 +13,27 @@ public class LearningRobot extends AdvancedRobot {
 
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
 
-    private QLearning ql = QLearning.INSTANCE;
+    private static QLearning ql = QLearning.INSTANCE;
 
     private GameStatus game;
     private State currentState;
 
     public LearningRobot() {
+        init();
         game = new GameStatus.Builder()
                 .amIAlive(true)
                 .enemyEnergy(100)
                 .build();
     }
+
+    private void init() {
+        ql.setActionFunction(Action.AHEAD, () -> LOG.info("Ahead action."));
+        ql.setActionFunction(Action.BACK, () -> LOG.info("Back action."));
+        ql.setActionFunction(Action.TURN_LEFT, () -> LOG.info("Turn_left action."));
+        ql.setActionFunction(Action.TURN_RIGHT, () -> LOG.info("Turn_right action."));
+        ql.init();
+    }
+
     public void run() {
         // Gun, radar and tank movements are independent
         setAdjustGunForRobotTurn(true);

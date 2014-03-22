@@ -1,5 +1,6 @@
 import io.github.krris.qlearning.Constants;
 import io.github.krris.qlearning.Range;
+import io.github.krris.qlearning.RangeType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,7 +18,7 @@ public class RangeTest {
     public void equals() {
         int min = 100;
         int max = 200;
-        Range range = new Range(min, max);
+        Range range = new Range(min, max, RangeType.DISTANCES_TO_ENEMY);
 
         // For any non-null reference value x, x.equals(null) must return false.
         Range other = null;
@@ -28,12 +29,12 @@ public class RangeTest {
 
         // Symmetric: For any non-null reference values x and y, x.equals(y) must
         // return true if and only if y.equals(x) returns true.
-        other = new Range(min, max);
+        other = new Range(min, max, RangeType.DISTANCES_TO_ENEMY);
         assertTrue(range.equals(other) == other.equals(range));
 
         // Transitive: For any non-null reference values x, y, z, if x.equals(y) returns
         // true and y.equals(z) returns true, then x.equals(z) must return true.
-        Range other2 = new Range(min, max);
+        Range other2 = new Range(min, max, RangeType.DISTANCES_TO_ENEMY);
         assertTrue(range.equals(other));
         assertTrue(other.equals(other2));
         assertTrue(range.equals(other2));
@@ -42,7 +43,7 @@ public class RangeTest {
         // of x.equals(y) consistently return true or consistently return false, provided
         // no information used in equals comparisons on the objects is modified.
         int limit = 1000;
-        Range different = new Range(max, min);
+        Range different = new Range(max, min, RangeType.DISTANCES_TO_WALL);
         for (int i = 0; i < limit ; i++) {
             assertTrue(range.equals(other));
             assertFalse(range.equals(different));

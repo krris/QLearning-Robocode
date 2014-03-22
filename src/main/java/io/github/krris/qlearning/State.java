@@ -1,11 +1,15 @@
 package io.github.krris.qlearning;
 
 import com.google.common.base.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by krris on 15.03.14.
  */
 public final class State {
+    private static final Logger LOG = LoggerFactory.getLogger(State.class);
+
     private final Range distanceToEnemy;
     private final Range distanceToWall;
 
@@ -22,6 +26,20 @@ public final class State {
         public Builder distanceToWall(double distance) {
             this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
             return this;
+        }
+
+        public Builder setProperty(Range range) {
+            switch (range.getRangeType()) {
+                case DISTANCES_TO_ENEMY:
+                    this.distanceToEnemy = range;
+                    return this;
+                case DISTANCES_TO_WALL:
+                    this.distanceToWall = range;
+                    return this;
+            }
+            String message = "Range type not found";
+            LOG.error(message);
+            throw new IllegalStateException(message);
         }
 
         public State build() {
@@ -56,8 +74,8 @@ public final class State {
 
     @Override
     public String toString() {
-        String message = "ToEnemy: " + distanceToEnemy + "\n" +
-                "ToWall: " + distanceToWall + "\n";
+        String message = "\nToEnemy: " + distanceToEnemy +
+                " ToWall: " + distanceToWall;
         return message;
     }
 

@@ -7,6 +7,10 @@ import java.util.Set;
  * Created by krris on 22.03.14.
  */
 public class Util {
+    public static Set<State> allAvailableStates() {
+        return generateStates(Constants.ALL_RANGES);
+    }
+
     public static Set<State> generateStates(Range[][] ranges) {
         int depth = 0;
         Set<State> generatedStates = new HashSet<>();

@@ -13,26 +13,18 @@ public class Range {
 	public final int max;
 	
 	private double value;
-	
-	public Range(int min, int max) {
+    private RangeType rangeType;
+
+	public Range(int min, int max, RangeType rangeType) {
 		this.min = min;
 		this.max = max;
-	}
-	
-	public Range(int min, int max, double value) {
-		this.min = min;
-		this.max = max;
-		this.value = value;
-	}
-	
-	public Range(Range other) {
-		this.min = other.min;
-		this.max = other.max;
+        this.rangeType = rangeType;
 	}
 	
 	public Range(Range other, double value) {
 		this.min = other.min;
 		this.max = other.max;
+        this.rangeType = other.getRangeType();
 		this.value = value;
 	}
 	
@@ -86,7 +78,12 @@ public class Range {
 	
 	@Override
 	public String toString() {
-		return "[" + min + ", " + max + ")";
+        if (max == Integer.MAX_VALUE) {
+            return "[" + min + ", MAX)";
+
+        } else {
+		    return "[" + min + ", " + max + ")";
+        }
 	}
 
 	public double getValue() {
@@ -96,4 +93,8 @@ public class Range {
 	public void setValue(double value) {
 		this.value = value;
 	}
+
+    public RangeType getRangeType() {
+        return rangeType;
+    }
 }
