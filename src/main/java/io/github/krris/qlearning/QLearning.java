@@ -5,10 +5,7 @@ import com.google.common.collect.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by krris on 16.03.14.
@@ -63,8 +60,9 @@ public enum QLearning {
 
         int randomInt = random.nextInt(availableActions.size());
         Action randomAction = availableActions.iterator().next();
+        Iterator<Action> iterator = availableActions.iterator();
         for (int i = 0; i < randomInt; i++) {
-            randomAction = availableActions.iterator().next();
+            randomAction = iterator.next();
         }
         return randomAction;
     }
@@ -75,8 +73,9 @@ public enum QLearning {
 
         int randomInt = random.nextInt(availableStates.size());
         State randomState = availableStates.iterator().next();
+        Iterator<State> iterator = availableStates.iterator();
         for (int i = 0; i < randomInt; i++) {
-            randomState = availableStates.iterator().next();
+            randomState = iterator.next();
         }
         return randomState;
     }
