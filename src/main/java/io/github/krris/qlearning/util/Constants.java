@@ -17,8 +17,8 @@ public class Constants {
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {
             new Range(0, 50, RangeType.DISTANCES_TO_ENEMY),
-            new Range(50,100, RangeType.DISTANCES_TO_ENEMY),
-            new Range(100, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
+            new Range(50,200, RangeType.DISTANCES_TO_ENEMY),
+            new Range(200, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
     };
 
     // Possible distances to the wall
