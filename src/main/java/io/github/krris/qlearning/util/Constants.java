@@ -14,6 +14,10 @@ public class Constants {
     // Default distance for turn actions
     public static final int TURN_ANGLE = 45;
 
+    // Rewards:
+    public static final int HIT_A_WALL = -1;
+    public static final int COLLISION_WITH_ENEMY = -1;
+
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {
             new Range(0, 50, RangeType.DISTANCES_TO_ENEMY),
