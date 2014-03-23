@@ -1,4 +1,7 @@
-package io.github.krris.qlearning;
+package io.github.krris.qlearning.util;
+
+import io.github.krris.qlearning.state.Range;
+import io.github.krris.qlearning.state.RangeType;
 
 /**
  * Created by krris on 15.03.14.

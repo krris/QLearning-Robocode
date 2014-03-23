@@ -1,4 +1,4 @@
-package io.github.krris.qlearning;
+package io.github.krris.qlearning.state;
 
 import com.google.common.base.Objects;
 import org.slf4j.Logger;

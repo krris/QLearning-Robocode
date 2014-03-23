@@ -2,6 +2,10 @@ package io.github.krris.qlearning;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import io.github.krris.qlearning.action.Action;
+import io.github.krris.qlearning.action.Executable;
+import io.github.krris.qlearning.state.State;
+import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

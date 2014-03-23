@@ -1,4 +1,6 @@
-import io.github.krris.qlearning.State;
+package state;
+
+import io.github.krris.qlearning.state.State;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

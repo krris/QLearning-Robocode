@@ -1,4 +1,4 @@
-package io.github.krris.qlearning;
+package io.github.krris.qlearning.action;
 
 /**
  * Created by krris on 19.03.14.

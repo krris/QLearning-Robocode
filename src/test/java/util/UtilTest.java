@@ -1,7 +1,9 @@
-import io.github.krris.qlearning.Range;
-import io.github.krris.qlearning.RangeType;
-import io.github.krris.qlearning.State;
-import io.github.krris.qlearning.Util;
+package util;
+
+import io.github.krris.qlearning.state.Range;
+import io.github.krris.qlearning.state.RangeType;
+import io.github.krris.qlearning.state.State;
+import io.github.krris.qlearning.util.Util;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

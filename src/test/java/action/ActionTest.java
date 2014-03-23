@@ -1,4 +1,6 @@
-import io.github.krris.qlearning.Action;
+package action;
+
+import io.github.krris.qlearning.action.Action;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

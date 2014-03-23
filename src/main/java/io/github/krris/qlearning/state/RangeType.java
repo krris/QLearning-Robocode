@@ -1,4 +1,4 @@
-package io.github.krris.qlearning;
+package io.github.krris.qlearning.state;
 
 /**
  * Created by krris on 22.03.14.
