@@ -7,6 +7,9 @@ import io.github.krris.qlearning.state.RangeType;
  * Created by krris on 15.03.14.
  */
 public class Constants {
+    // Place where chart will be printed
+    public static final String CHART_PATH = System.getProperty("user.home") + "/log/chart.png";
+
     private Constants() { } // Prevents initialization
 
     // Default distance for movement actions
@@ -14,11 +17,15 @@ public class Constants {
     // Default distance for turn actions
     public static final int TURN_ANGLE = 45;
 
+    // Rewards:
+    public static final int HIT_A_WALL = -1;
+    public static final int COLLISION_WITH_ENEMY = -1;
+
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {
             new Range(0, 50, RangeType.DISTANCES_TO_ENEMY),
-            new Range(50,100, RangeType.DISTANCES_TO_ENEMY),
-            new Range(100, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
+            new Range(50,200, RangeType.DISTANCES_TO_ENEMY),
+            new Range(200, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
     };
 
     // Possible distances to the wall

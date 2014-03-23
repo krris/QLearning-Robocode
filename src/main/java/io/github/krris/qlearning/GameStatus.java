@@ -1,5 +1,6 @@
 package io.github.krris.qlearning;
 
+import io.github.krris.qlearning.util.Util;
 import robocode.RobotStatus;
 
 /**
@@ -140,7 +141,8 @@ public class GameStatus {
     }
 
     public double getDistanceToEnemy() {
-        return distanceToEnemy;
+        return Util.distanceBetween2Points(robotStatus.getX(), robotStatus.getY(),
+                this.getEnemyX(), this.getEnemyY());
     }
 
     public void setDistanceToEnemy(double distanceToEnemy) {

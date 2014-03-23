@@ -2,6 +2,9 @@ package io.github.krris.qlearning;
 
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
+import io.github.krris.qlearning.chart.Chart;
+import io.github.krris.qlearning.reward.RewardType;
+import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
@@ -18,6 +21,7 @@ public class LearningRobot extends AdvancedRobot {
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
 
     private static QLearning ql = QLearning.INSTANCE;
+    private static Rewards rewards = Rewards.INSTANCE;
 
     private GameStatus game;
     private State currentState;
@@ -144,6 +148,7 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitRobot(HitRobotEvent e) {
         LOG.info("Hit another robot!");
+        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
     }
 
     public void onBulletHit(BulletHitEvent e) {
@@ -152,6 +157,7 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitWall(HitWallEvent e) {
         LOG.info("Hit a wall!");
+        rewards.addReward(RewardType.HIT_A_WALL);
     }
 
     // Paint a transparent square on top of the last scanned robot
@@ -174,12 +180,16 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
+        rewards.endOfRound();
     }
 
     @Override
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
+
+        // Print a chart with rewards
+        Chart.printToFile(rewards.getRewardsPerRound());
     }
 
     public void onWin(WinEvent e) {
