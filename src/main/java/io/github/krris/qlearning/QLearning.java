@@ -58,7 +58,7 @@ public enum QLearning {
         Random random = new Random();
         Set<Action> availableActions = Q.columnKeySet();
 
-        int randomInt = random.nextInt(availableActions.size());
+        int randomInt = random.nextInt(availableActions.size() + 1);
         Action randomAction = availableActions.iterator().next();
         Iterator<Action> iterator = availableActions.iterator();
         for (int i = 0; i < randomInt; i++) {
@@ -71,7 +71,7 @@ public enum QLearning {
         Random random = new Random();
         Set<State> availableStates = Util.allAvailableStates();
 
-        int randomInt = random.nextInt(availableStates.size());
+        int randomInt = random.nextInt(availableStates.size() + 1);
         State randomState = availableStates.iterator().next();
         Iterator<State> iterator = availableStates.iterator();
         for (int i = 0; i < randomInt; i++) {

@@ -27,11 +27,55 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     private void init() {
-        ql.setActionFunction(Action.AHEAD, () -> LOG.info("Ahead action."));
-        ql.setActionFunction(Action.BACK, () -> LOG.info("Back action."));
-        ql.setActionFunction(Action.TURN_LEFT, () -> LOG.info("Turn_left action."));
-        ql.setActionFunction(Action.TURN_RIGHT, () -> LOG.info("Turn_right action."));
+        initAheadAction();
+        initBackAction();
+        initTurnLeftAction();
+        initTurnRightAction();
         ql.init();
+    }
+
+    private void initTurnRightAction() {
+        Executable turnRightAction = () -> {
+            LOG.info("Turn right action.");
+            this.setTurnRight(Constants.TURN_ANGLE);
+            this.execute();
+            this.waitFor(new TurnCompleteCondition(this));
+        };
+
+        ql.setActionFunction(Action.TURN_RIGHT, turnRightAction);
+    }
+
+    private void initTurnLeftAction() {
+        Executable turnLeftAction = () -> {
+            LOG.info("Turn left action.");
+            this.setTurnLeft(Constants.TURN_ANGLE);
+            this.execute();
+            this.waitFor(new TurnCompleteCondition(this));
+        };
+
+        ql.setActionFunction(Action.TURN_LEFT, turnLeftAction);
+    }
+
+    private void initBackAction() {
+        Executable backAction = () -> {
+            LOG.info("Back action.");
+            this.setBack(Constants.MOVE_DISTANCE);
+            this.execute();
+            this.waitFor(new MoveCompleteCondition(this));
+        };
+
+        ql.setActionFunction(Action.BACK, backAction);
+    }
+
+    private void initAheadAction() {
+        Executable aheadAction = () -> {
+            LOG.info("Ahead action.");
+            this.setAhead(Constants.MOVE_DISTANCE);
+            this.execute();
+            this.waitFor(new MoveCompleteCondition(this));
+        };
+
+        ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
     public void run() {
