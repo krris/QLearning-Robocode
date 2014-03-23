@@ -9,12 +9,12 @@ import java.util.List;
 public enum Rewards {
     INSTANCE;
 
-    private List<Integer> rewardPerGame;
+    private List<Integer> rewardsPerRound;
     // A collected reward during one round
     private int roundReward;
 
     Rewards() {
-        this.rewardPerGame = new ArrayList<>();
+        this.rewardsPerRound = new ArrayList<>();
         this.roundReward = 0;
     }
 
@@ -27,12 +27,12 @@ public enum Rewards {
     }
 
     public void endOfRound() {
-        this.rewardPerGame.add(this.roundReward);
+        this.rewardsPerRound.add(this.roundReward);
         // Every round start calculating a reward from 0
         this.roundReward = 0;
     }
 
-    public List<Integer> getRewardPerGame() {
-        return rewardPerGame;
+    public List<Integer> getRewardsPerRound() {
+        return rewardsPerRound;
     }
 }

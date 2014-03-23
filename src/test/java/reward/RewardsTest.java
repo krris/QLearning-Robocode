@@ -20,7 +20,7 @@ public class RewardsTest {
         int expectedSum = RewardType.COLLISION_WITH_ENEMY.getReward() + RewardType.HIT_A_WALL.getReward();
 
         assertEquals(rewards.getRoundReward(), 0);
-        assertTrue(rewards.getRewardPerGame().isEmpty());
+        assertTrue(rewards.getRewardsPerRound().isEmpty());
 
         rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
         rewards.addReward(RewardType.HIT_A_WALL);
@@ -30,6 +30,6 @@ public class RewardsTest {
         rewards.endOfRound();
 
         assertEquals(rewards.getRoundReward(), 0);
-        assertTrue(!rewards.getRewardPerGame().isEmpty());
+        assertTrue(!rewards.getRewardsPerRound().isEmpty());
     }
 }

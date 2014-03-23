@@ -2,6 +2,7 @@ package io.github.krris.qlearning;
 
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
+import io.github.krris.qlearning.chart.Chart;
 import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
@@ -186,6 +187,9 @@ public class LearningRobot extends AdvancedRobot {
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
+
+        // Print a chart with rewards
+        Chart.printToFile(rewards.getRewardsPerRound());
     }
 
     public void onWin(WinEvent e) {

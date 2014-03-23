@@ -7,6 +7,9 @@ import io.github.krris.qlearning.state.RangeType;
  * Created by krris on 15.03.14.
  */
 public class Constants {
+    // Place where chart will be printed
+    public static final String CHART_PATH = System.getProperty("user.home") + "/log/chart.png";
+
     private Constants() { } // Prevents initialization
 
     // Default distance for movement actions

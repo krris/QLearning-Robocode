@@ -18,6 +18,6 @@ public class ChartTest {
             rewards.add(random.nextInt(300));
         }
 
-        Chart.print(rewards);
+        Chart.printToFile(rewards);
     }
 }
