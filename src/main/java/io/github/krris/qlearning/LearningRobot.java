@@ -24,7 +24,6 @@ public class LearningRobot extends AdvancedRobot {
     private static Rewards rewards = Rewards.INSTANCE;
 
     private GameStatus game;
-    private State currentState;
 
     public LearningRobot() {
         init();
@@ -92,20 +91,14 @@ public class LearningRobot extends AdvancedRobot {
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
 
-        currentState = new State.Builder()
-                .distanceToEnemy(game.getDistanceToEnemy())
-                .distanceToWall(game.getDistanceToWall())
-                .build();
-
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
+        State currentState = State.updateState(game);
+
         while (true) {
-            Action action = ql.nextAction();
+            Action action = ql.nextAction(currentState);
             action.execute();
-            State newState = new State.Builder()
-                    .distanceToEnemy(game.getDistanceToEnemy())
-                    .distanceToWall(game.getDistanceToWall())
-                    .build();
+            currentState = State.updateState(game);
 
             ql.updateQ();
         }

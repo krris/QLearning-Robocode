@@ -1,6 +1,7 @@
 package io.github.krris.qlearning.state;
 
 import com.google.common.base.Objects;
+import io.github.krris.qlearning.GameStatus;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +52,14 @@ public final class State {
     private State(Builder builder) {
         this.distanceToEnemy = builder.distanceToEnemy;
         this.distanceToWall = builder.distanceToWall;
+    }
+
+    public static State updateState(final GameStatus gameStatus) {
+        State state = new State.Builder()
+                .distanceToEnemy(gameStatus.getDistanceToEnemy())
+                .distanceToWall(gameStatus.getDistanceToWall())
+                .build();
+        return state;
     }
 
     @Override

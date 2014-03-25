@@ -12,6 +12,9 @@ public class Constants {
 
     private Constants() { } // Prevents initialization
 
+    // Constants for qlearning algorithm
+    public static final double EPSILON = 0.2;
+
     // Default distance for movement actions
     public static final int MOVE_DISTANCE = 50;
     // Default distance for turn actions
@@ -36,5 +39,10 @@ public class Constants {
     };
 
     public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL};
+
+    public static final int CHART_WIDTH = 800;
+    public static final int CHART_HEIGHT = 600;
+
+
 
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
 import io.github.krris.qlearning.state.State;
+import io.github.krris.qlearning.util.Constants;
 import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,16 @@ public enum QLearning {
         this.actionFunctions.put(action, function);
     }
 
+    public Action eGreedyAction(State state) {
+        double x = Math.random();
+
+        if (x < Constants.EPSILON) {
+            return randomAction();
+        } else {
+            return bestAction(state);
+        }
+    }
+
     public Action randomAction() {
         Random random = new Random();
         Set<Action> availableActions = Q.columnKeySet();
@@ -68,7 +79,26 @@ public enum QLearning {
         for (int i = 0; i < randomInt; i++) {
             randomAction = iterator.next();
         }
+
+        LOG.debug("Random action: " + randomAction.toString());
         return randomAction;
+    }
+
+    public Action bestAction(State state) {
+        Action bestAction = this.randomAction();
+        double bestQ = Q.get(state, bestAction);
+
+        for (Action action : Action.values()) {
+            double actionQ = Q.get(state, action);
+
+            if (actionQ > bestQ) {
+                bestQ = actionQ;
+                bestAction = action;
+            }
+        }
+
+        LOG.debug("Best action: " + bestAction.toString());
+        return bestAction;
     }
 
     public State randomState() {
@@ -86,7 +116,7 @@ public enum QLearning {
 
     // FIXME
     public void updateQ() {}
-    public Action nextAction() {
-        return randomAction();
+    public Action nextAction(State state) {
+        return eGreedyAction(state);
     }
 }

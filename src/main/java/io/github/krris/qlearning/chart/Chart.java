@@ -48,12 +48,10 @@ public class Chart {
         XYSeriesCollection data = getSeriesCollection(rewards);
         JFreeChart qlearning = getJFreeChart(data);
 
-        int width = 600;
-        int height = 400;
         File file = new File(Constants.CHART_PATH);
 
         try {
-            ChartUtilities.saveChartAsPNG(file, qlearning, width, height);
+            ChartUtilities.saveChartAsPNG(file, qlearning, Constants.CHART_WIDTH, Constants.CHART_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
