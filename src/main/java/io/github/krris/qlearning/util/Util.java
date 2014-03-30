@@ -1,7 +1,11 @@
 package io.github.krris.qlearning.util;
 
+import com.google.common.collect.Table;
+import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +14,8 @@ import java.util.Set;
  * Created by krris on 22.03.14.
  */
 public class Util {
+    private static Logger LOG = LoggerFactory.getLogger(Util.class);
+
     public static Set<State> allAvailableStates() {
         return generateStates(Constants.ALL_RANGES);
     }
@@ -35,9 +41,17 @@ public class Util {
         return generatedStates;
     }
 
-    static public double distanceBetween2Points(double x1, double y1, double x2, double y2)
-    {
+    static public double distanceBetween2Points(double x1, double y1, double x2, double y2) {
         double distance = Math.sqrt( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
         return distance;
+    }
+
+    static public void printQTable(Table<State, Action, Double> Q) {
+        for (State state : Q.rowKeySet()) {
+            for (Action action : Q.columnKeySet()) {
+                String message = "Q-table: \n" + Q.get(state, action);
+                LOG.info(message);
+            }
+        }
     }
 }

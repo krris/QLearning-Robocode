@@ -1,15 +1,22 @@
 package io.github.krris.qlearning.action;
 
+import io.github.krris.qlearning.util.Constants;
+
 /**
  * Created by krris on 15.03.14.
  */
 public enum Action {
-    AHEAD,
-    BACK,
-    TURN_LEFT,
-    TURN_RIGHT;
+    AHEAD(Constants.MOVE_DISTANCE),
+    BACK(Constants.MOVE_DISTANCE),
+    TURN_LEFT(Constants.TURN_ANGLE),
+    TURN_RIGHT(Constants.TURN_ANGLE);
 
     private Executable executableAction;
+    private int value;
+
+    Action(int value) {
+        this.value = value;
+    }
 
     public void execute() {
         this.executableAction.execute();
@@ -22,5 +29,9 @@ public enum Action {
 
     public void setExecutableAction(Executable executableAction) {
         this.executableAction = executableAction;
+    }
+
+    public int value() {
+        return this.value;
     }
 }

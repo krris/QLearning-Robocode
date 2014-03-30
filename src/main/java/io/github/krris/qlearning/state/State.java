@@ -2,6 +2,7 @@ package io.github.krris.qlearning.state;
 
 import com.google.common.base.Objects;
 import io.github.krris.qlearning.GameStatus;
+import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +13,16 @@ import org.slf4j.LoggerFactory;
 public final class State {
     private static final Logger LOG = LoggerFactory.getLogger(State.class);
 
+    private final GameStatus gameStatus;
     private final Range distanceToEnemy;
     private final Range distanceToWall;
 
     public static class Builder {
 
+        private GameStatus gameStatus;
+
         private Range distanceToEnemy;
         private Range distanceToWall;
-
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
             return this;
@@ -27,6 +30,11 @@ public final class State {
 
         public Builder distanceToWall(double distance) {
             this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
+            return this;
+        }
+
+        public Builder gameStatus(GameStatus gameStatus) {
+            this.gameStatus = gameStatus;
             return this;
         }
 
@@ -47,18 +55,26 @@ public final class State {
         public State build() {
             return new State(this);
         }
-    }
 
+    }
     private State(Builder builder) {
+        this.gameStatus = builder.gameStatus;
         this.distanceToEnemy = builder.distanceToEnemy;
         this.distanceToWall = builder.distanceToWall;
     }
 
     public static State updateState(final GameStatus gameStatus) {
-        State state = new State.Builder()
+        State state = new Builder()
+                .gameStatus(gameStatus)
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
                 .distanceToWall(gameStatus.getDistanceToWall())
                 .build();
+        return state;
+    }
+
+    public State nextHypotheticalState(Action executedAction) {
+        GameStatus statusAfterExecutingState = this.gameStatus.getStatusAfterExecutingAction(executedAction);
+        State state = updateState(statusAfterExecutingState);
         return state;
     }
 
@@ -87,6 +103,10 @@ public final class State {
         String message = "\nToEnemy: " + distanceToEnemy +
                 " ToWall: " + distanceToWall;
         return message;
+    }
+
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 
     public Range getDistanceToEnemy() {

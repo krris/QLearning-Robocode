@@ -4,6 +4,8 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
+import io.github.krris.qlearning.feature.Feature;
+import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
 import io.github.krris.qlearning.util.Util;
@@ -21,17 +23,21 @@ public enum QLearning {
     private final Logger LOG = LoggerFactory.getLogger(QLearning.class);
 
     private Table<State, Action, Double> Q;
-    private Map<Action, Executable> actionFunctions = new HashMap<>();
+    private Map<Action, Executable> actionFunctions;
+    private Map<Feature, Double> weights;
 
-    private static double INITIAL_Q = 1;
+    private Rewards rewards = Rewards.INSTANCE;
 
     QLearning() {
         this.Q = HashBasedTable.create();
+        this.actionFunctions = new HashMap<>();
+        this.weights = new HashMap<>();
     }
 
     public void init() {
         areAllActionsSet();
         initQ();
+        initWeights();
     }
 
     private void areAllActionsSet() {
@@ -50,8 +56,14 @@ public enum QLearning {
             for (Action action : Action.values()) {
                 Executable actionFunc = actionFunctions.get(action);
                 action.setExecutableAction(actionFunc);
-                Q.put(state, action, INITIAL_Q);
+                Q.put(state, action, Constants.INITIAL_Q);
             }
+        }
+    }
+
+    private void initWeights() {
+        for (Feature feature : Feature.values()) {
+            this.weights.put(feature, Constants.FEATURE_INIT_VALUE);
         }
     }
 
@@ -114,8 +126,62 @@ public enum QLearning {
         return randomState;
     }
 
-    // FIXME
-    public void updateQ() {}
+    /**
+     * Overall algorithm for updataing Q:
+     *      Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
+     *      difference = [r + gamma * max Q(s',a')] - Q(s,a)
+     *      Q(s,a) <- Q(s,a) + alpha * difference
+     *
+     * @param currentState
+     * @param executedAction
+     */
+    public void updateQ(State currentState, Action executedAction) {
+        // Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
+        double q = 0;
+        for (Feature feature : Feature.values()) {
+            q += this.weights.get(feature) * feature.getValue(currentState, executedAction);
+        }
+
+        // difference = [r + gamma * max Q(s',a')] - Q(s,a)
+        // new hypothetical state after executing action
+        State newState = currentState.nextHypotheticalState(executedAction);
+        double maxQPrim = maxQ(newState);
+        double difference = rewards.getCycleReward() + Constants.GAMMA * maxQPrim - q;
+
+        // Q(s,a) <- Q(s,a) + alpha * difference
+        double newQValue = Q.get(currentState, executedAction) + Constants.ALPHA * difference;
+        Q.put(currentState, executedAction, newQValue);
+
+        updateWeights(currentState, executedAction, difference);
+    }
+
+    /**
+     * Algorithm for updating weights:
+     *      w_1 <- w_1 + alpha * difference * feature_1(s,a)
+     *      w_2 <- w_2 + alpha * difference * feature_2(s,a)
+     *      (...)
+     *
+     * @param currentState
+     * @param executedAction
+     */
+    private void updateWeights(State currentState, Action executedAction, double difference) {
+        for (Feature feature : weights.keySet()) {
+            double currentWeight = weights.get(feature);
+            double newWeigth = currentWeight + Constants.ALPHA * feature.getValue(currentState, executedAction);
+            weights.put(feature, newWeigth);
+        }
+    }
+
+    private double maxQ(State state) {
+        double max = - Double.MAX_VALUE;
+        for (Action action : Q.columnKeySet()) {
+            if (Q.get(state, action) > max) {
+                max = Q.get(state, action);
+            }
+        }
+        return max;
+    }
+
     public Action nextAction(State state) {
         return eGreedyAction(state);
     }

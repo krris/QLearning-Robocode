@@ -99,8 +99,8 @@ public class LearningRobot extends AdvancedRobot {
             Action action = ql.nextAction(currentState);
             action.execute();
             currentState = State.updateState(game);
-
-            ql.updateQ();
+            ql.updateQ(currentState, action);
+            rewards.endOfCycle();
         }
     }
 
