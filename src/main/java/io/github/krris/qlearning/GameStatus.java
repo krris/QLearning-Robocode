@@ -36,6 +36,7 @@ public class GameStatus {
     private Optional<Double> myY;
 
     private GameStatus(Builder builder) {
+        this.robotStatus = builder.robotStatus;
         this.myX = Optional.of(builder.myX);
         this.myY = Optional.of(builder.myY);
         this.enemyX = builder.enemyX;
@@ -129,14 +130,16 @@ public class GameStatus {
      * @return
      */
     public GameStatus getStatusAfterExecutingAction(Action action) {
-        GameStatus gameStatus;
+        GameStatus gameStatus = this.copy();;
         switch (action) {
             case AHEAD:
             case BACK:
                 Vector2D myPosition = moveAheadOrBack(action);
-                gameStatus = this.copy();
                 gameStatus.setMyX(myPosition.x());
                 gameStatus.setMyY(myPosition.y());
+                break;
+            case TURN_RIGHT:
+            case TURN_LEFT:
                 break;
             default:
                 String message = "Action [" + action.name() + "] is not supported in getStatusAfterExecutingAction().";
@@ -147,8 +150,8 @@ public class GameStatus {
     }
 
     private Vector2D moveAheadOrBack(Action action) {
-        Vector2D currentPosition = new Vector2D(robotStatus.getX(), robotStatus.getY());
-        double myAngle = robotStatus.getHeading();
+        Vector2D currentPosition = new Vector2D(this.getX(), this.getY());
+        double myAngle = robotStatus.getHeadingRadians();
         Vector2D moveVector = Vector2D.createPolar(action.value(), myAngle);
 
         Vector2D sum = currentPosition.plus(moveVector);

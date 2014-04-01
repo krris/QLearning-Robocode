@@ -1,4 +1,4 @@
-package action;
+package io.github.krris.qlearning.action;
 
 import io.github.krris.qlearning.action.Action;
 import org.junit.Test;

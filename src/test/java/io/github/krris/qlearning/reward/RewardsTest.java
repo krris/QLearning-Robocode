@@ -1,4 +1,4 @@
-package reward;
+package io.github.krris.qlearning.reward;
 
 import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
