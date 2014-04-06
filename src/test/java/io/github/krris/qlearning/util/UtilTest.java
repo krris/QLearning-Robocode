@@ -66,4 +66,17 @@ public class UtilTest {
 
         return expectedStates;
     }
+
+    @Test
+    public void dostanceBetween2PointsTest() {
+        int x1 = 1;
+        int y1 = 5;
+        int x2 = 5;
+        int y2 = 7;
+
+        double distance = Util.distanceBetween2Points(x1, y1, x2, y2);
+        double expectedDistance = 2 * Math.sqrt(5);
+        double error = 0;
+        assertEquals(expectedDistance, distance, error);
+    }
 }

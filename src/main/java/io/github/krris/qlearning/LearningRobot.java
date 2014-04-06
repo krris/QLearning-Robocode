@@ -7,6 +7,7 @@ import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
+import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.*;
@@ -95,6 +96,9 @@ public class LearningRobot extends AdvancedRobot {
 
         State currentState = State.updateState(game);
 
+        LOG.info("StartBattle");
+        Util.printQTable(ql.getQ());
+
         while (true) {
             Action action = ql.nextAction(currentState);
             action.execute();
@@ -173,6 +177,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
+        Util.printQTable(ql.getQ());
         rewards.endOfRound();
     }
 

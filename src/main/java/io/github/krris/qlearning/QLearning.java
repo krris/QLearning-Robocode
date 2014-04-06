@@ -185,4 +185,8 @@ public enum QLearning {
     public Action nextAction(State state) {
         return eGreedyAction(state);
     }
+
+    public Table<State, Action, Double> getQ() {
+        return Q;
+    }
 }

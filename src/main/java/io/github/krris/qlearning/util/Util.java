@@ -47,11 +47,12 @@ public class Util {
     }
 
     static public void printQTable(Table<State, Action, Double> Q) {
+        String message = "";
         for (State state : Q.rowKeySet()) {
             for (Action action : Q.columnKeySet()) {
-                String message = "Q-table: \n" + Q.get(state, action);
-                LOG.info(message);
+                 message += "\n[" + state + "], [" + action + "]" + Q.get(state, action);
             }
         }
+        LOG.info(message);
     }
 }

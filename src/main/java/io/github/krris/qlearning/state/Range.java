@@ -21,13 +21,6 @@ public class Range {
         this.rangeType = rangeType;
 	}
 	
-	public Range(Range other, double value) {
-		this.min = other.min;
-		this.max = other.max;
-        this.rangeType = other.getRangeType();
-		this.value = value;
-	}
-	
 	public boolean fits(double value) {
 		if (value >= min && value < max)
 			return true;

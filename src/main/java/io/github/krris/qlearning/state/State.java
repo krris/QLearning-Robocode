@@ -100,7 +100,7 @@ public final class State {
 
     @Override
     public String toString() {
-        String message = "\nToEnemy: " + distanceToEnemy +
+        String message = "ToEnemy: " + distanceToEnemy +
                 " ToWall: " + distanceToWall;
         return message;
     }
