@@ -6,9 +6,7 @@ import java.util.List;
 /**
  * Created by krris on 23.03.14.
  */
-public enum Rewards {
-    INSTANCE;
-
+public class Rewards {
     private List<Integer> rewardsPerRound;
 
     // Collected reward during one round

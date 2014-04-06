@@ -17,16 +17,13 @@ import java.util.*;
 /**
  * Created by krris on 16.03.14.
  */
-public enum QLearning {
-    INSTANCE;
-
+public class QLearning {
     private final Logger LOG = LoggerFactory.getLogger(QLearning.class);
 
     private Table<State, Action, Double> Q;
     private Map<Action, Executable> actionFunctions;
     private Map<Feature, Double> weights;
-
-    private Rewards rewards = Rewards.INSTANCE;
+    private Rewards rewards;
 
     QLearning() {
         this.Q = HashBasedTable.create();
@@ -35,9 +32,11 @@ public enum QLearning {
     }
 
     public void init() {
-        areAllActionsSet();
-        initQ();
-        initWeights();
+        if (Q.isEmpty()) {
+            areAllActionsSet();
+            initQ();
+            initWeights();
+        }
     }
 
     private void areAllActionsSet() {
@@ -188,5 +187,9 @@ public enum QLearning {
 
     public Table<State, Action, Double> getQ() {
         return Q;
+    }
+
+    public void setRewards(Rewards rewards) {
+        this.rewards = rewards;
     }
 }

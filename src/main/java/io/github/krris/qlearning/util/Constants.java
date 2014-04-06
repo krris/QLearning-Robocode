@@ -17,7 +17,7 @@ public class Constants {
     public static final double FEATURE_INIT_VALUE = 1;
     public static final double INITIAL_Q = 1;
     public static final double GAMMA = 0.3;
-    public static final double ALPHA = 0.3;
+    public static final double ALPHA = 0.5;
 
     // Default distance for movement actions
     public static final int MOVE_DISTANCE = 50;
