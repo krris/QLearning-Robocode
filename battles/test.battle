@@ -1,7 +1,7 @@
 #Battle Properties
 robocode.battleField.width=500
 robocode.battleField.height=500
-robocode.battle.numRounds=100
+robocode.battle.numRounds=3
 robocode.battle.gunCoolingRate=0.1
 robocode.battle.rules.inactivityTime=450
 robocode.battle.hideEnemyNames=true

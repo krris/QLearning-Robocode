@@ -13,18 +13,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
+import robocode.robotinterfaces.IObstacleEvents;
+import robocode.robotinterfaces.IObstacleRobot;
 
 import java.awt.*;
 
 /**
  * Created by krris on 16.03.14.
  */
-public class LearningRobot extends AdvancedRobot {
+public class LearningRobot extends AdvancedRobot implements IObstacleEvents, IObstacleRobot {
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
     private static ApplicationContext context = new ClassPathXmlApplicationContext("io/github/krris/qlearning/beans.xml");
 
-    private static QLearning ql = context.getBean("qlearning", QLearning.class);
-    private static Rewards rewards = context.getBean("rewards", Rewards.class);
+    private QLearning ql = context.getBean("qlearning", QLearning.class);
+    private Rewards rewards = context.getBean("rewards", Rewards.class);
 
     private GameStatus game;
 
@@ -99,12 +101,16 @@ public class LearningRobot extends AdvancedRobot {
         State currentState = State.updateState(game);
 
         LOG.info("StartBattle");
-        LOG.info("Qlearning address [start]: " + ql );
+        Util.printWeights(ql.getWeights());
         Util.printQTable(ql.getQ());
 
         while (true) {
             Action action = ql.nextAction(currentState);
             action.execute();
+
+            // Prevents updating q-table after the end of the round.
+            if (game.isAmIAlive() == false)
+                break;
             currentState = State.updateState(game);
             ql.updateQ(currentState, action);
             rewards.endOfCycle();
@@ -180,22 +186,36 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
-        LOG.info("Qlearning address [end]: " + ql );
+        Util.printWeights(ql.getWeights());
         Util.printQTable(ql.getQ());
         rewards.endOfRound();
     }
 
     @Override
     public void onBattleEnded(BattleEndedEvent event) {
-        // Print a chart with rewards
+        LOG.info("Printing chart...");
         Chart.printToFile(rewards.getRewardsPerRound());
-
-        super.onBattleEnded(event);
         LOG.info("Battle ended");
+        super.onBattleEnded(event);
     }
 
     public void onWin(WinEvent e) {
         LOG.info("Your robot won!");
+    }
+
+    @Override
+    public void onHitObstacle(HitObstacleEvent hitObstacleEvent) {
+        LOG.info("Hit obstacle!");
+    }
+
+    @Override
+    public void onScannedObstacle(ScannedObstacleEvent scannedObstacleEvent) {
+        LOG.info("Scanned obstacle!");
+    }
+
+    @Override
+    public IObstacleEvents getObstacleEventListener() {
+        return null;
     }
 
     class UpdateCoordsEvent extends Condition {

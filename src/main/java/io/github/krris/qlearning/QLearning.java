@@ -135,6 +135,7 @@ public class QLearning {
      * @param executedAction
      */
     public void updateQ(State currentState, Action executedAction) {
+        LOG.debug("UpdateQ()");
         // Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
         double q = 0;
         for (Feature feature : Feature.values()) {
@@ -192,4 +193,9 @@ public class QLearning {
     public void setRewards(Rewards rewards) {
         this.rewards = rewards;
     }
+
+    public Map<Feature, Double> getWeights() {
+        return weights;
+    }
+
 }

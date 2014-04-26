@@ -2,12 +2,14 @@ package io.github.krris.qlearning.util;
 
 import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
+import io.github.krris.qlearning.feature.Feature;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,6 +54,14 @@ public class Util {
             for (Action action : Q.columnKeySet()) {
                  message += "\n[" + state + "], [" + action + "]" + Q.get(state, action);
             }
+        }
+        LOG.info(message);
+    }
+
+    static public void printWeights(Map<Feature, Double> weights) {
+        String message = "";
+        for (Map.Entry<Feature, Double> entry : weights.entrySet()) {
+            message += "\n[" + entry.getKey() + "] = " + entry.getValue();
         }
         LOG.info(message);
     }
