@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobotStatus;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -24,6 +25,9 @@ public class GameStatus {
     private double enemyEnergy;
     private double angleToEnemy;
 
+    private double battleFieldWith;
+    private double battleFieldHeight;
+
     private double distanceToWall;
     private double distanceToEnemy;
 
@@ -37,22 +41,26 @@ public class GameStatus {
 
     private GameStatus(Builder builder) {
         this.robotStatus = builder.robotStatus;
-        this.myX = Optional.of(builder.myX);
-        this.myY = Optional.of(builder.myY);
+        this.myX = builder.myX;
+        this.myY = builder.myY;
         this.enemyX = builder.enemyX;
         this.enemyY = builder.enemyY;
         this.enemyEnergy = builder.enemyEnergy;
         this.amIAlive = builder.amIAlive;
+        this.battleFieldHeight = builder.battleFieldHeight;
+        this.battleFieldWith = builder.battleFieldWidth;
     }
 
     public static class Builder {
         private RobotStatus robotStatus;
-        private double myX;
-        private double myY;
+        private Optional<Double> myX = Optional.empty();
+        private Optional<Double> myY = Optional.empty();
         private double enemyX;
         private double enemyY;
         private double enemyEnergy;
         private boolean amIAlive;
+        private double battleFieldWidth;
+        private double battleFieldHeight;
 
         public Builder() { }
 
@@ -61,12 +69,12 @@ public class GameStatus {
             return this;
         }
 
-        public Builder myX(double x) {
+        public Builder myX(Optional<Double> x) {
             this.myX = x;
             return this;
         }
 
-        public Builder myY(double y) {
+        public Builder myY(Optional<Double> y) {
             this.myY = y;
             return this;
         }
@@ -88,6 +96,16 @@ public class GameStatus {
 
         public Builder amIAlive(boolean alive) {
             this.amIAlive = alive;
+            return this;
+        }
+
+        public Builder battleFieldWidth(double width) {
+            this.battleFieldWidth = width;
+            return this;
+        }
+
+        public Builder battleFieldHeight(double height) {
+            this.battleFieldHeight = height;
             return this;
         }
 
@@ -210,20 +228,30 @@ public class GameStatus {
         this.amIAlive = amIAlive;
     }
 
-    public double getDistanceToWall() {
-        return distanceToWall;
-    }
+    public double getDistanceToNearestWall() {
+        double xLeftOffset = this.robotStatus.getX();
+        double xRightOffset = this.battleFieldWith - this.robotStatus.getX();
 
-    public void setDistanceToWall(double distanceToWall) {
-        this.distanceToWall = distanceToWall;
+        double yTopOffset = this.battleFieldHeight - this.robotStatus.getY();
+        double yBottomOffset = this.robotStatus.getY();
+
+        double[] offsets = {xLeftOffset, xRightOffset, yBottomOffset, yTopOffset};
+        Arrays.sort(offsets);
+
+        // return smallest number
+        return offsets[0];
     }
 
     public double getDistanceToEnemy() {
         return Util.distanceBetween2Points(this.getX(), this.getY(), this.getEnemyX(), this.getEnemyY());
     }
 
-    public void setDistanceToEnemy(double distanceToEnemy) {
-        this.distanceToEnemy = distanceToEnemy;
+    public void setBattlefieldHeight(double battleFieldHeight) {
+        this.battleFieldHeight = battleFieldHeight;
+    }
+
+    public void setBattlefieldWidth(double battleFieldWidth) {
+        this.battleFieldWith = battleFieldWidth;
     }
 
     public GameStatus copy() {
@@ -232,9 +260,11 @@ public class GameStatus {
                 .enemyEnergy(this.enemyEnergy)
                 .enemyX(this.enemyX)
                 .enemyY(this.enemyY)
-                .myX(this.myX.get())
-                .myY(this.myY.get())
+                .myX(this.myX)
+                .myY(this.myY)
                 .robotStatus(this.robotStatus)
+                .battleFieldHeight(this.battleFieldHeight)
+                .battleFieldWidth(this.battleFieldWith)
                 .build();
         return copy;
     }

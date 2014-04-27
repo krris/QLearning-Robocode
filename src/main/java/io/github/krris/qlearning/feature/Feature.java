@@ -27,7 +27,7 @@ public enum Feature {
             case DISTANCE_TO_ENEMY:
                 return gameStatus.getDistanceToEnemy();
             case DISTANCE_TO_WALL:
-                return gameStatus.getDistanceToWall();
+                return gameStatus.getDistanceToNearestWall();
             default:
                 String message = "Feature [" + this.name() + "] is not supported.";
                 LOG.error(message);

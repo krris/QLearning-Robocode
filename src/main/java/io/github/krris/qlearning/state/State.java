@@ -67,7 +67,7 @@ public final class State {
         State state = new Builder()
                 .gameStatus(gameStatus)
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
-                .distanceToWall(gameStatus.getDistanceToWall())
+                .distanceToWall(gameStatus.getDistanceToNearestWall())
                 .build();
         return state;
     }

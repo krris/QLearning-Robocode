@@ -117,6 +117,8 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onStatus(StatusEvent e) {
         game.setRobotStatus(e.getStatus());
+        game.setBattlefieldHeight(this.getBattleFieldHeight());
+        game.setBattlefieldWidth(this.getBattleFieldWidth());
         setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
     }
 

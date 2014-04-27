@@ -8,6 +8,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import robocode.RobotStatus;
 
+import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -21,8 +23,8 @@ public class GameStatusTest {
     private GameStatus gameStatus;
     private RobotStatus robotStatus;
 
-    private static int MY_X = 0;
-    private static int MY_Y = 5;
+    private static double MY_X = 0;
+    private static double MY_Y = 5;
     private static double MY_ANGLE_RADIANS = Math.toRadians(90);
 
 
@@ -32,8 +34,8 @@ public class GameStatusTest {
         when(robotStatus.getHeadingRadians()).thenReturn(MY_ANGLE_RADIANS);
 
         gameStatus = new GameStatus.Builder()
-                .myX(MY_X)
-                .myY(MY_Y)
+                .myX(Optional.of(MY_X))
+                .myY(Optional.of(MY_Y))
                 .robotStatus(robotStatus)
                 .build();
     }
@@ -69,8 +71,8 @@ public class GameStatusTest {
                 .enemyEnergy(enemyEnergy)
                 .enemyX(enemyX)
                 .enemyY(enemyY)
-                .myX(myX)
-                .myY(myY)
+                .myX(Optional.of(myX))
+                .myY(Optional.of(myY))
                 .build();
 
         double error = 0;
@@ -97,8 +99,8 @@ public class GameStatusTest {
                 .enemyEnergy(enemyEnergy)
                 .enemyX(enemyX)
                 .enemyY(enemyY)
-                .myX(myX)
-                .myY(myY)
+                .myX(Optional.of(myX))
+                .myY(Optional.of(myY))
                 .build();
 
         double error = 0;
