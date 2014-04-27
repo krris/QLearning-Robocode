@@ -17,7 +17,7 @@ public class Constants {
     public static final double FEATURE_INIT_VALUE = 1;
     public static final double INITIAL_Q = 1;
     public static final double GAMMA = 0.3;
-    public static final double ALPHA = 0.3;
+    public static final double ALPHA = 0.5;
 
     // Default distance for movement actions
     public static final int MOVE_DISTANCE = 50;
@@ -33,6 +33,7 @@ public class Constants {
             new Range(0, 50, RangeType.DISTANCES_TO_ENEMY),
             new Range(50,200, RangeType.DISTANCES_TO_ENEMY),
             new Range(200, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
+//            new Range(0, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
     };
 
     // Possible distances to the wall
@@ -40,13 +41,11 @@ public class Constants {
             new Range(0, 10, RangeType.DISTANCES_TO_WALL),
             new Range(10, 30, RangeType.DISTANCES_TO_WALL),
             new Range(30, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
+//            new Range(0, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
     };
 
     public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL};
 
     public static final int CHART_WIDTH = 800;
     public static final int CHART_HEIGHT = 600;
-
-
-
 }

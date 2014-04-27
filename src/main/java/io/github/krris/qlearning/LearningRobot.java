@@ -10,6 +10,8 @@ import io.github.krris.qlearning.util.Constants;
 import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
 
 import java.awt.*;
@@ -18,11 +20,11 @@ import java.awt.*;
  * Created by krris on 16.03.14.
  */
 public class LearningRobot extends AdvancedRobot {
-
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("io/github/krris/qlearning/beans.xml");
 
-    private static QLearning ql = QLearning.INSTANCE;
-    private static Rewards rewards = Rewards.INSTANCE;
+    private QLearning ql = context.getBean("qlearning", QLearning.class);
+    private Rewards rewards = context.getBean("rewards", Rewards.class);
 
     private GameStatus game;
 
@@ -97,11 +99,16 @@ public class LearningRobot extends AdvancedRobot {
         State currentState = State.updateState(game);
 
         LOG.info("StartBattle");
+        Util.printWeights(ql.getWeights());
         Util.printQTable(ql.getQ());
 
         while (true) {
             Action action = ql.nextAction(currentState);
             action.execute();
+
+            // Prevents updating q-table after the end of the round.
+            if (game.isAmIAlive() == false)
+                break;
             currentState = State.updateState(game);
             ql.updateQ(currentState, action);
             rewards.endOfCycle();
@@ -177,17 +184,17 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
+        Util.printWeights(ql.getWeights());
         Util.printQTable(ql.getQ());
         rewards.endOfRound();
     }
 
     @Override
     public void onBattleEnded(BattleEndedEvent event) {
-        super.onBattleEnded(event);
-        LOG.info("Battle ended");
-
-        // Print a chart with rewards
+        LOG.info("Printing chart...");
         Chart.printToFile(rewards.getRewardsPerRound());
+        LOG.info("Battle ended");
+        super.onBattleEnded(event);
     }
 
     public void onWin(WinEvent e) {

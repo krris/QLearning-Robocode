@@ -17,6 +17,8 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '16.0.1'
     compile group: 'jfreechart', name: 'jfreechart', version: '1.0.0'
     compile group: 'math.geom2d', name: 'javaGeom', version: '0.11.1'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.0.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-test', version: '4.0.2.RELEASE'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.5.4'
