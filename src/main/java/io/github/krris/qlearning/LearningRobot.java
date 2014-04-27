@@ -13,15 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
-import robocode.robotinterfaces.IObstacleEvents;
-import robocode.robotinterfaces.IObstacleRobot;
 
 import java.awt.*;
 
 /**
  * Created by krris on 16.03.14.
  */
-public class LearningRobot extends AdvancedRobot implements IObstacleEvents, IObstacleRobot {
+public class LearningRobot extends AdvancedRobot {
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
     private static ApplicationContext context = new ClassPathXmlApplicationContext("io/github/krris/qlearning/beans.xml");
 
@@ -201,21 +199,6 @@ public class LearningRobot extends AdvancedRobot implements IObstacleEvents, IOb
 
     public void onWin(WinEvent e) {
         LOG.info("Your robot won!");
-    }
-
-    @Override
-    public void onHitObstacle(HitObstacleEvent hitObstacleEvent) {
-        LOG.info("Hit obstacle!");
-    }
-
-    @Override
-    public void onScannedObstacle(ScannedObstacleEvent scannedObstacleEvent) {
-        LOG.info("Scanned obstacle!");
-    }
-
-    @Override
-    public IObstacleEvents getObstacleEventListener() {
-        return null;
     }
 
     class UpdateCoordsEvent extends Condition {
