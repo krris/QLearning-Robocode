@@ -5,5 +5,5 @@ robocode.battle.numRounds=3
 robocode.battle.gunCoolingRate=0.1
 robocode.battle.rules.inactivityTime=450
 robocode.battle.hideEnemyNames=true
-robocode.battle.selectedRobots=io.github.krris.qlearning.LearningRobot*,sample.Fire
-#robocode.battle.initialPositions = (25, 25, 0), (175,175, 0)
+robocode.battle.selectedRobots=io.github.krris.qlearning.LearningRobot*,sample.SittingDuck
+robocode.battle.initialPositions = (25, 25, 0), (125, 125, 0)

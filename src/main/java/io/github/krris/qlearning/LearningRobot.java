@@ -103,8 +103,10 @@ public class LearningRobot extends AdvancedRobot {
         Util.printQTable(ql.getQ());
 
         while (true) {
+            this.setDebugProperties();
             Action action = ql.nextAction(currentState);
             action.execute();
+            this.setDebugProperties();
 
             // Prevents updating q-table after the end of the round.
             if (game.isAmIAlive() == false)
@@ -113,6 +115,13 @@ public class LearningRobot extends AdvancedRobot {
             ql.updateQ(currentState, action);
             rewards.endOfCycle();
         }
+    }
+
+    private void setDebugProperties() {
+        this.setDebugProperty("EnemyX", String.valueOf(this.game.getEnemyX()));
+        this.setDebugProperty("EnemyY", String.valueOf(this.game.getEnemyY()));
+        this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
+        this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
     }
 
     public void onStatus(StatusEvent e) {
