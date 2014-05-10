@@ -26,6 +26,11 @@ dependencies {
     compile files('libs/robocode.jar')
 }
 
+task copyDeps(type: Copy ) {
+    from configurations.runtime
+    into 'libdeps'
+}
+
 task( robo, dependsOn: jar, type: JavaExec ) {
     def userHome = System.getProperty("user.home")
     def userDir = System.getProperty("user.dir")
@@ -35,7 +40,7 @@ task( robo, dependsOn: jar, type: JavaExec ) {
     workingDir = userHome + '/robo/robocode-obstacle'
     classpath = sourceSets.main.runtimeClasspath
 
-    args = ['-nodisplay' ,
+    args = ['-nodisplay',
             '-results', userHome + '/log/results.txt',
             '-battle', userDir + '/battles/test.battle']
 
