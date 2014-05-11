@@ -63,12 +63,14 @@ public class Chart {
 
     public static void main(String[] args) {
         try {
+            System.out.println("Reading file with rewards ...");
             List<String> lines = Files.readAllLines(Paths.get("/home/krris/log/reward.txt"));
             List<Integer> rewards = new ArrayList<>();
             for (String number : lines) {
                 rewards.add(Integer.parseInt(number));
             }
             printToFile(rewards);
+            System.out.println("Printing a chart with rewards is finished!");
         } catch (IOException e) {
             e.printStackTrace();
         }
