@@ -44,7 +44,6 @@ public class Rewards {
     }
 
     public void endOfRound() {
-        LOG.info("dupa");
         LOG.info(String.valueOf(roundReward));
         this.rewardsPerRound.add(this.roundReward);
         // Every round start calculating a reward from 0

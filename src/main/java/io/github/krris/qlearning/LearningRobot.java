@@ -2,7 +2,6 @@ package io.github.krris.qlearning;
 
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
-import io.github.krris.qlearning.chart.Chart;
 import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
@@ -86,12 +85,6 @@ public class LearningRobot extends AdvancedRobot {
         };
 
         ql.setActionFunction(Action.AHEAD, aheadAction);
-    }
-
-    @Override
-    public void onRobotDeath(RobotDeathEvent event) {
-        super.onRobotDeath(event);
-        LOG.info("Robot death!");
     }
 
     public void run() {
@@ -209,8 +202,6 @@ public class LearningRobot extends AdvancedRobot {
     @Override
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
-        LOG.info("Printing chart...");
-        Chart.printToFile(rewards.getRewardsPerRound());
         LOG.info("Battle ended");
     }
 

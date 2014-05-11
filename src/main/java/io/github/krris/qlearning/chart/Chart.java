@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,5 +59,18 @@ public class Chart {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("/home/krris/log/reward.txt"));
+            List<Integer> rewards = new ArrayList<>();
+            for (String number : lines) {
+                rewards.add(Integer.parseInt(number));
+            }
+            printToFile(rewards);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
