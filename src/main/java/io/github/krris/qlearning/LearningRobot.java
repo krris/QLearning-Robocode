@@ -88,6 +88,12 @@ public class LearningRobot extends AdvancedRobot {
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
+    @Override
+    public void onRobotDeath(RobotDeathEvent event) {
+        super.onRobotDeath(event);
+        LOG.info("Robot death!");
+    }
+
     public void run() {
         // Gun, radar and tank movements are independent
         setAdjustGunForRobotTurn(true);
@@ -202,10 +208,10 @@ public class LearningRobot extends AdvancedRobot {
 
     @Override
     public void onBattleEnded(BattleEndedEvent event) {
+        super.onBattleEnded(event);
         LOG.info("Printing chart...");
         Chart.printToFile(rewards.getRewardsPerRound());
         LOG.info("Battle ended");
-        super.onBattleEnded(event);
     }
 
     public void onWin(WinEvent e) {
