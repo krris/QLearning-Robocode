@@ -50,7 +50,6 @@ public class LearningRobot extends AdvancedRobot {
             this.execute();
             this.waitFor(new TurnCompleteCondition(this));
         };
-
         ql.setActionFunction(Action.TURN_RIGHT, turnRightAction);
     }
 
@@ -103,7 +102,7 @@ public class LearningRobot extends AdvancedRobot {
 
         while (true) {
             this.setDebugProperties();
-            Action action = ql.nextAction(currentState);
+            Action action = ql.nextAction(currentState, this.getRoundNum());
             action.execute();
             this.setDebugProperties();
 
@@ -162,7 +161,7 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitRobot(HitRobotEvent e) {
         LOG.info("Hit another robot!");
-        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+//        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
     }
 
     public void onBulletHit(BulletHitEvent e) {

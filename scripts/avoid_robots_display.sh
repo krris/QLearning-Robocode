@@ -13,4 +13,6 @@ jvmArgs="-Xmx1024m -Ddebug=true -DNOSECURITY=true -DWORKINGDIRECTORY=$robocode -
 
 cd ..
 java $jvmArgs -cp "libs/robocode.jar:libdeps/*" robocode.Robocode $*  $args
+cd /home/krris/programowanie/idea-robot/out/production/QLearning-Robocode
+java -cp ".:/home/krris/programowanie/idea-robot/QLearning-Robocode/libdeps/*" io/github/krris/qlearning/chart/Chart
 cd "${pwd}"

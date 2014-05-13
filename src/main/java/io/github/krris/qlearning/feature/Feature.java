@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Created by krris on 25.03.14.
  */
 public enum Feature {
-    DISTANCE_TO_ENEMY,
+//    DISTANCE_TO_ENEMY,
     DISTANCE_TO_WALL;
 
     private Logger LOG = LoggerFactory.getLogger(Feature.class);
@@ -24,8 +24,8 @@ public enum Feature {
     public double getValue(State state, Action executedAction) {
         GameStatus gameStatus = state.getGameStatus().getStatusAfterExecutingAction(executedAction);
         switch (this) {
-            case DISTANCE_TO_ENEMY:
-                return gameStatus.getDistanceToEnemy();
+//            case DISTANCE_TO_ENEMY:
+//                return gameStatus.getDistanceToEnemy();
             case DISTANCE_TO_WALL:
                 return gameStatus.getDistanceToNearestWall();
             default:

@@ -74,9 +74,13 @@ public class QLearning {
         double x = Math.random();
 
         if (x < Constants.EPSILON) {
-            return randomAction();
+            Action randomAction = randomAction();
+            LOG.debug("Random action: " + randomAction.toString());
+            return randomAction;
         } else {
-            return bestAction(state);
+            Action bestAction = bestAction(state);
+            LOG.debug("Best action: " + bestAction.toString());
+            return bestAction;
         }
     }
 
@@ -91,8 +95,54 @@ public class QLearning {
             randomAction = iterator.next();
         }
 
-        LOG.debug("Random action: " + randomAction.toString());
         return randomAction;
+    }
+
+    // TODO refactor
+    public Action softmaxAction(State state) {
+        Set<Action> possibleActions = Q.columnKeySet();
+
+        double prob[] = new double[possibleActions.size()];
+        double sumProb = 0;
+
+        int i = 0;
+        for (Action action : possibleActions) {
+            prob[i] = Math.exp( Q.get(state, action) / Constants.TEMP);
+            sumProb += prob[i];
+            i++;
+        }
+
+        for (int actionId = 0; actionId < possibleActions.size(); actionId++) {
+            prob[actionId] = prob[actionId] / sumProb;
+        }
+
+        boolean valid = false;
+        double rndValue;
+        double offset;
+        int selectedActionId = -1;
+        Action selectedAction = null;
+
+        while (!valid)
+        {
+            rndValue = Math.random();
+            offset = 0;
+
+            int actionId = 0;
+            for (Action action : possibleActions)
+            {
+                if ( rndValue > offset && rndValue < offset + prob[actionId] )
+                    selectedAction = action;
+                offset += prob[actionId];
+                actionId++;
+            }
+
+            if (selectedAction != null)
+                valid = true;
+            else
+                System.out.println("hjhg");
+        }
+
+        return selectedAction;
     }
 
     public Action bestAction(State state) {
@@ -108,7 +158,6 @@ public class QLearning {
             }
         }
 
-        LOG.debug("Best action: " + bestAction.toString());
         return bestAction;
     }
 
@@ -135,7 +184,7 @@ public class QLearning {
      * @param executedAction
      */
     public void updateQ(State currentState, Action executedAction) {
-        LOG.debug("UpdateQ()");
+        LOG.debug("UpdateQ() for {}", executedAction);
         // Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
         double q = 0;
         for (Feature feature : Feature.values()) {
@@ -147,9 +196,11 @@ public class QLearning {
         State newState = currentState.nextHypotheticalState(executedAction);
         double maxQPrim = maxQ(newState);
         double difference = rewards.getCycleReward() + Constants.GAMMA * maxQPrim - q;
+        LOG.debug("CycleReward: {}", rewards.getCycleReward());
 
         // Q(s,a) <- Q(s,a) + alpha * difference
         double newQValue = Q.get(currentState, executedAction) + Constants.ALPHA * difference;
+        LOG.debug("Old Q: [{}], new Q: [{}]", Q.get(currentState, executedAction), newQValue);
         Q.put(currentState, executedAction, newQValue);
 
         updateWeights(currentState, executedAction, difference);
@@ -169,6 +220,7 @@ public class QLearning {
             double currentWeight = weights.get(feature);
             double newWeigth = currentWeight + Constants.ALPHA * feature.getValue(currentState, executedAction);
             weights.put(feature, newWeigth);
+            LOG.debug("Features: {}={}", feature, feature.getValue(currentState, executedAction));
         }
     }
 
@@ -182,8 +234,12 @@ public class QLearning {
         return max;
     }
 
-    public Action nextAction(State state) {
-        return eGreedyAction(state);
+    public Action nextAction(State state, int roundNo) {
+//        if (roundNo >= Constants.BEST_ACTION_TRESHOLD){
+//            LOG.debug("IF Best action treshold");
+//            return  bestAction(state);
+//        }
+        return softmaxAction(state);
     }
 
     public Table<State, Action, Double> getQ() {
