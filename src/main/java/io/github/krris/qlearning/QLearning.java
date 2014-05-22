@@ -19,9 +19,9 @@ import java.util.*;
 public class QLearning {
     private final Logger LOG = LoggerFactory.getLogger(QLearning.class);
 
-    private Table<State, Action, Double> Q;
+    protected Table<State, Action, Double> Q;
     private Map<Action, Executable> actionFunctions;
-    private Rewards rewards;
+    protected Rewards rewards;
 
     QLearning() {
         this.Q = HashBasedTable.create();
@@ -133,7 +133,7 @@ public class QLearning {
      * @param state
      * @return max_action Q(state, action)
      */
-    private double maxQ(State state) {
+    protected double maxQ(State state) {
         double max = - Double.MAX_VALUE;
         for (Action action : Q.columnKeySet()) {
             if (getQValue(state, action) > max) {
