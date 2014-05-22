@@ -1,5 +1,6 @@
 package io.github.krris.qlearning.reward;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Created by krris on 23.03.14.
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("test-rewards-beans.xml")
 public class RewardsTest {

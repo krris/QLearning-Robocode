@@ -43,48 +43,63 @@ public class LearningRobot extends AdvancedRobot {
         ql.init();
     }
 
+    private void turnRight() {
+        this.setTurnRight(Constants.TURN_ANGLE);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+    }
+
+    private void turnLeft() {
+        this.setTurnLeft(Constants.TURN_ANGLE);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+    }
+
+    private void goBack() {
+        this.setBack(Constants.MOVE_DISTANCE);
+        this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAhead() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
     private void initTurnRightAction() {
         Executable turnRightAction = () -> {
-            LOG.info("Turn right action.");
-            this.setTurnRight(Constants.TURN_ANGLE);
-            this.execute();
-            this.waitFor(new TurnCompleteCondition(this));
+            LOG.info("Right action.");
+            turnRight();
         };
         ql.setActionFunction(Action.TURN_RIGHT, turnRightAction);
     }
 
     private void initTurnLeftAction() {
         Executable turnLeftAction = () -> {
-            LOG.info("Turn left action.");
-            this.setTurnLeft(Constants.TURN_ANGLE);
-            this.execute();
-            this.waitFor(new TurnCompleteCondition(this));
+            LOG.info("Left action.");
+            turnLeft();
         };
-
         ql.setActionFunction(Action.TURN_LEFT, turnLeftAction);
     }
 
     private void initBackAction() {
         Executable backAction = () -> {
             LOG.info("Back action.");
-            this.setBack(Constants.MOVE_DISTANCE);
-            this.execute();
-            this.waitFor(new MoveCompleteCondition(this));
+            goBack();
         };
-
         ql.setActionFunction(Action.BACK, backAction);
     }
+
 
     private void initAheadAction() {
         Executable aheadAction = () -> {
             LOG.info("Ahead action.");
-            this.setAhead(Constants.MOVE_DISTANCE);
-            this.execute();
-            this.waitFor(new MoveCompleteCondition(this));
+            goAhead();
         };
-
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
+
 
     public void run() {
         // Gun, radar and tank movements are independent
@@ -94,23 +109,21 @@ public class LearningRobot extends AdvancedRobot {
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
-        State currentState = State.updateState(game);
-
         LOG.info("StartBattle");
-        Util.printWeights(ql.getWeights());
-        Util.printQTable(ql.getQ());
+        Util.printQTable(ql.getQTable());
 
         while (true) {
             this.setDebugProperties();
-            Action action = ql.nextAction(currentState, this.getRoundNum());
+            State state = State.updateState(game);
+            Action action = ql.nextAction(state, game.getRoundNum());
             action.execute();
+            this.livingReward();
             this.setDebugProperties();
-
             // Prevents updating q-table after the end of the round.
-            if (game.isAmIAlive() == false)
+            if (game.isAmIAlive() == false || game.getMyEnergy() == 0)
                 break;
-            currentState = State.updateState(game);
-            ql.updateQ(currentState, action);
+            State nextState = State.updateState(game);
+            ql.updateQ(state, action, nextState);
             rewards.endOfCycle();
         }
     }
@@ -118,6 +131,7 @@ public class LearningRobot extends AdvancedRobot {
     private void setDebugProperties() {
         this.setDebugProperty("EnemyX", String.valueOf(this.game.getEnemyX()));
         this.setDebugProperty("EnemyY", String.valueOf(this.game.getEnemyY()));
+        this.setDebugProperty("AngleToEnemy", String.valueOf(this.game.getAngleToEnemy()));
         this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
         this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
     }
@@ -161,7 +175,11 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitRobot(HitRobotEvent e) {
         LOG.info("Hit another robot!");
-//        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+    }
+
+    public void livingReward() {
+        rewards.addReward(RewardType.LIVING_REWARD);
     }
 
     public void onBulletHit(BulletHitEvent e) {
@@ -193,8 +211,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
-        Util.printWeights(ql.getWeights());
-        Util.printQTable(ql.getQ());
+        Util.printQTable(ql.getQTable());
         rewards.endOfRound();
     }
 

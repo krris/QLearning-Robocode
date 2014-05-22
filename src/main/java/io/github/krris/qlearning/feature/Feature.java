@@ -1,6 +1,5 @@
 package io.github.krris.qlearning.feature;
 
-import io.github.krris.qlearning.GameStatus;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.state.State;
 import org.slf4j.Logger;
@@ -22,16 +21,17 @@ public enum Feature {
      * @return
      */
     public double getValue(State state, Action executedAction) {
-        GameStatus gameStatus = state.getGameStatus().getStatusAfterExecutingAction(executedAction);
-        switch (this) {
-//            case DISTANCE_TO_ENEMY:
-//                return gameStatus.getDistanceToEnemy();
-            case DISTANCE_TO_WALL:
-                return gameStatus.getDistanceToNearestWall();
-            default:
-                String message = "Feature [" + this.name() + "] is not supported.";
-                LOG.error(message);
-                throw new IllegalArgumentException(message);
-        }
+//        GameStatus gameStatus = state.getGameStatus().getStatusAfterExecutingAction(executedAction);
+//        switch (this) {
+////            case DISTANCE_TO_ENEMY:
+////                return gameStatus.getDistanceToEnemy();
+//            case DISTANCE_TO_WALL:
+//                return gameStatus.getDistanceToNearestWall();
+//            default:
+//                String message = "Feature [" + this.name() + "] is not supported.";
+//                LOG.error(message);
+//                throw new IllegalArgumentException(message);
+//        }
+        return 0;
     }
 }

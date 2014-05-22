@@ -5,5 +5,6 @@ package io.github.krris.qlearning.state;
  */
 public enum RangeType {
     DISTANCES_TO_ENEMY,
-    DISTANCES_TO_WALL
+    DISTANCES_TO_WALL,
+    ANGLES_TO_ENEMY;
 }

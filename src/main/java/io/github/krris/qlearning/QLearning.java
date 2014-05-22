@@ -4,7 +4,6 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
-import io.github.krris.qlearning.feature.Feature;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
@@ -22,20 +21,17 @@ public class QLearning {
 
     private Table<State, Action, Double> Q;
     private Map<Action, Executable> actionFunctions;
-    private Map<Feature, Double> weights;
     private Rewards rewards;
 
     QLearning() {
         this.Q = HashBasedTable.create();
         this.actionFunctions = new HashMap<>();
-        this.weights = new HashMap<>();
     }
 
     public void init() {
         if (Q.isEmpty()) {
             areAllActionsSet();
             initQ();
-            initWeights();
         }
     }
 
@@ -57,12 +53,6 @@ public class QLearning {
                 action.setExecutableAction(actionFunc);
                 Q.put(state, action, Constants.INITIAL_Q);
             }
-        }
-    }
-
-    private void initWeights() {
-        for (Feature feature : Feature.values()) {
-            this.weights.put(feature, Constants.FEATURE_INIT_VALUE);
         }
     }
 
@@ -98,59 +88,12 @@ public class QLearning {
         return randomAction;
     }
 
-    // TODO refactor
-    public Action softmaxAction(State state) {
-        Set<Action> possibleActions = Q.columnKeySet();
-
-        double prob[] = new double[possibleActions.size()];
-        double sumProb = 0;
-
-        int i = 0;
-        for (Action action : possibleActions) {
-            prob[i] = Math.exp( Q.get(state, action) / Constants.TEMP);
-            sumProb += prob[i];
-            i++;
-        }
-
-        for (int actionId = 0; actionId < possibleActions.size(); actionId++) {
-            prob[actionId] = prob[actionId] / sumProb;
-        }
-
-        boolean valid = false;
-        double rndValue;
-        double offset;
-        int selectedActionId = -1;
-        Action selectedAction = null;
-
-        while (!valid)
-        {
-            rndValue = Math.random();
-            offset = 0;
-
-            int actionId = 0;
-            for (Action action : possibleActions)
-            {
-                if ( rndValue > offset && rndValue < offset + prob[actionId] )
-                    selectedAction = action;
-                offset += prob[actionId];
-                actionId++;
-            }
-
-            if (selectedAction != null)
-                valid = true;
-            else
-                System.out.println("hjhg");
-        }
-
-        return selectedAction;
-    }
-
     public Action bestAction(State state) {
         Action bestAction = this.randomAction();
-        double bestQ = Q.get(state, bestAction);
+        double bestQ = getQValue(state, bestAction);
 
         for (Action action : Action.values()) {
-            double actionQ = Q.get(state, action);
+            double actionQ = getQValue(state, action);
 
             if (actionQ > bestQ) {
                 bestQ = actionQ;
@@ -161,97 +104,59 @@ public class QLearning {
         return bestAction;
     }
 
-    public State randomState() {
-        Random random = new Random();
-        Set<State> availableStates = Util.allAvailableStates();
-
-        int randomInt = random.nextInt(availableStates.size() + 1);
-        State randomState = availableStates.iterator().next();
-        Iterator<State> iterator = availableStates.iterator();
-        for (int i = 0; i < randomInt; i++) {
-            randomState = iterator.next();
-        }
-        return randomState;
+    public double getQValue(State state, Action action) {
+        return Q.get(state, action);
     }
 
     /**
      * Overall algorithm for updataing Q:
-     *      Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
-     *      difference = [r + gamma * max Q(s',a')] - Q(s,a)
-     *      Q(s,a) <- Q(s,a) + alpha * difference
+     *      Q(s,a) <- (1 - alpha) Q(s,a) + (alpha) [r + gamma max_action' Q(s',a')]
      *
-     * @param currentState
-     * @param executedAction
+     * @param state
+     * @param action
+     * @param nextState
      */
-    public void updateQ(State currentState, Action executedAction) {
-        LOG.debug("UpdateQ() for {}", executedAction);
-        // Q(s,a) = weight_1 * feature_1(s,a) + weight_2 * feature_2(s,a) + ... + weight_n * feature_n(s,a)
-        double q = 0;
-        for (Feature feature : Feature.values()) {
-            q += this.weights.get(feature) * feature.getValue(currentState, executedAction);
-        }
+    public void updateQ(State state, Action action, State nextState) {
 
-        // difference = [r + gamma * max Q(s',a')] - Q(s,a)
-        // new hypothetical state after executing action
-        State newState = currentState.nextHypotheticalState(executedAction);
-        double maxQPrim = maxQ(newState);
-        double difference = rewards.getCycleReward() + Constants.GAMMA * maxQPrim - q;
-        LOG.debug("CycleReward: {}", rewards.getCycleReward());
+        LOG.debug("UpdateQ() for action: {}", action);
+        double reward = rewards.getCycleReward();
+        LOG.info("CycleReward: {}", reward);
+        double newQValue = (1 - Constants.ALPHA) * this.getQValue(state, action) +
+                Constants.ALPHA * (reward + Constants.GAMMA * this.maxQ(nextState));
 
-        // Q(s,a) <- Q(s,a) + alpha * difference
-        double newQValue = Q.get(currentState, executedAction) + Constants.ALPHA * difference;
-        LOG.debug("Old Q: [{}], new Q: [{}]", Q.get(currentState, executedAction), newQValue);
-        Q.put(currentState, executedAction, newQValue);
-
-        updateWeights(currentState, executedAction, difference);
+        LOG.debug("Old Q: [{}], new Q: [{}]", Q.get(state, action), newQValue);
+        Q.put(state, action, newQValue);
     }
 
     /**
-     * Algorithm for updating weights:
-     *      w_1 <- w_1 + alpha * difference * feature_1(s,a)
-     *      w_2 <- w_2 + alpha * difference * feature_2(s,a)
-     *      (...)
      *
-     * @param currentState
-     * @param executedAction
+     * @param state
+     * @return max_action Q(state, action)
      */
-    private void updateWeights(State currentState, Action executedAction, double difference) {
-        for (Feature feature : weights.keySet()) {
-            double currentWeight = weights.get(feature);
-            double newWeigth = currentWeight + Constants.ALPHA * feature.getValue(currentState, executedAction);
-            weights.put(feature, newWeigth);
-            LOG.debug("Features: {}={}", feature, feature.getValue(currentState, executedAction));
-        }
-    }
-
     private double maxQ(State state) {
         double max = - Double.MAX_VALUE;
         for (Action action : Q.columnKeySet()) {
-            if (Q.get(state, action) > max) {
-                max = Q.get(state, action);
+            if (getQValue(state, action) > max) {
+                max = getQValue(state, action);
             }
         }
         return max;
     }
 
     public Action nextAction(State state, int roundNo) {
-//        if (roundNo >= Constants.BEST_ACTION_TRESHOLD){
-//            LOG.debug("IF Best action treshold");
-//            return  bestAction(state);
-//        }
-        return softmaxAction(state);
+        if (roundNo >= Constants.BEST_ACTION_TRESHOLD){
+            LOG.debug("IF Best action treshold");
+            return  bestAction(state);
+        }
+        return eGreedyAction(state);
     }
 
-    public Table<State, Action, Double> getQ() {
+    public Table<State, Action, Double> getQTable() {
         return Q;
     }
 
     public void setRewards(Rewards rewards) {
         this.rewards = rewards;
-    }
-
-    public Map<Feature, Double> getWeights() {
-        return weights;
     }
 
 }

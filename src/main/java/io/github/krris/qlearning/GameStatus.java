@@ -28,9 +28,6 @@ public class GameStatus {
     private double battleFieldWith;
     private double battleFieldHeight;
 
-    private double distanceToWall;
-    private double distanceToEnemy;
-
     // If my robot is alive
     private boolean amIAlive;
 
@@ -50,6 +47,7 @@ public class GameStatus {
         this.battleFieldHeight = builder.battleFieldHeight;
         this.battleFieldWith = builder.battleFieldWidth;
     }
+
 
     public static class Builder {
         private RobotStatus robotStatus;
@@ -141,32 +139,6 @@ public class GameStatus {
         return this.robotStatus.getHeading();
     }
 
-    /**
-     * Return game status after executing action. It is assumed that enemy robot
-     * stays in place and only our robot is moving.
-     * @param action
-     * @return
-     */
-    public GameStatus getStatusAfterExecutingAction(Action action) {
-        GameStatus gameStatus = this.copy();;
-        switch (action) {
-            case AHEAD:
-            case BACK:
-                Vector2D myPosition = moveAheadOrBack(action);
-                gameStatus.setMyX(myPosition.x());
-                gameStatus.setMyY(myPosition.y());
-                break;
-            case TURN_RIGHT:
-            case TURN_LEFT:
-                break;
-            default:
-                String message = "Action [" + action.name() + "] is not supported in getStatusAfterExecutingAction().";
-                LOG.error(message);
-                throw new IllegalArgumentException(message);
-        }
-        return gameStatus;
-    }
-
     private Vector2D moveAheadOrBack(Action action) {
         Vector2D currentPosition = new Vector2D(this.getX(), this.getY());
         double myAngle = robotStatus.getHeadingRadians();
@@ -174,6 +146,10 @@ public class GameStatus {
 
         Vector2D sum = currentPosition.plus(moveVector);
         return sum;
+    }
+
+    public int getRoundNum() {
+        return robotStatus.getRoundNum();
     }
 
     public RobotStatus getRobotStatus() {
@@ -185,11 +161,11 @@ public class GameStatus {
     }
 
     public double getAngleToEnemy() {
-        return angleToEnemy;
+        return this.angleToEnemy;
     }
 
-    public void setAngleToEnemy(double angleToEnemy) {
-        this.angleToEnemy = angleToEnemy;
+    public void setAngleToEnemy(double angle) {
+        this.angleToEnemy = angle;
     }
 
     public double getEnemyX() {

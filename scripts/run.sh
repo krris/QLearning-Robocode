@@ -3,7 +3,7 @@
 
 pwd=`pwd`
 
-robocode=~/robo/robocode-obstacle/
+robocode=~/robo/robocode-1.9.2.1/
 results=~/log/results.txt
 battle=battles/test.battle
 log4jProperties=src/main/java/io/github/krris/qlearning/log4j.properties

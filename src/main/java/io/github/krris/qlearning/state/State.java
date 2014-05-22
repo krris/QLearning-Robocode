@@ -2,7 +2,6 @@ package io.github.krris.qlearning.state;
 
 import com.google.common.base.Objects;
 import io.github.krris.qlearning.GameStatus;
-import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ public final class State {
     private final GameStatus gameStatus;
     private final Range distanceToEnemy;
     private final Range distanceToWall;
+    private final Range angleToEnemy;
 
     public static class Builder {
 
@@ -23,6 +23,7 @@ public final class State {
 
         private Range distanceToEnemy;
         private Range distanceToWall;
+        private Range angleToEnemy;
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
             return this;
@@ -30,6 +31,11 @@ public final class State {
 
         public Builder distanceToWall(double distance) {
             this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
+            return this;
+        }
+
+        public Builder angleToEnemy(double angle) {
+            this.angleToEnemy = Range.getRange(angle, Constants.ANGLES_TO_ENEMY);
             return this;
         }
 
@@ -46,6 +52,9 @@ public final class State {
                 case DISTANCES_TO_WALL:
                     this.distanceToWall = range;
                     return this;
+                case ANGLES_TO_ENEMY:
+                    this.angleToEnemy = range;
+                    return this;
             }
             String message = "Range type not found";
             LOG.error(message);
@@ -61,6 +70,7 @@ public final class State {
         this.gameStatus = builder.gameStatus;
         this.distanceToEnemy = builder.distanceToEnemy;
         this.distanceToWall = builder.distanceToWall;
+        this.angleToEnemy = builder.angleToEnemy;
     }
 
     public static State updateState(final GameStatus gameStatus) {
@@ -68,13 +78,8 @@ public final class State {
                 .gameStatus(gameStatus)
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
                 .distanceToWall(gameStatus.getDistanceToNearestWall())
+                .angleToEnemy(gameStatus.getAngleToEnemy())
                 .build();
-        return state;
-    }
-
-    public State nextHypotheticalState(Action executedAction) {
-        GameStatus statusAfterExecutingState = this.gameStatus.getStatusAfterExecutingAction(executedAction);
-        State state = updateState(statusAfterExecutingState);
         return state;
     }
 
@@ -86,7 +91,8 @@ public final class State {
             return true;
         if (other instanceof State) {
             return (((State)other).distanceToEnemy.equals(this.distanceToEnemy) &&
-                    ((State)other).distanceToWall.equals(this.distanceToWall));
+                    ((State)other).distanceToWall.equals(this.distanceToWall) &&
+                    ((State)other).angleToEnemy.equals(this.angleToEnemy));
         }
         return false;
     }
@@ -95,25 +101,15 @@ public final class State {
     public int hashCode() {
         return Objects.hashCode(
                 this.distanceToEnemy,
-                this.distanceToWall);
+                this.distanceToWall,
+                this.angleToEnemy);
     }
 
     @Override
     public String toString() {
         String message = "ToEnemy: " + distanceToEnemy +
-                " ToWall: " + distanceToWall;
+                " ToWall: " + distanceToWall +
+                " AngleToEnemy: " + angleToEnemy;
         return message;
-    }
-
-    public GameStatus getGameStatus() {
-        return gameStatus;
-    }
-
-    public Range getDistanceToEnemy() {
-        return distanceToEnemy;
-    }
-
-    public Range getDistanceToWall() {
-        return distanceToWall;
     }
 }

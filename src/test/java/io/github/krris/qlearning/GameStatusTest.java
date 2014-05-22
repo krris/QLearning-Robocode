@@ -1,6 +1,5 @@
 package io.github.krris.qlearning;
 
-import io.github.krris.qlearning.action.Action;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,15 +46,15 @@ public class GameStatusTest {
         assertEquals(MY_Y, gameStatus.getY(), delta);
     }
 
-    @Test
-    public void getStatusAfterExecutingActionTest() {
-        GameStatus testStatus = gameStatus.getStatusAfterExecutingAction(Action.AHEAD);
-        double expectedX = 0;
-        double expectedY = 55;
-        double error = 0.01;
-        assertEquals(expectedX, testStatus.getX(), error);
-        assertEquals(expectedY, testStatus.getY(), error);
-    }
+//    @Test
+//    public void getStatusAfterExecutingActionTest() {
+//        GameStatus testStatus = gameStatus.getStatusAfterExecutingAction(Action.AHEAD);
+//        double expectedX = MY_X;
+//        double expectedY = MY_Y + Constants.MOVE_DISTANCE;
+//        double error = 0.01;
+//        assertEquals(expectedX, testStatus.getX(), error);
+//        assertEquals(expectedY, testStatus.getY(), error);
+//    }
 
     @Test
     public void builderTest() {
