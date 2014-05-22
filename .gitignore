@@ -1,6 +1,7 @@
 # Robocode #
 ############
 /config
+/libdeps
 
 # Compiled source #
 ###################

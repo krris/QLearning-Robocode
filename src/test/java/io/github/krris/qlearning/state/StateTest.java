@@ -17,9 +17,11 @@ public class StateTest {
     public void equals() {
         int distanceToEnemy = 213;
         int distanceToWall = 13;
+        int angleToEnemy = 90;
         State state = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
 
         // For any non-null reference value x, x.equals(null) must return false.
@@ -34,6 +36,7 @@ public class StateTest {
         other = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other) == other.equals(state));
 
@@ -42,6 +45,7 @@ public class StateTest {
         State other2 = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other));
         assertTrue(other.equals(other2));
@@ -54,6 +58,7 @@ public class StateTest {
         State different = new State.Builder()
                 .distanceToEnemy(distanceToEnemy + 123)
                 .distanceToWall(distanceToWall + 123)
+                .angleToEnemy(angleToEnemy - 123)
                 .build();
 
         for (int i = 0; i < limit ; i++) {

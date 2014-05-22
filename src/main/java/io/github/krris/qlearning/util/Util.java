@@ -49,6 +49,7 @@ public class Util {
     }
 
     static public void printQTable(Table<State, Action, Double> Q) {
+        LOG.info("Printing Q-table");
         String message = "";
         for (State state : Q.rowKeySet()) {
             for (Action action : Q.columnKeySet()) {
@@ -59,6 +60,7 @@ public class Util {
     }
 
     static public void printWeights(Map<Feature, Double> weights) {
+        LOG.info("Printing weights");
         String message = "";
         for (Map.Entry<Feature, Double> entry : weights.entrySet()) {
             message += "\n[" + entry.getKey() + "] = " + entry.getValue();

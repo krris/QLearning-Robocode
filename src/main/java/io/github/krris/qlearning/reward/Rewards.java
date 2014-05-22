@@ -1,5 +1,8 @@
 package io.github.krris.qlearning.reward;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,8 @@ import java.util.List;
  * Created by krris on 23.03.14.
  */
 public class Rewards {
+    private final Logger LOG = LoggerFactory.getLogger(Rewards.class);
+
     private List<Integer> rewardsPerRound;
 
     // Collected reward during one round
@@ -39,8 +44,9 @@ public class Rewards {
     }
 
     public void endOfRound() {
+        LOG.info(String.valueOf(this.roundReward));
         this.rewardsPerRound.add(this.roundReward);
-        // Every round start calculating a reward from 0
+        // Every round starts calculating a reward from 0
         this.roundReward = 0;
         this.cycleReward = 0;
     }

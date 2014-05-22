@@ -12,7 +12,6 @@ public class Range {
 	public final int min;
 	public final int max;
 	
-	private double value;
     private RangeType rangeType;
 
 	public Range(int min, int max, RangeType rangeType) {
@@ -77,14 +76,6 @@ public class Range {
         } else {
 		    return "[" + min + ", " + max + ")";
         }
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
 	}
 
     public RangeType getRangeType() {
