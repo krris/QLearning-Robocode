@@ -107,9 +107,9 @@ public final class State {
 
     @Override
     public String toString() {
-        String message = "ToEnemy: " + distanceToEnemy +
+        return "ToEnemy: " + distanceToEnemy +
                 " ToWall: " + distanceToWall +
                 " AngleToEnemy: " + angleToEnemy;
-        return message;
+
     }
 }

@@ -1,8 +1,6 @@
 package io.github.krris.qlearning;
 
-import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.util.Util;
-import math.geom2d.Vector2D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobotStatus;
@@ -126,26 +124,8 @@ public class GameStatus {
         return this.robotStatus.getY();
     }
 
-    public void setMyX(double myX) {
-        this.myX = Optional.of(myX);
-    }
-
-    public void setMyY(double myY) {
-        this.myY = Optional.of(myY);
-    }
-
-
     public double getHeading() {
         return this.robotStatus.getHeading();
-    }
-
-    private Vector2D moveAheadOrBack(Action action) {
-        Vector2D currentPosition = new Vector2D(this.getX(), this.getY());
-        double myAngle = robotStatus.getHeadingRadians();
-        Vector2D moveVector = Vector2D.createPolar(action.value(), myAngle);
-
-        Vector2D sum = currentPosition.plus(moveVector);
-        return sum;
     }
 
     public int getRoundNum() {

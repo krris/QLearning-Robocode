@@ -54,6 +54,7 @@ public class Chart {
         File file = new File(Constants.CHART_PATH);
 
         try {
+            LOG.info("Printing chart...");
             ChartUtilities.saveChartAsPNG(file, qlearning, Constants.CHART_WIDTH, Constants.CHART_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();

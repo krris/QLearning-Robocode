@@ -3,6 +3,7 @@ package io.github.krris.qlearning.util;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.RangeType;
 import io.github.krris.qlearning.state.State;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by krris on 22.03.14.
  */
+@Ignore
 @RunWith(JUnit4.class)
 public class UtilTest {
     private final Logger LOG = LoggerFactory.getLogger(UtilTest.class);

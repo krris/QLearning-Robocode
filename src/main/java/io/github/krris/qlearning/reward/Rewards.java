@@ -44,9 +44,9 @@ public class Rewards {
     }
 
     public void endOfRound() {
-        LOG.info(String.valueOf(roundReward));
+        LOG.info(String.valueOf(this.roundReward));
         this.rewardsPerRound.add(this.roundReward);
-        // Every round start calculating a reward from 0
+        // Every round starts calculating a reward from 0
         this.roundReward = 0;
         this.cycleReward = 0;
     }
