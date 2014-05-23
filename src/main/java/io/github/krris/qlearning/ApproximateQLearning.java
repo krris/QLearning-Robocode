@@ -26,6 +26,7 @@ public class ApproximateQLearning extends QLearning{
 
     @Override
     public void init() {
+        super.init();
         if (weights.isEmpty()) {
             initWeights();
         }

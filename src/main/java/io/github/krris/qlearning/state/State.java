@@ -71,6 +71,11 @@ public final class State {
         return state;
     }
 
+    public GameStatus getGameStatus() {
+        // TODO return defensive copy
+        return gameStatus;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null)

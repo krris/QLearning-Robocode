@@ -105,7 +105,7 @@ public class LearningRobot extends AdvancedRobot {
         setAdjustGunForRobotTurn(true);
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
-        turnRadarRightRadians(Double.POSITIVE_INFINITY);
+        setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
