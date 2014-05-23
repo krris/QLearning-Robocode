@@ -100,12 +100,12 @@ public class LearningRobot extends AdvancedRobot {
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
-
     public void run() {
         // Gun, radar and tank movements are independent
         setAdjustGunForRobotTurn(true);
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
+        turnRadarRightRadians(Double.POSITIVE_INFINITY);
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
@@ -140,11 +140,12 @@ public class LearningRobot extends AdvancedRobot {
         game.setRobotStatus(e.getStatus());
         game.setBattlefieldHeight(this.getBattleFieldHeight());
         game.setBattlefieldWidth(this.getBattleFieldWidth());
-        setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
     }
 
     // Called when we have scanned a robot
     public void onScannedRobot(ScannedRobotEvent e) {
+        setTurnRadarLeftRadians(getRadarTurnRemainingRadians());
+
         // Update enemy energy
         game.setEnemyEnergy(e.getEnergy());
 
