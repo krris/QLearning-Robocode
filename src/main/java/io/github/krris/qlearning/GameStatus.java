@@ -198,6 +198,20 @@ public class GameStatus {
         return offsets[0];
     }
 
+    public double getDistanceToNearestWall(double myX, double myY) {
+        double xLeftOffset = myX;
+        double xRightOffset = this.battleFieldWith - myX;
+
+        double yTopOffset = this.battleFieldHeight - myY;
+        double yBottomOffset = myY;
+
+        double[] offsets = {xLeftOffset, xRightOffset, yBottomOffset, yTopOffset};
+        Arrays.sort(offsets);
+
+        // return smallest number
+        return offsets[0];
+    }
+
     public double getDistanceToEnemy() {
         return Util.distanceBetween2Points(this.getX(), this.getY(), this.getEnemyX(), this.getEnemyY());
     }
