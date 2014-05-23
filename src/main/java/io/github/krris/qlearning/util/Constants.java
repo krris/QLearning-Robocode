@@ -44,12 +44,6 @@ public class Constants {
             new Range(500, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
     };
 
-    // Possible distances to the wall
-    public static final Range[] DISTANCES_TO_WALL = {
-            new Range(0, 20, RangeType.DISTANCES_TO_WALL),
-            new Range(20, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
-    };
-
     // Possible angles to enemy
     public static final Range[] ANGLES_TO_ENEMY = {
             new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
@@ -62,7 +56,7 @@ public class Constants {
             new Range(135, 180, RangeType.ANGLES_TO_ENEMY),
     };
 
-    public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL, ANGLES_TO_ENEMY};
+    public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, ANGLES_TO_ENEMY};
 
     public static final int CHART_WIDTH = 800;
     public static final int CHART_HEIGHT = 600;

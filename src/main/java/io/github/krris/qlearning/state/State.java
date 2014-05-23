@@ -14,7 +14,6 @@ public final class State {
 
     private final GameStatus gameStatus;
     private final Range distanceToEnemy;
-    private final Range distanceToWall;
     private final Range angleToEnemy;
 
     public static class Builder {
@@ -22,15 +21,9 @@ public final class State {
         private GameStatus gameStatus;
 
         private Range distanceToEnemy;
-        private Range distanceToWall;
         private Range angleToEnemy;
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
-            return this;
-        }
-
-        public Builder distanceToWall(double distance) {
-            this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
             return this;
         }
 
@@ -49,9 +42,6 @@ public final class State {
                 case DISTANCES_TO_ENEMY:
                     this.distanceToEnemy = range;
                     return this;
-                case DISTANCES_TO_WALL:
-                    this.distanceToWall = range;
-                    return this;
                 case ANGLES_TO_ENEMY:
                     this.angleToEnemy = range;
                     return this;
@@ -69,7 +59,6 @@ public final class State {
     private State(Builder builder) {
         this.gameStatus = builder.gameStatus;
         this.distanceToEnemy = builder.distanceToEnemy;
-        this.distanceToWall = builder.distanceToWall;
         this.angleToEnemy = builder.angleToEnemy;
     }
 
@@ -77,7 +66,6 @@ public final class State {
         State state = new Builder()
                 .gameStatus(gameStatus)
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
-                .distanceToWall(gameStatus.getDistanceToNearestWall())
                 .angleToEnemy(gameStatus.getAngleToEnemy())
                 .build();
         return state;
@@ -91,7 +79,6 @@ public final class State {
             return true;
         if (other instanceof State) {
             return (((State)other).distanceToEnemy.equals(this.distanceToEnemy) &&
-                    ((State)other).distanceToWall.equals(this.distanceToWall) &&
                     ((State)other).angleToEnemy.equals(this.angleToEnemy));
         }
         return false;
@@ -101,15 +88,12 @@ public final class State {
     public int hashCode() {
         return Objects.hashCode(
                 this.distanceToEnemy,
-                this.distanceToWall,
                 this.angleToEnemy);
     }
 
     @Override
     public String toString() {
         return "ToEnemy: " + distanceToEnemy +
-                " ToWall: " + distanceToWall +
                 " AngleToEnemy: " + angleToEnemy;
-
     }
 }
