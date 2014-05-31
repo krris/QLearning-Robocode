@@ -13,13 +13,23 @@ import java.util.Map;
  */
 public class FeatureExtractor {
     public static Map<Feature, Double> getFeatures(State state, Action action) {
+        return getIdentityFeatures(state, action);
+    }
+
+    public static Map<Feature, Double> getIdentityFeatures(State state, Action action) {
+        Map<Feature, Double> features = new HashMap<>();
+        features.put(new IdentityFeatureImpl(state, action), 1.0);
+        return features;
+    }
+
+    public static Map<Feature, Double> getSimpleFeatures(State state, Action action) {
         Map<Feature, Double> features = new HashMap<>();
 
-        features.put(Feature.BIAS, 1.0);  // test feature
-        features.put(Feature.ANGLE_TO_ENEMY, getAngleToEnemyFeature(state, action));
-        features.put(Feature.DISTANCE_TO_ENEMY, getDistanceToEnemyFeature(state, action));
-        features.put(Feature.DISTANCE_TO_WALL, getDistanceToWallFeature(state, action));
-        features.put(Feature.ME_ENERGY, getMyEnergyFeature(state));
+        features.put(FeatureImpl.BIAS, 1.0);  // test feature
+        features.put(FeatureImpl.ANGLE_TO_ENEMY, getAngleToEnemyFeature(state, action));
+        features.put(FeatureImpl.DISTANCE_TO_ENEMY, getDistanceToEnemyFeature(state, action));
+        features.put(FeatureImpl.DISTANCE_TO_WALL, getDistanceToWallFeature(state, action));
+        features.put(FeatureImpl.ME_ENERGY, getMyEnergyFeature(state));
         return features;
     }
 

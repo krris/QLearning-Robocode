@@ -27,15 +27,6 @@ public class ApproximateQLearning extends QLearning{
     @Override
     public void init() {
         super.init();
-        if (weights.isEmpty()) {
-            initWeights();
-        }
-    }
-
-    private void initWeights() {
-        for (Feature feature : Feature.values()) {
-            this.weights.put(feature, Constants.FEATURE_INIT_VALUE);
-        }
     }
 
     /**
@@ -52,9 +43,16 @@ public class ApproximateQLearning extends QLearning{
         for (Map.Entry<Feature, Double> entry : features.entrySet()) {
             Feature feature = entry.getKey();
             double featureValue = entry.getValue();
+            initWeight(feature);
             q += this.weights.get(feature) * featureValue;
         }
         return q;
+    }
+
+    private void initWeight(Feature feature) {
+        if (this.weights.get(feature) == null) {
+            this.weights.put(feature, Constants.WEIGHT_INIT_VALUE);
+        }
     }
 
     /**
@@ -69,10 +67,14 @@ public class ApproximateQLearning extends QLearning{
      */
     @Override
     public void updateQ(State state, Action action, State nextState) {
+        LOG.debug("UpdateQ() for action: {}", action);
         double reward = rewards.getCycleReward();
+        LOG.info("CycleReward: {}", reward);
         double difference = reward + Constants.GAMMA * this.maxQ(nextState) - this.getQValue(state, action);
+        LOG.info("Difference: {}", difference);
 
         double newQ = this.Q.get(state, action) + Constants.ALPHA * difference;
+        LOG.debug("Old Q: [{}], new Q: [{}]", Q.get(state, action), newQ);
         this.Q.put(state, action, newQ);
 
         Map<Feature, Double> features = FeatureExtractor.getFeatures(state, action);
@@ -80,6 +82,7 @@ public class ApproximateQLearning extends QLearning{
             Feature feature = entry.getKey();
             double featureValue = entry.getValue();
             double newWeight = this.weights.get(feature) + Constants.ALPHA * difference * featureValue;
+            LOG.debug("Old weight for feature [{}]: [{}], new w.: [{}]",feature , this.weights.get(feature), newWeight);
             this.weights.put(feature, newWeight);
         }
     }
