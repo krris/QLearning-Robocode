@@ -238,4 +238,12 @@ public class GameStatus {
                 .build();
         return copy;
     }
+
+    public double getBattleFieldWith() {
+        return battleFieldWith;
+    }
+
+    public double getBattleFieldHeight() {
+        return battleFieldHeight;
+    }
 }

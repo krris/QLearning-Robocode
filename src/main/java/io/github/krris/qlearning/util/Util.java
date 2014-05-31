@@ -70,7 +70,7 @@ public class Util {
     static public double[] getCoordinatesAfterAction(State state, Action action) {
         RobotStatus status = state.getGameStatus().getRobotStatus();
         double[] coordinates = new double[2];
-        double angle = status.getGunHeading();
+        double angle = status.getHeading();
         // normalize angle
         angle = (- angle);
         angle += 90 % 360;
@@ -124,5 +124,9 @@ public class Util {
             message += "\n[" + entry.getKey() + "] = " + entry.getValue();
         }
         LOG.info(message);
+    }
+
+    static public double normalize(double x, double minX, double maxX) {
+        return (x - minX) / (maxX-minX);
     }
 }

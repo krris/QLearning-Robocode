@@ -14,11 +14,11 @@ public class Constants {
     private Constants() { } // Prevents initialization
 
     // Constants for qlearning algorithm
-    public static final double EPSILON = 0.05;
+    public static final double EPSILON = 0.2;
     public static final double WEIGHT_INIT_VALUE = 1;
     public static final double INITIAL_Q = 0;
     public static final double GAMMA = 0.8;
-    public static final double ALPHA = 0.2;
+    public static final double ALPHA = 0.5;
 
     // Default distance for movement actions
     public static final int MOVE_DISTANCE = 50;
@@ -31,7 +31,7 @@ public class Constants {
     public static final int LIVING_REWARD = -1;
 
     // TODO to delete
-    public static final int BEST_ACTION_TRESHOLD = 3000;
+    public static final int BEST_ACTION_TRESHOLD = 100;
 
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {

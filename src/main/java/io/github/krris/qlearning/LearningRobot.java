@@ -6,7 +6,6 @@ import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
-import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -110,7 +109,7 @@ public class LearningRobot extends AdvancedRobot {
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
         LOG.info("StartBattle");
-        Util.printQTable(ql.getQTable());
+//        Util.printQTable(ql.getQTable());
 
         while (true) {
             this.setDebugProperties();
@@ -212,7 +211,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
-        Util.printQTable(ql.getQTable());
+//        Util.printQTable(ql.getQTable());
         rewards.endOfRound();
     }
 
