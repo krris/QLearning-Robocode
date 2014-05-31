@@ -219,6 +219,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
+        ql.serializeQ(this.getDataFile(Constants.serializedQPath));
     }
 
     public void onWin(WinEvent e) {

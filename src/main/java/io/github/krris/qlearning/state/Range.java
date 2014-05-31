@@ -4,10 +4,11 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Range {
-    private static Logger LOG = LoggerFactory.getLogger(Range.class);
+public class Range implements Serializable {
+    private transient static Logger LOG = LoggerFactory.getLogger(Range.class);
 
 	public final int min;
 	public final int max;

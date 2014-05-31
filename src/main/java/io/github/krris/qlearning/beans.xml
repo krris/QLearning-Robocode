@@ -8,7 +8,7 @@
         <!-- additional collaborators and configuration for this bean go here -->
     </bean>
 
-    <bean id="qlearning" class="io.github.krris.qlearning.ApproximateQLearning">
+    <bean id="qlearning" class="io.github.krris.qlearning.QLearning">
         <property name="rewards" ref="rewards" />
     </bean>
 

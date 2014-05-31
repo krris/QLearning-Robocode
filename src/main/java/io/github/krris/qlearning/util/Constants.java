@@ -10,6 +10,8 @@ public class Constants {
     // Place where chart will be printed
     public static final String CHART_PATH = System.getProperty("user.home") + "/log/chart.png";
     public static final double TEMP = 1000;
+    // TODO to delete
+    public static String serializedQPath = "qtable.ser";
 
     private Constants() { } // Prevents initialization
 

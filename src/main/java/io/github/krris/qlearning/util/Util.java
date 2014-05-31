@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobotStatus;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -128,5 +131,16 @@ public class Util {
 
     static public double normalize(double x, double minX, double maxX) {
         return (x - minX) / (maxX-minX);
+    }
+
+    public static int sizeof(Object obj) throws IOException {
+        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteOutputStream);
+
+        objectOutputStream.writeObject(obj);
+        objectOutputStream.flush();
+        objectOutputStream.close();
+
+        return byteOutputStream.toByteArray().length;
     }
 }

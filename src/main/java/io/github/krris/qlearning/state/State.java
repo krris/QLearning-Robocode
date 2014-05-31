@@ -6,13 +6,15 @@ import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * Created by krris on 15.03.14.
  */
-public final class State {
-    private static final Logger LOG = LoggerFactory.getLogger(State.class);
+public final class State implements Serializable {
+    private transient static final Logger LOG = LoggerFactory.getLogger(State.class);
 
-    private final GameStatus gameStatus;
+    private transient final GameStatus gameStatus;
     private final Range distanceToEnemy;
     private final Range angleToEnemy;
 

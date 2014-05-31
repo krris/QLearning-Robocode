@@ -5,9 +5,14 @@ import io.github.krris.qlearning.feature.Feature;
 import io.github.krris.qlearning.feature.FeatureExtractor;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
+import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import robocode.RobocodeFileOutputStream;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +89,25 @@ public class ApproximateQLearning extends QLearning{
             double newWeight = this.weights.get(feature) + Constants.ALPHA * difference * featureValue;
             LOG.debug("Old weight for feature [{}]: [{}], new w.: [{}]",feature , this.weights.get(feature), newWeight);
             this.weights.put(feature, newWeight);
+        }
+    }
+
+    public void serializeWeights(File file)
+    {
+        LOG.info("Serialization of weights");
+        try {
+            int i = Util.sizeof(this.weights);
+            LOG.info("Size of object to serialize: {}", i);
+
+            RobocodeFileOutputStream fileOut = new RobocodeFileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this.Q);
+            out.close();
+            fileOut.close();
+            LOG.info("Serialization: weights serialized succesfully");
+        } catch (IOException e) {
+            LOG.info("IOException trying to write!");
+            e.printStackTrace();
         }
     }
 }

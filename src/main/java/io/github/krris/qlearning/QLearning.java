@@ -10,7 +10,9 @@ import io.github.krris.qlearning.util.Constants;
 import io.github.krris.qlearning.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import robocode.RobocodeFileOutputStream;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -149,6 +151,43 @@ public class QLearning {
             return  bestAction(state);
         }
         return eGreedyAction(state);
+    }
+
+    public void serializeQ(File file)
+    {
+        LOG.info("Serialization of Q");
+        try {
+            int i = Util.sizeof(this.Q);
+            LOG.info("Size of object to serialize: {}", i);
+
+            RobocodeFileOutputStream fileOut = new RobocodeFileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this.Q);
+            out.close();
+            fileOut.close();
+            LOG.info("Serialization: Q-table serialized succesfully");
+        } catch (IOException e) {
+            LOG.info("IOException trying to write!");
+            e.printStackTrace();
+        }
+    }
+
+    private void deserializeQ(File file)
+    {
+        LOG.info("Deserialization of Q");
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            this.Q = (Table<State, Action, Double>) in.readObject();
+            in.close();
+            fileIn.close();
+            LOG.info("Serialization: Q-table read succesfully");
+        } catch (IOException e) {
+            LOG.info("IOException trying to deserialize Q table!");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Table<State, Action, Double> getQTable() {
