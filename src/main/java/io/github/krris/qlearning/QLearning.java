@@ -25,8 +25,6 @@ public class QLearning {
     private Map<Action, Executable> actionFunctions;
     protected Rewards rewards;
 
-    private static final boolean DESERIALIZE = true;
-
     QLearning() {
         this.Q = HashBasedTable.create();
         this.actionFunctions = new HashMap<>();

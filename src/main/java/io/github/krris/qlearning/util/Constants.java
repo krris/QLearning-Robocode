@@ -12,6 +12,7 @@ public class Constants {
     public static final double TEMP = 1000;
     // TODO to delete
     public static String serializedQFilePath = "qtable.ser";
+    public static String serializedWeightsFilePath = "weights.ser";
 
     private Constants() { } // Prevents initialization
 
@@ -33,7 +34,7 @@ public class Constants {
     public static final int LIVING_REWARD = -1;
 
     // TODO to delete
-    public static final int BEST_ACTION_TRESHOLD = 100;
+    public static final int BEST_ACTION_TRESHOLD = 0;
 
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {

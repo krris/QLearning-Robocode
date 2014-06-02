@@ -26,6 +26,7 @@ public class LearningRobot extends AdvancedRobot {
 
     private GameStatus game;
     private final boolean deserialize = true;
+    private final boolean serialize = false;
 
     public LearningRobot() {
         init();
@@ -111,6 +112,9 @@ public class LearningRobot extends AdvancedRobot {
 
         if (deserialize) {
             ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
+            if (ql instanceof  ApproximateQLearning) {
+                ((ApproximateQLearning)ql).deserializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
+            }
         }
 
         LOG.info("StartBattle");
@@ -224,7 +228,12 @@ public class LearningRobot extends AdvancedRobot {
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
-        ql.serializeQ(this.getDataFile(Constants.serializedQFilePath));
+        if (serialize) {
+            ql.serializeQ(this.getDataFile(Constants.serializedQFilePath));
+            if (ql instanceof  ApproximateQLearning) {
+                ((ApproximateQLearning)ql).serializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
+            }
+        }
     }
 
     public void onWin(WinEvent e) {

@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobocodeFileOutputStream;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,7 +99,7 @@ public class ApproximateQLearning extends QLearning{
 
             RobocodeFileOutputStream fileOut = new RobocodeFileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this.Q);
+            out.writeObject(this.weights);
             out.close();
             fileOut.close();
             LOG.info("Serialization: weights serialized succesfully");
@@ -110,4 +108,29 @@ public class ApproximateQLearning extends QLearning{
             e.printStackTrace();
         }
     }
+
+    @SuppressWarnings("unchecked")
+    public void deserializeWeights(File file)
+    {
+        LOG.info("Deserialization of weights");
+        try {
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            Map<Feature, Double> oldWeights = (Map<Feature, Double>) in.readObject();
+
+            for (Feature feature : oldWeights.keySet()) {
+                this.weights.put(feature, oldWeights.get(feature));
+            }
+
+            in.close();
+            fileIn.close();
+            LOG.info("Serialization: weights read succesfully");
+        } catch (IOException e) {
+            LOG.info("IOException trying to deserialize weights table!");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
