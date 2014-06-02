@@ -25,6 +25,7 @@ public class LearningRobot extends AdvancedRobot {
     private Rewards rewards = context.getBean("rewards", Rewards.class);
 
     private GameStatus game;
+    private final boolean deserialize = true;
 
     public LearningRobot() {
         init();
@@ -107,6 +108,10 @@ public class LearningRobot extends AdvancedRobot {
         setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
+
+        if (deserialize) {
+            ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
+        }
 
         LOG.info("StartBattle");
 //        Util.printQTable(ql.getQTable());
@@ -219,7 +224,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
-        ql.serializeQ(this.getDataFile(Constants.serializedQPath));
+        ql.serializeQ(this.getDataFile(Constants.serializedQFilePath));
     }
 
     public void onWin(WinEvent e) {

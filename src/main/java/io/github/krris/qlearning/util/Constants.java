@@ -11,7 +11,7 @@ public class Constants {
     public static final String CHART_PATH = System.getProperty("user.home") + "/log/chart.png";
     public static final double TEMP = 1000;
     // TODO to delete
-    public static String serializedQPath = "qtable.ser";
+    public static String serializedQFilePath = "qtable.ser";
 
     private Constants() { } // Prevents initialization
 

@@ -11,7 +11,7 @@ public enum Action {
     TURN_LEFT(Constants.TURN_ANGLE),
     TURN_RIGHT(Constants.TURN_ANGLE);
 
-    private Executable executableAction;
+    private transient Executable executableAction;
     private int value;
 
     Action(int value) {

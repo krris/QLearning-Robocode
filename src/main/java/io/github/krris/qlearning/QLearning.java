@@ -25,6 +25,8 @@ public class QLearning {
     private Map<Action, Executable> actionFunctions;
     protected Rewards rewards;
 
+    private static final boolean DESERIALIZE = true;
+
     QLearning() {
         this.Q = HashBasedTable.create();
         this.actionFunctions = new HashMap<>();
@@ -172,13 +174,21 @@ public class QLearning {
         }
     }
 
-    private void deserializeQ(File file)
+    @SuppressWarnings("unchecked")
+    public void deserializeQ(File file)
     {
         LOG.info("Deserialization of Q");
         try {
             FileInputStream fileIn = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            this.Q = (Table<State, Action, Double>) in.readObject();
+            Table<State, Action, Double> oldQ = (Table<State, Action, Double>) in.readObject();
+
+            for (State state : oldQ.rowKeySet()) {
+                for (Action action : oldQ.columnKeySet()) {
+                    Q.put(state, action, oldQ.get(state, action));
+                }
+            }
+
             in.close();
             fileIn.close();
             LOG.info("Serialization: Q-table read succesfully");
