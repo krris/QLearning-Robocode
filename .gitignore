@@ -2,6 +2,7 @@
 ############
 /config
 /libdeps
+/log
 
 # Compiled source #
 ###################

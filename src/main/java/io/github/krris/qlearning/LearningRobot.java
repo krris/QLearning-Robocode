@@ -1,5 +1,7 @@
 package io.github.krris.qlearning;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
 import io.github.krris.qlearning.reward.RewardType;
@@ -13,6 +15,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by krris on 16.03.14.
@@ -25,8 +29,15 @@ public class LearningRobot extends AdvancedRobot {
     private Rewards rewards = context.getBean("rewards", Rewards.class);
 
     private GameStatus game;
-    private final boolean deserialize = true;
-    private final boolean serialize = false;
+    private static boolean deserialize;
+    private static boolean serialize;
+
+    private static Config config = ConfigFactory.load();
+
+    static {
+        serialize = config.getBoolean("serialize");
+        deserialize = config.getBoolean("deserialize");
+    }
 
     public LearningRobot() {
         init();
@@ -110,12 +121,7 @@ public class LearningRobot extends AdvancedRobot {
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
-        if (deserialize) {
-            ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
-            if (ql instanceof  ApproximateQLearning) {
-                ((ApproximateQLearning)ql).deserializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
-            }
-        }
+        deserialize();
 
         LOG.info("StartBattle");
 //        Util.printQTable(ql.getQTable());
@@ -133,6 +139,24 @@ public class LearningRobot extends AdvancedRobot {
             State nextState = State.updateState(game);
             ql.updateQ(state, action, nextState);
             rewards.endOfCycle();
+        }
+    }
+
+    private void deserialize() {
+        if (deserialize) {
+            File file = new File(Constants.serializedQFilePath);
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
+            if (ql instanceof ApproximateQLearning) {
+                ((ApproximateQLearning)ql).deserializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
+            }
         }
     }
 

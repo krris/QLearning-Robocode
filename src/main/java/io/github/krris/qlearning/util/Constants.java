@@ -1,27 +1,39 @@
 package io.github.krris.qlearning.util;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.RangeType;
+
+import java.io.File;
 
 /**
  * Created by krris on 15.03.14.
  */
 public class Constants {
+    private static Config config = ConfigFactory.load();
+    private static final String baseFolder = new File("").getAbsolutePath();
+
+    // TODO wrong approach -> to change
+    // Place where rewards are saved
+    public static final String REWARDS_PATH = config.getString("rewardsPath");
     // Place where chart will be printed
-    public static final String CHART_PATH = System.getProperty("user.home") + "/log/chart.png";
-    public static final double TEMP = 1000;
-    // TODO to delete
-    public static String serializedQFilePath = "qtable.ser";
-    public static String serializedWeightsFilePath = "weights.ser";
+    public static final String CHART_PATH = config.getString("chartPath");
+    public static final String BATTLE_CONFIG_PATH = config.getString("battleConfigPath");
+
+
+    public static String serializedQFilePath = baseFolder + config.getString("serializedQFile");
+    public static String serializedWeightsFilePath = baseFolder + config.getString("serializedWeightsFile");
+
 
     private Constants() { } // Prevents initialization
 
     // Constants for qlearning algorithm
-    public static final double EPSILON = 0.2;
+    public static final double EPSILON = config.getDouble("epsilon");
+    public static final double GAMMA = config.getDouble("gamma");
+    public static final double ALPHA = config.getDouble("alpha");
     public static final double WEIGHT_INIT_VALUE = 1;
     public static final double INITIAL_Q = 0;
-    public static final double GAMMA = 0.8;
-    public static final double ALPHA = 0.5;
 
     // Default distance for movement actions
     public static final int MOVE_DISTANCE = 50;
@@ -33,8 +45,11 @@ public class Constants {
     public static final int COLLISION_WITH_ENEMY = 5;
     public static final int LIVING_REWARD = -1;
 
-    // TODO to delete
-    public static final int BEST_ACTION_TRESHOLD = 0;
+    public static final int LEARNING_ROUNDS = config.getInt("learningRounds");
+
+    // Size of a chart with rewards per round
+    public static final int CHART_WIDTH = 800;
+    public static final int CHART_HEIGHT = 600;
 
     // Possible distances to enemy
     public static final Range[] DISTANCES_TO_ENEMY = {
@@ -60,7 +75,4 @@ public class Constants {
     };
 
     public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, ANGLES_TO_ENEMY};
-
-    public static final int CHART_WIDTH = 800;
-    public static final int CHART_HEIGHT = 600;
 }
