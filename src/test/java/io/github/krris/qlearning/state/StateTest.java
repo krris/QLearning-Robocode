@@ -1,6 +1,5 @@
-package state;
+package io.github.krris.qlearning.state;
 
-import io.github.krris.qlearning.state.State;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,10 +16,10 @@ public class StateTest {
     @Test
     public void equals() {
         int distanceToEnemy = 213;
-        int distanceToWall = 13;
+        int angleToEnemy = 90;
         State state = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
-                .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
 
         // For any non-null reference value x, x.equals(null) must return false.
@@ -34,7 +33,7 @@ public class StateTest {
         // return true if and only if y.equals(x) returns true.
         other = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
-                .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other) == other.equals(state));
 
@@ -42,7 +41,7 @@ public class StateTest {
         // true and y.equals(z) returns true, then x.equals(z) must return true.
         State other2 = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
-                .distanceToWall(distanceToWall)
+                .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other));
         assertTrue(other.equals(other2));
@@ -54,7 +53,7 @@ public class StateTest {
         int limit = 1000;
         State different = new State.Builder()
                 .distanceToEnemy(distanceToEnemy + 123)
-                .distanceToWall(distanceToWall + 123)
+                .angleToEnemy(angleToEnemy - 123)
                 .build();
 
         for (int i = 0; i < limit ; i++) {

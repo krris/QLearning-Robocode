@@ -4,28 +4,21 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Range {
-    private static Logger LOG = LoggerFactory.getLogger(Range.class);
+public class Range implements Serializable {
+    private transient static Logger LOG = LoggerFactory.getLogger(Range.class);
 
 	public final int min;
 	public final int max;
 	
-	private double value;
     private RangeType rangeType;
 
 	public Range(int min, int max, RangeType rangeType) {
 		this.min = min;
 		this.max = max;
         this.rangeType = rangeType;
-	}
-	
-	public Range(Range other, double value) {
-		this.min = other.min;
-		this.max = other.max;
-        this.rangeType = other.getRangeType();
-		this.value = value;
 	}
 	
 	public boolean fits(double value) {
@@ -84,14 +77,6 @@ public class Range {
         } else {
 		    return "[" + min + ", " + max + ")";
         }
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
 	}
 
     public RangeType getRangeType() {

@@ -1,31 +1,41 @@
 package io.github.krris.qlearning.state;
 
 import com.google.common.base.Objects;
+import io.github.krris.qlearning.GameStatus;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * Created by krris on 15.03.14.
  */
-public final class State {
-    private static final Logger LOG = LoggerFactory.getLogger(State.class);
+public final class State implements Serializable {
+    private transient static final Logger LOG = LoggerFactory.getLogger(State.class);
 
+    private transient final GameStatus gameStatus;
     private final Range distanceToEnemy;
-    private final Range distanceToWall;
+    private final Range angleToEnemy;
 
     public static class Builder {
 
-        private Range distanceToEnemy;
-        private Range distanceToWall;
+        private GameStatus gameStatus;
 
+        private Range distanceToEnemy;
+        private Range angleToEnemy;
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
             return this;
         }
 
-        public Builder distanceToWall(double distance) {
-            this.distanceToWall = Range.getRange(distance, Constants.DISTANCES_TO_WALL);
+        public Builder angleToEnemy(double angle) {
+            this.angleToEnemy = Range.getRange(angle, Constants.ANGLES_TO_ENEMY);
+            return this;
+        }
+
+        public Builder gameStatus(GameStatus gameStatus) {
+            this.gameStatus = gameStatus;
             return this;
         }
 
@@ -34,8 +44,8 @@ public final class State {
                 case DISTANCES_TO_ENEMY:
                     this.distanceToEnemy = range;
                     return this;
-                case DISTANCES_TO_WALL:
-                    this.distanceToWall = range;
+                case ANGLES_TO_ENEMY:
+                    this.angleToEnemy = range;
                     return this;
             }
             String message = "Range type not found";
@@ -46,11 +56,26 @@ public final class State {
         public State build() {
             return new State(this);
         }
+
+    }
+    private State(Builder builder) {
+        this.gameStatus = builder.gameStatus;
+        this.distanceToEnemy = builder.distanceToEnemy;
+        this.angleToEnemy = builder.angleToEnemy;
     }
 
-    private State(Builder builder) {
-        this.distanceToEnemy = builder.distanceToEnemy;
-        this.distanceToWall = builder.distanceToWall;
+    public static State updateState(final GameStatus gameStatus) {
+        State state = new Builder()
+                .gameStatus(gameStatus)
+                .distanceToEnemy(gameStatus.getDistanceToEnemy())
+                .angleToEnemy(gameStatus.getAngleToEnemy())
+                .build();
+        return state;
+    }
+
+    public GameStatus getGameStatus() {
+        // TODO return defensive copy
+        return gameStatus;
     }
 
     @Override
@@ -61,7 +86,7 @@ public final class State {
             return true;
         if (other instanceof State) {
             return (((State)other).distanceToEnemy.equals(this.distanceToEnemy) &&
-                    ((State)other).distanceToWall.equals(this.distanceToWall));
+                    ((State)other).angleToEnemy.equals(this.angleToEnemy));
         }
         return false;
     }
@@ -70,21 +95,12 @@ public final class State {
     public int hashCode() {
         return Objects.hashCode(
                 this.distanceToEnemy,
-                this.distanceToWall);
+                this.angleToEnemy);
     }
 
     @Override
     public String toString() {
-        String message = "\nToEnemy: " + distanceToEnemy +
-                " ToWall: " + distanceToWall;
-        return message;
-    }
-
-    public Range getDistanceToEnemy() {
-        return distanceToEnemy;
-    }
-
-    public Range getDistanceToWall() {
-        return distanceToWall;
+        return "ToEnemy: " + distanceToEnemy +
+                " AngleToEnemy: " + angleToEnemy;
     }
 }

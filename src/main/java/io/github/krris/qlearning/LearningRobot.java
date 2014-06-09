@@ -1,30 +1,43 @@
 package io.github.krris.qlearning;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.action.Executable;
-import io.github.krris.qlearning.chart.Chart;
 import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by krris on 16.03.14.
  */
 public class LearningRobot extends AdvancedRobot {
-
     private final Logger LOG = LoggerFactory.getLogger(LearningRobot.class);
+    private static ApplicationContext context = new ClassPathXmlApplicationContext("io/github/krris/qlearning/beans.xml");
 
-    private static QLearning ql = QLearning.INSTANCE;
-    private static Rewards rewards = Rewards.INSTANCE;
+    private QLearning ql = context.getBean("qlearning", QLearning.class);
+    private Rewards rewards = context.getBean("rewards", Rewards.class);
 
     private GameStatus game;
-    private State currentState;
+    private static boolean deserialize;
+    private static boolean serialize;
+
+    private static Config config = ConfigFactory.load();
+
+    static {
+        serialize = config.getBoolean("serialize");
+        deserialize = config.getBoolean("deserialize");
+    }
 
     public LearningRobot() {
         init();
@@ -42,47 +55,60 @@ public class LearningRobot extends AdvancedRobot {
         ql.init();
     }
 
+    private void turnRight() {
+        this.setTurnRight(Constants.TURN_ANGLE);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+    }
+
+    private void turnLeft() {
+        this.setTurnLeft(Constants.TURN_ANGLE);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+    }
+
+    private void goBack() {
+        this.setBack(Constants.MOVE_DISTANCE);
+        this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAhead() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
     private void initTurnRightAction() {
         Executable turnRightAction = () -> {
-            LOG.info("Turn right action.");
-            this.setTurnRight(Constants.TURN_ANGLE);
-            this.execute();
-            this.waitFor(new TurnCompleteCondition(this));
+            LOG.info("Right action.");
+            turnRight();
         };
-
         ql.setActionFunction(Action.TURN_RIGHT, turnRightAction);
     }
 
     private void initTurnLeftAction() {
         Executable turnLeftAction = () -> {
-            LOG.info("Turn left action.");
-            this.setTurnLeft(Constants.TURN_ANGLE);
-            this.execute();
-            this.waitFor(new TurnCompleteCondition(this));
+            LOG.info("Left action.");
+            turnLeft();
         };
-
         ql.setActionFunction(Action.TURN_LEFT, turnLeftAction);
     }
 
     private void initBackAction() {
         Executable backAction = () -> {
             LOG.info("Back action.");
-            this.setBack(Constants.MOVE_DISTANCE);
-            this.execute();
-            this.waitFor(new MoveCompleteCondition(this));
+            goBack();
         };
-
         ql.setActionFunction(Action.BACK, backAction);
     }
+
 
     private void initAheadAction() {
         Executable aheadAction = () -> {
             LOG.info("Ahead action.");
-            this.setAhead(Constants.MOVE_DISTANCE);
-            this.execute();
-            this.waitFor(new MoveCompleteCondition(this));
+            goAhead();
         };
-
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
@@ -91,33 +117,67 @@ public class LearningRobot extends AdvancedRobot {
         setAdjustGunForRobotTurn(true);
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
-
-        currentState = new State.Builder()
-                .distanceToEnemy(game.getDistanceToEnemy())
-                .distanceToWall(game.getDistanceToWall())
-                .build();
+        setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
-        while (true) {
-            Action action = ql.nextAction();
-            action.execute();
-            State newState = new State.Builder()
-                    .distanceToEnemy(game.getDistanceToEnemy())
-                    .distanceToWall(game.getDistanceToWall())
-                    .build();
+        deserialize();
 
-            ql.updateQ();
+        LOG.info("StartBattle");
+//        Util.printQTable(ql.getQTable());
+
+        while (true) {
+            this.setDebugProperties();
+            State state = State.updateState(game);
+            Action action = ql.nextAction(state, game.getRoundNum());
+            action.execute();
+            this.livingReward();
+            this.setDebugProperties();
+            // Prevents updating q-table after the end of the round.
+            if (game.isAmIAlive() == false || game.getMyEnergy() == 0)
+                break;
+            State nextState = State.updateState(game);
+            ql.updateQ(state, action, nextState);
+            rewards.endOfCycle();
         }
+    }
+
+    private void deserialize() {
+        if (deserialize) {
+            File file = new File(Constants.serializedQFilePath);
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
+            if (ql instanceof ApproximateQLearning) {
+                ((ApproximateQLearning)ql).deserializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
+            }
+        }
+    }
+
+    private void setDebugProperties() {
+        this.setDebugProperty("EnemyX", String.valueOf(this.game.getEnemyX()));
+        this.setDebugProperty("EnemyY", String.valueOf(this.game.getEnemyY()));
+        this.setDebugProperty("AngleToEnemy", String.valueOf(this.game.getAngleToEnemy()));
+        this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
+        this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
     }
 
     public void onStatus(StatusEvent e) {
         game.setRobotStatus(e.getStatus());
-        setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
+        game.setBattlefieldHeight(this.getBattleFieldHeight());
+        game.setBattlefieldWidth(this.getBattleFieldWidth());
     }
 
     // Called when we have scanned a robot
     public void onScannedRobot(ScannedRobotEvent e) {
+        setTurnRadarLeftRadians(getRadarTurnRemainingRadians());
+
         // Update enemy energy
         game.setEnemyEnergy(e.getEnergy());
 
@@ -151,6 +211,10 @@ public class LearningRobot extends AdvancedRobot {
         rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
     }
 
+    public void livingReward() {
+        rewards.addReward(RewardType.LIVING_REWARD);
+    }
+
     public void onBulletHit(BulletHitEvent e) {
         LOG.info("My bullet hit an opponent!");
     }
@@ -180,6 +244,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
+//        Util.printQTable(ql.getQTable());
         rewards.endOfRound();
     }
 
@@ -187,9 +252,12 @@ public class LearningRobot extends AdvancedRobot {
     public void onBattleEnded(BattleEndedEvent event) {
         super.onBattleEnded(event);
         LOG.info("Battle ended");
-
-        // Print a chart with rewards
-        Chart.printToFile(rewards.getRewardsPerRound());
+        if (serialize) {
+            ql.serializeQ(this.getDataFile(Constants.serializedQFilePath));
+            if (ql instanceof  ApproximateQLearning) {
+                ((ApproximateQLearning)ql).serializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
+            }
+        }
     }
 
     public void onWin(WinEvent e) {

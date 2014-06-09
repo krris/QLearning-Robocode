@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,15 +51,29 @@ public class Chart {
         XYSeriesCollection data = getSeriesCollection(rewards);
         JFreeChart qlearning = getJFreeChart(data);
 
-        int width = 600;
-        int height = 400;
         File file = new File(Constants.CHART_PATH);
 
         try {
-            ChartUtilities.saveChartAsPNG(file, qlearning, width, height);
+            LOG.info("Printing chart...");
+            ChartUtilities.saveChartAsPNG(file, qlearning, Constants.CHART_WIDTH, Constants.CHART_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Reading file with rewards ...");
+            List<String> lines = Files.readAllLines(Paths.get(Constants.REWARDS_PATH));
+            List<Integer> rewards = new ArrayList<>();
+            for (String number : lines) {
+                rewards.add(Integer.parseInt(number));
+            }
+            printToFile(rewards);
+            System.out.println("Printing a chart with rewards is finished!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

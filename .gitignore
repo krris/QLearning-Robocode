@@ -1,3 +1,9 @@
+# Robocode #
+############
+/config
+/libdeps
+/log
+
 # Compiled source #
 ###################
 *.com
