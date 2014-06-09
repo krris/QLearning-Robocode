@@ -1,6 +1,5 @@
 package io.github.krris.qlearning.chart;
 
-import io.github.krris.qlearning.chart.Chart;
 import org.junit.Ignore;
 
 import java.util.ArrayList;
