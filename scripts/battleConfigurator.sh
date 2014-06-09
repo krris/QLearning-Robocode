@@ -1,5 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+# Configures 'generated.battle' file which is based on 'application.conf'.
+
+# Get config variables
+source config.sh
+
 pwd=`pwd`
-cd /home/krris/programowanie/idea-robot/out/production/QLearning-Robocode
-java -cp ".:/home/krris/programowanie/idea-robot/QLearning-Robocode/libdeps/*" io/github/krris/qlearning/util/BattleConfigurator
+cd ${compiledProjectPath}
+java -cp ".:${projectSourcePath}/libdeps/*" io/github/krris/qlearning/util/BattleConfigurator
 cd "${pwd}"
