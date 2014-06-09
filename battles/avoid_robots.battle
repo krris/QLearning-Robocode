@@ -1,9 +1,0 @@
-#Battle Properties
-robocode.battleField.width=400
-robocode.battleField.height=400
-robocode.battle.numRounds=100
-robocode.battle.gunCoolingRate=0.1
-robocode.battle.rules.inactivityTime=450
-robocode.battle.hideEnemyNames=true
-robocode.battle.selectedRobots=io.github.krris.qlearning.LearningRobot*,sample.SittingDuck
-robocode.battle.initialPositions =(225, 225, 0), (25, 50, 0)

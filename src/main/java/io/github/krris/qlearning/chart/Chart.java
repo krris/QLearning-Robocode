@@ -65,7 +65,7 @@ public class Chart {
     public static void main(String[] args) {
         try {
             System.out.println("Reading file with rewards ...");
-            List<String> lines = Files.readAllLines(Paths.get("/home/krris/log/reward.txt"));
+            List<String> lines = Files.readAllLines(Paths.get(Constants.REWARDS_PATH));
             List<Integer> rewards = new ArrayList<>();
             for (String number : lines) {
                 rewards.add(Integer.parseInt(number));

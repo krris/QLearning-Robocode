@@ -146,9 +146,9 @@ public class QLearning {
     }
 
     public Action nextAction(State state, int roundNo) {
-        if (roundNo >= Constants.BEST_ACTION_TRESHOLD){
-            LOG.debug("IF Best action treshold");
-            return  bestAction(state);
+        if (roundNo >= Constants.LEARNING_ROUNDS){
+            LOG.debug("Optimal policy");
+            return bestAction(state);
         }
         return eGreedyAction(state);
     }
