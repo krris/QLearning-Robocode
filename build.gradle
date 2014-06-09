@@ -24,31 +24,12 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
     testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.5.4'
     testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.5.4'
-    compile files('libs/robocode.jar')
+    compile files('/home/krris/robo/robocode-1.9.2.1/libs/robocode.jar')
 }
 
 task copyDeps(type: Copy ) {
     from configurations.runtime
     into 'libdeps'
-}
-
-task( robo, dependsOn: jar, type: JavaExec ) {
-    def userHome = System.getProperty("user.home")
-    def userDir = System.getProperty("user.dir")
-    def log4jProperties = userDir + '/src/main/java/io/github/krris/qlearning/log4j.properties'
-
-    main = 'robocode.Robocode'
-    workingDir = userHome + '/robo/robocode-obstacle'
-    classpath = sourceSets.main.runtimeClasspath
-
-    args = ['-nodisplay',
-            '-results', userHome + '/log/results.txt',
-            '-battle', userDir + '/battles/test.battle']
-
-    jvmArgs = ['-Xmx1024m',
-            '-Ddebug=true',
-            '-DNOSECURITY=true',
-            '-Dlog4j.configuration=file:' + log4jProperties]
 }
 
 

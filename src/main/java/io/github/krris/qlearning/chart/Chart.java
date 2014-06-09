@@ -7,8 +7,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +19,6 @@ import java.util.List;
 * Created by krris on 23.03.14.
 */
 public class Chart {
-    private static Logger LOG = LoggerFactory.getLogger(Chart.class);
-
     public static XYSeriesCollection getSeriesCollection(List<Integer> rewards) {
         XYSeries series = new XYSeries("Reward per round");
         int round = 1;
@@ -54,12 +50,11 @@ public class Chart {
         File file = new File(Constants.CHART_PATH);
 
         try {
-            LOG.info("Printing chart...");
+            System.out.println("Printing a chart...");
             ChartUtilities.saveChartAsPNG(file, qlearning, Constants.CHART_WIDTH, Constants.CHART_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {
