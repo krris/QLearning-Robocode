@@ -32,6 +32,7 @@ public class BattleConfigurator {
     }
 
     public static void main(String[] args) {
+        System.out.println("Configuration of generated.battle file...");
         try {
             File file = new File(Constants.BATTLE_CONFIG_PATH);
             if (!file.exists()) {
@@ -39,6 +40,7 @@ public class BattleConfigurator {
             }
             String battleConfig = generateBattleConfig();
             Files.write(file.toPath(), battleConfig.getBytes());
+            System.out.println("Generated new .battle file: " + file.toPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
