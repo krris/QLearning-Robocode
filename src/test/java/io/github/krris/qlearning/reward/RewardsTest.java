@@ -13,9 +13,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by krris on 23.03.14.
  */
-//@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("test-rewards-beans.xml")
+@ContextConfiguration(locations={"classpath:/test-rewards-beans.xml"})
 public class RewardsTest {
     private ApplicationContext context;
 

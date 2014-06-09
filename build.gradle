@@ -3,9 +3,6 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 version = '1.0'
 
-// gradle does not support Java 8 yet
-test.scanForTestClasses = false
-
 repositories {
     mavenCentral()
 }
@@ -30,6 +27,11 @@ dependencies {
 task copyDeps(type: Copy ) {
     from configurations.runtime
     into 'libdeps'
+}
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+//    include "**/*Test.class" // whatever Ant pattern matches your test class files
 }
 
 
