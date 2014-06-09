@@ -5,3 +5,5 @@
 projectSourcePath='/home/krris/programowanie/idea-robot/QLearning-Robocode'
 # Place where the compiled project is located
 compiledProjectPath='/home/krris/programowanie/idea-robot/out/production/QLearning-Robocode'
+# Direcotry where Robocode is installed
+robocodePath='/home/krris/robo/robocode-1.9.2.1'

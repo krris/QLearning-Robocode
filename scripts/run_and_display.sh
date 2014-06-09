@@ -21,7 +21,7 @@ args="-results $results -battle $battle"
 # JVM arguments
 jvmArgs="-Xmx1024m -Ddebug=true -DNOSECURITY=true -DWORKINGDIRECTORY=$robocode -Dlog4j.configuration=file:$log4jProperties"
 
-java ${jvmArgs} -cp "${projectSourcePath}/libs/robocode.jar:libdeps/*" robocode.Robocode $* ${args}
+java ${jvmArgs} -cp "${robocodePath}/libs/robocode.jar:libdeps/*" robocode.Robocode $* ${args}
 # ATTENTION - change to place where the compiled project is located
 cd ${compiledProjectPath}
 
