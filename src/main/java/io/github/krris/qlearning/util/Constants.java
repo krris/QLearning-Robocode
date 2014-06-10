@@ -21,10 +21,8 @@ public class Constants {
     public static final String CHART_PATH = config.getString("chartPath");
     public static final String BATTLE_CONFIG_PATH = config.getString("battleConfigPath");
 
-
     public static String serializedQFilePath = baseFolder + config.getString("serializedQFile");
     public static String serializedWeightsFilePath = baseFolder + config.getString("serializedWeightsFile");
-
 
     private Constants() { } // Prevents initialization
 
@@ -41,9 +39,9 @@ public class Constants {
     public static final int TURN_ANGLE = 30;
 
     // Rewards:
-    public static final int HIT_A_WALL = -10;
-    public static final int COLLISION_WITH_ENEMY = 5;
-    public static final int LIVING_REWARD = -1;
+    public static final int HIT_A_WALL = config.getInt("hitAWall");
+    public static final int COLLISION_WITH_ENEMY = config.getInt("collisionWithEnemy");
+    public static final int LIVING_REWARD = config.getInt("livingReward");
 
     public static final int LEARNING_ROUNDS = config.getInt("learningRounds");
 
