@@ -5,14 +5,11 @@ import com.typesafe.config.ConfigFactory;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.RangeType;
 
-import java.io.File;
-
 /**
  * Created by krris on 15.03.14.
  */
 public class Constants {
     private static Config config = ConfigFactory.load();
-    private static final String baseFolder = new File("").getAbsolutePath();
 
     // TODO wrong approach -> to change
     // Place where rewards are saved
@@ -21,8 +18,8 @@ public class Constants {
     public static final String CHART_PATH = config.getString("chartPath");
     public static final String BATTLE_CONFIG_PATH = config.getString("battleConfigPath");
 
-    public static String serializedQFilePath = baseFolder + config.getString("serializedQFile");
-    public static String serializedWeightsFilePath = baseFolder + config.getString("serializedWeightsFile");
+    public static final String serializedQFilePath = config.getString("serializedQFile");
+    public static final String serializedWeightsFilePath = config.getString("serializedWeightsFile");
 
     private Constants() { } // Prevents initialization
 

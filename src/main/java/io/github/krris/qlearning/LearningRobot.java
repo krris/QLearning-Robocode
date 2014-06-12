@@ -15,8 +15,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by krris on 16.03.14.
@@ -31,6 +29,7 @@ public class LearningRobot extends AdvancedRobot {
     private GameStatus game;
     private static boolean deserialize;
     private static boolean serialize;
+    private boolean isOptimalPolicy;
 
     private static Config config = ConfigFactory.load();
 
@@ -122,6 +121,7 @@ public class LearningRobot extends AdvancedRobot {
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
 
         deserialize();
+        this.updateIsOptimalPolicy();
 
         LOG.info("StartBattle");
 //        Util.printQTable(ql.getQTable());
@@ -129,30 +129,32 @@ public class LearningRobot extends AdvancedRobot {
         while (true) {
             this.setDebugProperties();
             State state = State.updateState(game);
-            Action action = ql.nextAction(state, game.getRoundNum());
+            Action action = chooseAction(state);
             action.execute();
             this.livingReward();
             this.setDebugProperties();
             // Prevents updating q-table after the end of the round.
             if (game.isAmIAlive() == false || game.getMyEnergy() == 0)
                 break;
-            State nextState = State.updateState(game);
-            ql.updateQ(state, action, nextState);
+            if (!isOptimalPolicy) {
+                State nextState = State.updateState(game);
+                ql.updateQ(state, action, nextState);
+            }
             rewards.endOfCycle();
         }
     }
 
+    private Action chooseAction(State state) {
+        if (isOptimalPolicy) {
+            LOG.debug("Optimal policy (round: {}, learningRounds: {})", game.getRoundNum(), Constants.LEARNING_ROUNDS);
+            return ql.bestAction(state);
+        }
+        LOG.debug("Learning policy (round: {}, learningRounds: {})", game.getRoundNum(), Constants.LEARNING_ROUNDS);
+        return ql.nextAction(state, game.getRoundNum());
+    }
+
     private void deserialize() {
         if (deserialize) {
-            File file = new File(Constants.serializedQFilePath);
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
             ql.deserializeQ(this.getDataFile(Constants.serializedQFilePath));
             if (ql instanceof ApproximateQLearning) {
                 ((ApproximateQLearning)ql).deserializeWeights(this.getDataFile(Constants.serializedWeightsFilePath));
@@ -172,6 +174,14 @@ public class LearningRobot extends AdvancedRobot {
         game.setRobotStatus(e.getStatus());
         game.setBattlefieldHeight(this.getBattleFieldHeight());
         game.setBattlefieldWidth(this.getBattleFieldWidth());
+    }
+
+    private void updateIsOptimalPolicy(){
+        if (game.getRoundNum() >= Constants.LEARNING_ROUNDS){
+            this.isOptimalPolicy = true;
+        } else {
+            this.isOptimalPolicy = false;
+        }
     }
 
     // Called when we have scanned a robot
