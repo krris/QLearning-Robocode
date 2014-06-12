@@ -146,12 +146,9 @@ public class QLearning {
     }
 
     public Action nextAction(State state, int roundNo) {
-        if (roundNo >= Constants.LEARNING_ROUNDS){
-            LOG.debug("Optimal policy");
-            return bestAction(state);
-        }
         return eGreedyAction(state);
     }
+
 
     public void serializeQ(File file)
     {
@@ -159,7 +156,6 @@ public class QLearning {
         try {
             int i = Util.sizeof(this.Q);
             LOG.info("Size of object to serialize: {}", i);
-
             RobocodeFileOutputStream fileOut = new RobocodeFileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(this.Q);
