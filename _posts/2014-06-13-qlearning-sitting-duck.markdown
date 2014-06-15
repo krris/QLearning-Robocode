@@ -25,5 +25,5 @@ battlefieldWidth:       400
 battlefieldHeight:      400
 {% endhighlight %}
 
-
+<img src="https://raw.githubusercontent.com/krris/QLearning-Robocode/gh-pages/assets/sitting_duck_ql_13_06.png"/>
 ![Chart]({{ site.url }}/assets/sitting_duck_ql_13_06.png)
