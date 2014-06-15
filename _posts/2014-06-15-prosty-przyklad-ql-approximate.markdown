@@ -41,14 +41,15 @@ battlefieldHeight:  400
 |Robot Name|Total Score|Survival|Surv Bonus|Bullet Dmg|Bullet Bonus|Ram Dmg * 2|Ram Bonus|1sts|2nds|3rds|
 |-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|  
 |1st: LearningRobot*   |40844 (83%) |2800    |560 |0   |0   |35837   |1648    |56  |144 |0   |
-|2nd: SittingDuck 8640 |(17%)  |7200    |1440    |0   |0   |0   |0   |144 |56  |0   |
+|2nd: SittingDuck |8640 (17%)  |7200    |1440    |0   |0   |0   |0   |144 |56  |0   |
 
 ![Chart]( {{ site.images }}/sitting_duck_ql_approximate_15_06.png)
 
 ###Wyniki po 50 rundach (optymalna strategia)
+
 |Robot Name|Total Score|Survival|Surv Bonus|Bullet Dmg|Bullet Bonus|Ram Dmg * 2|Ram Bonus|1sts|2nds|3rds|
 |-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|  
 |1st: LearningRobot*   |14403 (100%)    |2450    |490 |0   |0   |9994    |1469    |49  |1   |0   |
-|2nd: |SittingDuck 60 (0%) |50  |10  |0   |0   |0   |0   |1   |49  |0   |
+|2nd: SittingDuck |60 (0%) |50  |10  |0   |0   |0   |0   |1   |49  |0   |
 
 ![Chart]( {{ site.images }}/sitting_duck_ql_approximate_optimal_15_06.png)
