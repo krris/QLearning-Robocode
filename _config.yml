@@ -3,8 +3,10 @@ title: QLearning Robocode
 email: krrisgit@gmail.com
 description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
 baseurl: "/QLearning-Robocode"
-url: "http://krris.github.io"
+url: "http://0.0.0.0:4000/QLearning-Robocode"
 
 # Build settings
 markdown: kramdown
 permalink: pretty
+
+images: "https://raw.githubusercontent.com/krris/QLearning-Robocode/gh-pages/images"

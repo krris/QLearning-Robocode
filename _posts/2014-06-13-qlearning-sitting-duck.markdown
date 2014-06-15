@@ -9,21 +9,20 @@ Wyniki dla walki z robotem SittingDuck.
 Ustawienia gry:
 
 {% highlight yaml %}
-alpha:		0.2
-gamma:		0.8
-epsilon		0.05
+alpha:      0.2
+gamma:      0.8
+epsilon:    0.05
 
 # Rewards
-hitAWall:			-10
-collisionWithEnemy:	5
-livingReward:		-1
+hitAWall:           -10
+collisionWithEnemy: 5
+livingReward:       -1
 
-learningRounds:         200
-optimalPolicyRounds:    0
+learningRounds:      200
+optimalPolicyRounds: 0
 
-battlefieldWidth:       400
-battlefieldHeight:      400
+battlefieldWidth:   400
+battlefieldHeight:  400
 {% endhighlight %}
 
-<img src="https://raw.githubusercontent.com/krris/QLearning-Robocode/gh-pages/assets/sitting_duck_ql_13_06.png"/>
-![Chart]({{ site.url }}/assets/sitting_duck_ql_13_06.png)
+![Chart]( {{ site.images }}/sitting_duck_ql_13_06.png)
