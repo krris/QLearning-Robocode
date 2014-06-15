@@ -63,6 +63,7 @@ public class ApproximateQLearning extends QLearning{
 
      *  difference = [r + gamma * max Q(s',a')] - Q(s,a)
      *  Q(s,a) <- Q(s,a) + alpha * difference
+     *  w_i <- w_i + alpha  * difference * feature_i(s,a)
      *
      * @param state
      * @param action

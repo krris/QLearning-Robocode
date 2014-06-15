@@ -11,7 +11,7 @@ import java.nio.file.Files;
  * Created by krris on 08.06.14.
  */
 public class BattleConfigurator {
-    private static Config config = ConfigFactory.load();
+    private static Config config = ConfigFactory.parseFile(new File("/home/krris/programowanie/idea-robot/QLearning-Robocode/application.conf"));
 
     private static String generateBattleConfig() {
         String battle =

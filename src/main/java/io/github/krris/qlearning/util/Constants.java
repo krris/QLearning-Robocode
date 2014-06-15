@@ -5,11 +5,13 @@ import com.typesafe.config.ConfigFactory;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.RangeType;
 
+import java.io.File;
+
 /**
  * Created by krris on 15.03.14.
  */
 public class Constants {
-    private static Config config = ConfigFactory.load();
+    private static Config config = ConfigFactory.parseFile(new File("/home/krris/programowanie/idea-robot/QLearning-Robocode/application.conf"));
 
     // TODO wrong approach -> to change
     // Place where rewards are saved

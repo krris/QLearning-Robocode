@@ -6,7 +6,6 @@ source config.sh
 
 # Configure 'generated.battle' file
 pwd=`pwd`
-cp ../src/main/resources/application.conf ${compiledProjectPath}/application.conf
 ./battleConfigurator.sh
 cd ..
 

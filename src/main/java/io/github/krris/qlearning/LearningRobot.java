@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import robocode.*;
 
 import java.awt.*;
+import java.io.File;
 
 /**
  * Created by krris on 16.03.14.
@@ -31,7 +32,7 @@ public class LearningRobot extends AdvancedRobot {
     private static boolean serialize;
     private boolean isOptimalPolicy;
 
-    private static Config config = ConfigFactory.load();
+    private static Config config = ConfigFactory.parseFile(new File("/home/krris/programowanie/idea-robot/QLearning-Robocode/application.conf"));
 
     static {
         serialize = config.getBoolean("serialize");
