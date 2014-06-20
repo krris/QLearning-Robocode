@@ -59,6 +59,13 @@ public class Constants {
             new Range(500, Integer.MAX_VALUE, RangeType.DISTANCES_TO_ENEMY)
     };
 
+    // Possible distances to wall
+    public static final Range[] DISTANCES_TO_WALL = {
+            new Range(0, 19, RangeType.DISTANCES_TO_WALL),
+            new Range(19, 37, RangeType.DISTANCES_TO_WALL),
+            new Range(37, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
+    };
+
     // Possible angles to enemy
     public static final Range[] ANGLES_TO_ENEMY = {
             new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
@@ -71,5 +78,17 @@ public class Constants {
             new Range(135, 180, RangeType.ANGLES_TO_ENEMY),
     };
 
-    public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, ANGLES_TO_ENEMY};
+    // Enemy's movement direction
+    public static final Range[] ENEMY_MOVEMENT_DIRECTION = {
+            new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
+            new Range(-135, -90, RangeType.ANGLES_TO_ENEMY),
+            new Range(-90, -45, RangeType.ANGLES_TO_ENEMY),
+            new Range(-45, 0, RangeType.ANGLES_TO_ENEMY),
+            new Range(0, 45, RangeType.ANGLES_TO_ENEMY),
+            new Range(45, 90, RangeType.ANGLES_TO_ENEMY),
+            new Range(90, 135, RangeType.ANGLES_TO_ENEMY),
+            new Range(135, 180, RangeType.ANGLES_TO_ENEMY),
+    };
+
+    public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL, ANGLES_TO_ENEMY};
 }

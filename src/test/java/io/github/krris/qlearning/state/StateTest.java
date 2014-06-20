@@ -17,8 +17,10 @@ public class StateTest {
     public void equals() {
         int distanceToEnemy = 213;
         int angleToEnemy = 90;
+        int distanceToWall = 5;
         State state = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
+                .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
                 .build();
 
@@ -33,6 +35,7 @@ public class StateTest {
         // return true if and only if y.equals(x) returns true.
         other = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
+                .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other) == other.equals(state));
@@ -41,6 +44,7 @@ public class StateTest {
         // true and y.equals(z) returns true, then x.equals(z) must return true.
         State other2 = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
+                .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
                 .build();
         assertTrue(state.equals(other));
@@ -53,6 +57,7 @@ public class StateTest {
         int limit = 1000;
         State different = new State.Builder()
                 .distanceToEnemy(distanceToEnemy + 123)
+                .distanceToWall(distanceToWall + 123)
                 .angleToEnemy(angleToEnemy - 123)
                 .build();
 
