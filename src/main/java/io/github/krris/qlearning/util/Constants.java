@@ -2,6 +2,8 @@ package io.github.krris.qlearning.util;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import io.github.krris.qlearning.state.BoolRange;
+import io.github.krris.qlearning.state.IRange;
 import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.RangeType;
 
@@ -49,7 +51,7 @@ public class Constants {
     public static final int CHART_HEIGHT = 600;
 
     // Possible distances to enemy
-    public static final Range[] DISTANCES_TO_ENEMY = {
+    public static final IRange[] DISTANCES_TO_ENEMY = {
             new Range(0, 50, RangeType.DISTANCES_TO_ENEMY),
             new Range(50, 100, RangeType.DISTANCES_TO_ENEMY),
             new Range(100, 200, RangeType.DISTANCES_TO_ENEMY),
@@ -60,14 +62,14 @@ public class Constants {
     };
 
     // Possible distances to wall
-    public static final Range[] DISTANCES_TO_WALL = {
+    public static final IRange[] DISTANCES_TO_WALL = {
             new Range(0, 19, RangeType.DISTANCES_TO_WALL),
             new Range(19, 37, RangeType.DISTANCES_TO_WALL),
             new Range(37, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
     };
 
     // Possible angles to enemy
-    public static final Range[] ANGLES_TO_ENEMY = {
+    public static final IRange[] ANGLES_TO_ENEMY = {
             new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
             new Range(-135, -90, RangeType.ANGLES_TO_ENEMY),
             new Range(-90, -45, RangeType.ANGLES_TO_ENEMY),
@@ -79,13 +81,13 @@ public class Constants {
     };
 
     // Enemy shot a bullet
-    public static final boolean[] ENEMY_SHOT = {
-            true,
-            false
+    public static final IRange[] ENEMY_SHOT_A_BULLET = {
+            new BoolRange(true, RangeType.ENEMY_SHOT_A_BULLET),
+            new BoolRange(false, RangeType.ENEMY_SHOT_A_BULLET)
     };
 
     // Enemy's movement direction
-    public static final Range[] ENEMY_MOVEMENT_DIRECTION = {
+    public static final IRange[] ENEMY_MOVEMENT_DIRECTION = {
             new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
             new Range(-135, -90, RangeType.ANGLES_TO_ENEMY),
             new Range(-90, -45, RangeType.ANGLES_TO_ENEMY),
@@ -96,5 +98,5 @@ public class Constants {
             new Range(135, 180, RangeType.ANGLES_TO_ENEMY),
     };
 
-    public static final Range[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL, ANGLES_TO_ENEMY};
+    public static final IRange[][] ALL_RANGES = {DISTANCES_TO_ENEMY, DISTANCES_TO_WALL, ANGLES_TO_ENEMY, ENEMY_SHOT_A_BULLET};
 }

@@ -18,6 +18,7 @@ public final class State implements Serializable {
     private final Range distanceToEnemy;
     private final Range angleToEnemy;
     private final Range distanceToWall;
+    private final BoolRange enemyShotABullet;
 
     public static class Builder {
 
@@ -26,6 +27,8 @@ public final class State implements Serializable {
         private Range distanceToEnemy;
         private Range angleToEnemy;
         private Range distanceToWall;
+        private BoolRange enemyShotABullet;
+
 
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
@@ -39,6 +42,11 @@ public final class State implements Serializable {
 
         public Builder angleToEnemy(double angle) {
             this.angleToEnemy = Range.getRange(angle, Constants.ANGLES_TO_ENEMY);
+            return this;
+        }
+
+        public Builder enemyShotABullet(boolean value) {
+            this.enemyShotABullet = BoolRange.getRange(value, Constants.ENEMY_SHOT_A_BULLET);
             return this;
         }
 
@@ -58,10 +66,14 @@ public final class State implements Serializable {
                 case ANGLES_TO_ENEMY:
                     this.angleToEnemy = (Range)range;
                     return this;
+                case ENEMY_SHOT_A_BULLET:
+                    this.enemyShotABullet = (BoolRange)range;
+                    return this;
+                default:
+                    String message = "Range type not found";
+                    LOG.error(message);
+                    throw new IllegalStateException(message);
             }
-            String message = "Range type not found";
-            LOG.error(message);
-            throw new IllegalStateException(message);
         }
 
         public State build() {
@@ -74,6 +86,7 @@ public final class State implements Serializable {
         this.distanceToEnemy = builder.distanceToEnemy;
         this.distanceToWall = builder.distanceToWall;
         this.angleToEnemy = builder.angleToEnemy;
+        this.enemyShotABullet = builder.enemyShotABullet;
     }
 
     public static State updateState(final GameStatus gameStatus) {
@@ -82,6 +95,7 @@ public final class State implements Serializable {
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
                 .distanceToWall(gameStatus.getDistanceToNearestWall())
                 .angleToEnemy(gameStatus.getAngleToEnemy())
+                .enemyShotABullet(gameStatus.getEnemyShotABullet())
                 .build();
         return state;
     }
@@ -100,6 +114,7 @@ public final class State implements Serializable {
         if (other instanceof State) {
             return (((State)other).distanceToEnemy.equals(this.distanceToEnemy) &&
                     ((State)other).distanceToWall.equals(this.distanceToWall) &&
+                    ((State)other).enemyShotABullet.equals(this.enemyShotABullet) &&
                     ((State)other).angleToEnemy.equals(this.angleToEnemy));
         }
         return false;
@@ -110,6 +125,7 @@ public final class State implements Serializable {
         return Objects.hashCode(
                 this.distanceToEnemy,
                 this.distanceToWall,
+                this.enemyShotABullet,
                 this.angleToEnemy);
     }
 
@@ -117,6 +133,7 @@ public final class State implements Serializable {
     public String toString() {
         return "ToEnemy: " + distanceToEnemy +
                 " ToWall: " + distanceToWall +
-                " AngleToEnemy: " + angleToEnemy;
+                " AngleToEnemy: " + angleToEnemy +
+                " EnemyShotABullet: " + enemyShotABullet;
     }
 }

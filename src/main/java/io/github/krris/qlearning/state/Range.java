@@ -13,7 +13,7 @@ public class Range implements IRange<Double>, Serializable {
 	public final double min;
 	public final double max;
 	
-    private RangeType rangeType;
+    private final RangeType rangeType;
 
 	public Range(double min, double max, RangeType rangeType) {
 		this.min = min;
@@ -34,10 +34,10 @@ public class Range implements IRange<Double>, Serializable {
      * @param possibleRanges
      * @return The range which can contain a given value.
      */
-    public static Range getRange(Double value, final Range[] possibleRanges) {
-        for (Range range: possibleRanges) {
+    public static Range getRange(double value, final IRange[] possibleRanges) {
+        for (IRange range: possibleRanges) {
             if (range.fits(value)) {
-                return range;
+                return (Range)range;
             }
         }
 
@@ -71,7 +71,7 @@ public class Range implements IRange<Double>, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.min, this.max);
+        return Objects.hashCode(this.min, this.max, this.rangeType);
     }
 	
 	@Override

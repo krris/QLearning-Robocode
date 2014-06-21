@@ -21,6 +21,8 @@ public class GameStatus {
     private double enemyY;
 
     private double enemyEnergy;
+    private double previousEnemyEnergy;
+
     private double angleToEnemy;
 
     private double battleFieldWith;
@@ -45,7 +47,6 @@ public class GameStatus {
         this.battleFieldHeight = builder.battleFieldHeight;
         this.battleFieldWith = builder.battleFieldWidth;
     }
-
 
     public static class Builder {
         private RobotStatus robotStatus;
@@ -169,6 +170,7 @@ public class GameStatus {
     }
 
     public void setEnemyEnergy(double enemyEnergy) {
+        this.previousEnemyEnergy = this.enemyEnergy;
         this.enemyEnergy = enemyEnergy;
     }
 
@@ -246,4 +248,16 @@ public class GameStatus {
     public double getBattleFieldHeight() {
         return battleFieldHeight;
     }
+
+    public boolean getEnemyShotABullet() {
+        double minDifference = 0.1;
+        double maxDifference = 3.0;
+
+        double difference = this.previousEnemyEnergy - this.enemyEnergy;
+        if (difference >= minDifference && difference <= maxDifference) {
+            return true;
+        }
+        return false;
+    }
+
 }
