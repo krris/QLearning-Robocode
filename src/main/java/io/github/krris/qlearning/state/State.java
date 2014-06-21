@@ -47,16 +47,16 @@ public final class State implements Serializable {
             return this;
         }
 
-        public Builder setProperty(Range range) {
+        public Builder setProperty(IRange range) {
             switch (range.getRangeType()) {
                 case DISTANCES_TO_ENEMY:
-                    this.distanceToEnemy = range;
+                    this.distanceToEnemy = (Range)range;
                     return this;
                 case DISTANCES_TO_WALL:
-                    this.distanceToWall = range;
+                    this.distanceToWall = (Range)range;
                     return this;
                 case ANGLES_TO_ENEMY:
-                    this.angleToEnemy = range;
+                    this.angleToEnemy = (Range)range;
                     return this;
             }
             String message = "Range type not found";

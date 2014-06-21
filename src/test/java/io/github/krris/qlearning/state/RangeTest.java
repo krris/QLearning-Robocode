@@ -52,7 +52,7 @@ public class RangeTest {
 
     @Test(expected = IllegalStateException.class)
     public void getRangeTest() {
-        int wrongValue = -9999;
+        double wrongValue = -9999;
         Range.getRange(wrongValue, Constants.DISTANCES_TO_ENEMY);
     }
 }

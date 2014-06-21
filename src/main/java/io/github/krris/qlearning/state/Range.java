@@ -7,21 +7,22 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class Range implements Serializable {
+public class Range implements IRange<Double>, Serializable {
     private transient static Logger LOG = LoggerFactory.getLogger(Range.class);
 
-	public final int min;
-	public final int max;
+	public final double min;
+	public final double max;
 	
     private RangeType rangeType;
 
-	public Range(int min, int max, RangeType rangeType) {
+	public Range(double min, double max, RangeType rangeType) {
 		this.min = min;
 		this.max = max;
         this.rangeType = rangeType;
 	}
-	
-	public boolean fits(double value) {
+
+    @Override
+    public boolean fits(Double value) {
 		if (value >= min && value < max)
 			return true;
 		return false;
@@ -33,7 +34,7 @@ public class Range implements Serializable {
      * @param possibleRanges
      * @return The range which can contain a given value.
      */
-    static public Range getRange(double value, final Range[] possibleRanges) {
+    public static Range getRange(Double value, final Range[] possibleRanges) {
         for (Range range: possibleRanges) {
             if (range.fits(value)) {
                 return range;
@@ -43,6 +44,10 @@ public class Range implements Serializable {
         LOG.error("Value: [{}] does not fit to any range: {}", value, possibleRanges);
         throw new IllegalStateException("Value [" + value + "] does not fit to any range " +
                 Arrays.toString(possibleRanges));
+    }
+
+    public RangeType getRangeType() {
+        return rangeType;
     }
 
     /**
@@ -78,8 +83,4 @@ public class Range implements Serializable {
 		    return "[" + min + ", " + max + ")";
         }
 	}
-
-    public RangeType getRangeType() {
-        return rangeType;
-    }
 }

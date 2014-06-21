@@ -78,6 +78,12 @@ public class Constants {
             new Range(135, 180, RangeType.ANGLES_TO_ENEMY),
     };
 
+    // Enemy shot a bullet
+    public static final boolean[] ENEMY_SHOT = {
+            true,
+            false
+    };
+
     // Enemy's movement direction
     public static final Range[] ENEMY_MOVEMENT_DIRECTION = {
             new Range(-180, -135, RangeType.ANGLES_TO_ENEMY),
