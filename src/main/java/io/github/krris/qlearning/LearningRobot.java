@@ -171,6 +171,7 @@ public class LearningRobot extends AdvancedRobot {
         this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
         this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
         this.setDebugProperty("EnemeShotABullet", String.valueOf(this.game.getEnemyShotABullet()));
+        this.setDebugProperty("EnemeMovementDirection", String.valueOf(this.game.getEnemyMovementDirection()));
     }
 
     public void onStatus(StatusEvent e) {
@@ -217,6 +218,7 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitByBullet(HitByBulletEvent e) {
         LOG.info("Hit by a bullet! Power: " + e.getPower());
+        rewards.addReward(RewardType.HIT_BY_BULLET);
     }
 
     public void onHitRobot(HitRobotEvent e) {

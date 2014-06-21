@@ -21,6 +21,8 @@ public class GameStatus {
     // The coordinates of the last scanned enemy robot
     private double enemyX;
     private double enemyY;
+    private double previousEnemyX;
+    private double previousEnemyY;
 
     private double enemyEnergy;
     private double previousEnemyEnergy;
@@ -161,6 +163,7 @@ public class GameStatus {
     }
 
     public void setEnemyX(double enemyX) {
+        this.previousEnemyX = this.enemyX;
         this.enemyX = enemyX;
     }
 
@@ -169,6 +172,7 @@ public class GameStatus {
     }
 
     public void setEnemyY(double enemyY) {
+        this.previousEnemyY = this.enemyY;
         this.enemyY = enemyY;
     }
 
@@ -270,6 +274,10 @@ public class GameStatus {
             return true;
         }
         return false;
+    }
+
+    public double getEnemyMovementDirection() {
+        return Util.angleBetween2Points(this.enemyX, this.enemyY, this.previousEnemyX, this.previousEnemyX);
     }
 
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.feature.Feature;
 import io.github.krris.qlearning.state.IRange;
-import io.github.krris.qlearning.state.Range;
 import io.github.krris.qlearning.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +50,12 @@ public class Util {
     static public double distanceBetween2Points(double x1, double y1, double x2, double y2) {
         double distance = Math.sqrt( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
         return distance;
+    }
+
+    static public double angleBetween2Points(double x1, double y1, double x2, double y2) {
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        return Math.atan2(dy, dx) * 180 / Math.PI;
     }
 
     static public double angleToEnemy(double myX, double myY, double enemyX, double enemyY) {

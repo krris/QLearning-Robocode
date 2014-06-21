@@ -8,7 +8,8 @@ import io.github.krris.qlearning.util.Constants;
 public enum RewardType {
     HIT_A_WALL(Constants.HIT_A_WALL),
     COLLISION_WITH_ENEMY(Constants.COLLISION_WITH_ENEMY),
-    LIVING_REWARD(Constants.LIVING_REWARD);
+    LIVING_REWARD(Constants.LIVING_REWARD),
+    HIT_BY_BULLET(Constants.HIT_BY_BULLET);
 
     private int reward;
 

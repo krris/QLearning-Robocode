@@ -4,12 +4,13 @@ import com.google.common.base.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * Created by krris on 21.06.14.
  */
-public class BoolRange implements IRange<Boolean> {
+public class BoolRange implements IRange<Boolean>, Serializable {
     private transient static Logger LOG = LoggerFactory.getLogger(BoolRange.class);
 
     private final RangeType rangeType;
