@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobotStatus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +24,7 @@ public class GameStatus {
 
     private double enemyEnergy;
     private double previousEnemyEnergy;
+    private List<Boolean> enemyShoots = new ArrayList<>();
 
     private double angleToEnemy;
 
@@ -46,6 +49,10 @@ public class GameStatus {
         this.amIAlive = builder.amIAlive;
         this.battleFieldHeight = builder.battleFieldHeight;
         this.battleFieldWith = builder.battleFieldWidth;
+    }
+
+    public void resetDataAtTheEndOfCycle() {
+        this.enemyShoots = new ArrayList<>();
     }
 
     public static class Builder {
@@ -255,6 +262,11 @@ public class GameStatus {
 
         double difference = this.previousEnemyEnergy - this.enemyEnergy;
         if (difference >= minDifference && difference <= maxDifference) {
+            this.enemyShoots.add(true);
+        }
+        this.enemyShoots.add(false);
+
+        if (this.enemyShoots.contains(true)) {
             return true;
         }
         return false;

@@ -142,6 +142,7 @@ public class LearningRobot extends AdvancedRobot {
                 ql.updateQ(state, action, nextState);
             }
             rewards.endOfCycle();
+            game.resetDataAtTheEndOfCycle();
         }
     }
 
@@ -169,6 +170,7 @@ public class LearningRobot extends AdvancedRobot {
         this.setDebugProperty("AngleToEnemy", String.valueOf(this.game.getAngleToEnemy()));
         this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
         this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
+        this.setDebugProperty("EnemeShotABullet", String.valueOf(this.game.getEnemyShotABullet()));
     }
 
     public void onStatus(StatusEvent e) {
