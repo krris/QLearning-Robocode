@@ -1,0 +1,616 @@
+bullets 260
+bullets 301
+bullets 325
+bullets 269
+bullets 262
+bullets 331
+bullets 268
+java.lang.ThreadDeath
+	at java.lang.Thread.stop(Thread.java:850)
+	at net.sf.robocode.host.security.RobotThreadManager.stop(RobotThreadManager.java:190)
+	at net.sf.robocode.host.security.RobotThreadManager.stopSteps(RobotThreadManager.java:172)
+	at net.sf.robocode.host.security.RobotThreadManager.forceStop(RobotThreadManager.java:143)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.forceStopThread(HostingRobotProxy.java:144)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.forceStopThread(BasicRobotProxy.java:44)
+	at net.sf.robocode.battle.peer.RobotPeer.checkSkippedTurn(RobotPeer.java:649)
+	at net.sf.robocode.battle.peer.RobotPeer.executeImpl(RobotPeer.java:492)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.executeImpl(BasicRobotProxy.java:384)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.execute(BasicRobotProxy.java:122)
+	at net.sf.robocode.host.proxies.AdvancedRobotProxy.waitFor(AdvancedRobotProxy.java:85)
+	at robocode.AdvancedRobot.waitFor(AdvancedRobot.java:1400)
+	at io.github.krris.qlearning.LearningRobot.goAhead(LearningRobot.java:79)
+	at io.github.krris.qlearning.LearningRobot.lambda$initAheadAction$3(LearningRobot.java:110)
+	at io.github.krris.qlearning.LearningRobot$$Lambda$4/1156795580.execute(Unknown Source)
+	at io.github.krris.qlearning.action.Action.execute(Action.java:22)
+	at io.github.krris.qlearning.LearningRobot.run(LearningRobot.java:134)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.callUserCode(HostingRobotProxy.java:274)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.run(HostingRobotProxy.java:221)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.run(BasicRobotProxy.java:44)
+	at java.lang.Thread.run(Thread.java:745)
+bullets 261
+bullets 380
+bullets 254
+bullets 305
+java.lang.ThreadDeath
+	at java.lang.Thread.stop(Thread.java:850)
+	at net.sf.robocode.host.security.RobotThreadManager.stop(RobotThreadManager.java:190)
+	at net.sf.robocode.host.security.RobotThreadManager.stopSteps(RobotThreadManager.java:172)
+	at net.sf.robocode.host.security.RobotThreadManager.forceStop(RobotThreadManager.java:143)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.forceStopThread(HostingRobotProxy.java:144)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.forceStopThread(BasicRobotProxy.java:44)
+	at net.sf.robocode.battle.peer.RobotPeer.checkSkippedTurn(RobotPeer.java:649)
+	at net.sf.robocode.battle.peer.RobotPeer.executeImpl(RobotPeer.java:492)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.executeImpl(BasicRobotProxy.java:384)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.execute(BasicRobotProxy.java:122)
+	at net.sf.robocode.host.proxies.AdvancedRobotProxy.waitFor(AdvancedRobotProxy.java:85)
+	at robocode.AdvancedRobot.waitFor(AdvancedRobot.java:1400)
+	at io.github.krris.qlearning.LearningRobot.goBack(LearningRobot.java:73)
+	at io.github.krris.qlearning.LearningRobot.lambda$initBackAction$2(LearningRobot.java:101)
+	at io.github.krris.qlearning.LearningRobot$$Lambda$5/1835193292.execute(Unknown Source)
+	at io.github.krris.qlearning.action.Action.execute(Action.java:22)
+	at io.github.krris.qlearning.LearningRobot.run(LearningRobot.java:134)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.callUserCode(HostingRobotProxy.java:274)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.run(HostingRobotProxy.java:221)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.run(BasicRobotProxy.java:44)
+	at java.lang.Thread.run(Thread.java:745)
+bullets 370
+java.lang.ThreadDeath
+	at java.lang.Thread.stop(Thread.java:850)
+	at net.sf.robocode.host.security.RobotThreadManager.stop(RobotThreadManager.java:190)
+	at net.sf.robocode.host.security.RobotThreadManager.stopSteps(RobotThreadManager.java:172)
+	at net.sf.robocode.host.security.RobotThreadManager.forceStop(RobotThreadManager.java:143)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.forceStopThread(HostingRobotProxy.java:144)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.forceStopThread(BasicRobotProxy.java:44)
+	at net.sf.robocode.battle.peer.RobotPeer.checkSkippedTurn(RobotPeer.java:649)
+	at net.sf.robocode.battle.peer.RobotPeer.executeImpl(RobotPeer.java:492)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.executeImpl(BasicRobotProxy.java:384)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.execute(BasicRobotProxy.java:122)
+	at net.sf.robocode.host.proxies.AdvancedRobotProxy.waitFor(AdvancedRobotProxy.java:85)
+	at robocode.AdvancedRobot.waitFor(AdvancedRobot.java:1400)
+	at io.github.krris.qlearning.LearningRobot.goBack(LearningRobot.java:73)
+	at io.github.krris.qlearning.LearningRobot.lambda$initBackAction$2(LearningRobot.java:101)
+	at io.github.krris.qlearning.LearningRobot$$Lambda$5/1835193292.execute(Unknown Source)
+	at io.github.krris.qlearning.action.Action.execute(Action.java:22)
+	at io.github.krris.qlearning.LearningRobot.run(LearningRobot.java:134)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.callUserCode(HostingRobotProxy.java:274)
+	at net.sf.robocode.host.proxies.HostingRobotProxy.run(HostingRobotProxy.java:221)
+	at net.sf.robocode.host.proxies.BasicRobotProxy.run(BasicRobotProxy.java:44)
+	at java.lang.Thread.run(Thread.java:745)
+bullets 390
+bullets 398
+bullets 314
+bullets 235
+bullets 261
+bullets 329
+bullets 295
+bullets 275
+bullets 219
+bullets 298
+bullets 299
+bullets 362
+bullets 347
+bullets 302
+bullets 314
+bullets 292
+bullets 285
+bullets 323
+bullets 376
+bullets 272
+bullets 407
+bullets 358
+bullets 298
+bullets 177
+bullets 363
+bullets 245
+bullets 290
+bullets 312
+bullets 295
+bullets 286
+bullets 316
+bullets 244
+bullets 73
+bullets 333
+bullets 244
+bullets 285
+bullets 222
+bullets 261
+bullets 261
+bullets 249
+bullets 352
+bullets 292
+bullets 245
+bullets 293
+bullets 255
+bullets 223
+bullets 332
+bullets 369
+bullets 290
+bullets 340
+bullets 254
+bullets 266
+bullets 304
+bullets 385
+bullets 273
+bullets 309
+bullets 338
+bullets 296
+bullets 327
+bullets 198
+bullets 286
+bullets 280
+bullets 252
+bullets 284
+bullets 258
+bullets 263
+bullets 288
+bullets 227
+bullets 213
+bullets 237
+bullets 214
+bullets 305
+bullets 248
+bullets 345
+bullets 256
+bullets 311
+bullets 260
+bullets 317
+bullets 230
+bullets 201
+bullets 277
+bullets 286
+bullets 307
+bullets 238
+bullets 255
+bullets 253
+bullets 291
+bullets 261
+bullets 234
+bullets 344
+bullets 257
+bullets 318
+bullets 281
+bullets 349
+bullets 209
+bullets 288
+bullets 239
+bullets 219
+bullets 274
+bullets 294
+bullets 262
+bullets 235
+bullets 283
+bullets 280
+bullets 296
+bullets 252
+bullets 186
+bullets 310
+bullets 339
+bullets 260
+bullets 244
+bullets 274
+bullets 270
+bullets 262
+bullets 295
+bullets 277
+bullets 232
+bullets 67
+bullets 141
+bullets 279
+bullets 269
+bullets 249
+bullets 257
+bullets 289
+bullets 316
+bullets 283
+bullets 227
+bullets 249
+bullets 272
+bullets 254
+bullets 248
+bullets 243
+bullets 238
+bullets 390
+bullets 283
+bullets 280
+bullets 170
+bullets 232
+bullets 209
+bullets 288
+bullets 239
+bullets 180
+bullets 249
+bullets 283
+bullets 215
+bullets 248
+bullets 318
+bullets 175
+bullets 345
+bullets 284
+bullets 341
+bullets 181
+bullets 187
+bullets 335
+bullets 253
+bullets 274
+bullets 259
+bullets 269
+bullets 333
+bullets 302
+bullets 344
+bullets 372
+bullets 296
+bullets 230
+bullets 290
+bullets 376
+bullets 300
+bullets 309
+bullets 274
+bullets 237
+bullets 346
+bullets 254
+bullets 304
+bullets 150
+bullets 245
+bullets 273
+bullets 246
+bullets 285
+bullets 285
+bullets 402
+bullets 438
+bullets 349
+bullets 254
+bullets 282
+bullets 333
+bullets 223
+bullets 321
+bullets 306
+bullets 306
+bullets 362
+bullets 275
+bullets 295
+bullets 323
+bullets 318
+bullets 270
+bullets 250
+bullets 333
+bullets 428
+bullets 292
+bullets 354
+bullets 297
+bullets 253
+bullets 267
+bullets 312
+bullets 211
+bullets 247
+bullets 288
+bullets 233
+bullets 247
+bullets 259
+bullets 274
+bullets 277
+bullets 298
+bullets 399
+bullets 342
+bullets 278
+bullets 282
+bullets 314
+bullets 310
+bullets 303
+bullets 263
+bullets 329
+bullets 288
+bullets 264
+bullets 270
+bullets 258
+bullets 339
+bullets 267
+bullets 268
+bullets 149
+bullets 258
+bullets 299
+bullets 259
+bullets 307
+bullets 350
+bullets 277
+bullets 313
+bullets 380
+bullets 270
+bullets 249
+bullets 253
+bullets 273
+bullets 401
+bullets 364
+bullets 277
+bullets 347
+bullets 285
+bullets 322
+bullets 327
+bullets 286
+bullets 274
+bullets 210
+bullets 292
+bullets 246
+bullets 306
+bullets 288
+bullets 248
+bullets 267
+bullets 244
+bullets 285
+bullets 297
+bullets 328
+bullets 332
+bullets 341
+bullets 241
+bullets 134
+bullets 303
+bullets 276
+bullets 348
+bullets 245
+bullets 340
+bullets 335
+bullets 271
+bullets 327
+bullets 293
+bullets 311
+bullets 260
+bullets 370
+bullets 285
+bullets 309
+bullets 220
+bullets 236
+bullets 221
+bullets 315
+bullets 248
+bullets 256
+bullets 235
+bullets 270
+bullets 199
+bullets 229
+bullets 145
+bullets 220
+bullets 347
+bullets 307
+bullets 262
+bullets 386
+bullets 237
+bullets 309
+bullets 315
+bullets 292
+bullets 281
+bullets 316
+bullets 441
+bullets 433
+bullets 352
+bullets 330
+bullets 274
+bullets 259
+bullets 279
+bullets 356
+bullets 285
+bullets 273
+bullets 271
+bullets 248
+bullets 328
+bullets 257
+bullets 304
+bullets 360
+bullets 312
+bullets 299
+bullets 267
+bullets 288
+bullets 205
+bullets 313
+bullets 220
+bullets 317
+bullets 266
+bullets 246
+bullets 227
+bullets 315
+bullets 225
+bullets 259
+bullets 323
+bullets 361
+bullets 313
+bullets 270
+bullets 275
+bullets 320
+bullets 286
+bullets 276
+bullets 284
+bullets 245
+bullets 453
+bullets 210
+bullets 287
+bullets 283
+bullets 248
+bullets 342
+bullets 165
+bullets 275
+bullets 191
+bullets 261
+bullets 235
+bullets 278
+bullets 309
+bullets 305
+bullets 293
+bullets 253
+bullets 249
+bullets 269
+bullets 289
+bullets 239
+bullets 378
+bullets 311
+bullets 266
+bullets 266
+bullets 269
+bullets 247
+bullets 314
+bullets 260
+bullets 312
+bullets 329
+bullets 217
+bullets 257
+bullets 280
+bullets 285
+bullets 394
+bullets 287
+bullets 262
+bullets 337
+bullets 270
+bullets 395
+bullets 357
+bullets 353
+bullets 283
+bullets 323
+bullets 242
+bullets 258
+bullets 307
+bullets 309
+bullets 297
+bullets 286
+bullets 270
+bullets 214
+bullets 329
+bullets 279
+bullets 243
+bullets 270
+bullets 243
+bullets 247
+bullets 283
+bullets 247
+bullets 253
+bullets 223
+bullets 268
+bullets 252
+bullets 350
+bullets 213
+bullets 357
+bullets 314
+bullets 279
+bullets 324
+bullets 255
+bullets 220
+bullets 287
+bullets 286
+bullets 249
+bullets 319
+bullets 245
+bullets 263
+bullets 240
+bullets 208
+bullets 266
+bullets 281
+bullets 263
+bullets 247
+bullets 279
+bullets 360
+bullets 246
+bullets 232
+bullets 302
+bullets 266
+bullets 266
+bullets 237
+bullets 269
+bullets 301
+bullets 267
+bullets 238
+bullets 227
+bullets 368
+bullets 117
+bullets 249
+bullets 233
+bullets 286
+bullets 183
+bullets 248
+bullets 363
+bullets 154
+bullets 236
+bullets 244
+bullets 297
+bullets 270
+bullets 219
+bullets 238
+bullets 256
+bullets 280
+bullets 295
+bullets 220
+bullets 259
+bullets 296
+bullets 453
+bullets 353
+bullets 283
+bullets 243
+bullets 314
+bullets 263
+bullets 314
+bullets 285
+bullets 269
+bullets 204
+bullets 322
+bullets 238
+bullets 226
+bullets 280
+bullets 280
+bullets 223
+bullets 211
+bullets 195
+bullets 283
+bullets 321
+bullets 241
+bullets 306
+bullets 265
+bullets 271
+bullets 225
+bullets 272
+bullets 294
+bullets 307
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195
+bullets 195

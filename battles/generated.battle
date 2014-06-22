@@ -4,5 +4,5 @@ robocode.battle.hideEnemyNames=true
 robocode.battleField.width=800
 robocode.battleField.height=600
 robocode.battle.numRounds=100
-robocode.battle.selectedRobots=io.github.krris.qlearning.LearningRobot*,sample.Walls
+robocode.battle.selectedRobots=io.github.krris.qlearning.LearningRobot*,sample.SpinBot
 robocode.battle.initialPositions= 

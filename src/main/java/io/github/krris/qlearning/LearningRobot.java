@@ -214,6 +214,15 @@ public class LearningRobot extends AdvancedRobot {
         setTurnGunRightRadians(
                 robocode.util.Utils.normalRelativeAngle(absoluteBearing -
                         getGunHeadingRadians()));
+		// If the other robot is close by, and we have plenty of life,
+		// fire hard!
+        if (getGunHeat() == 0) {
+            if (e.getDistance() < 50 && game.getMyEnergy() > 50 )
+                fire(3);
+                // otherwise, fire 1.
+            else
+                fire(1);
+        }
     }
 
     public void onHitByBullet(HitByBulletEvent e) {
@@ -231,6 +240,7 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     public void onBulletHit(BulletHitEvent e) {
+        rewards.addReward(RewardType.MY_BULLET_HITS_ROBOT);
         LOG.info("My bullet hit an opponent!");
     }
 

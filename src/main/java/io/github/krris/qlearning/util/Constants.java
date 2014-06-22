@@ -44,6 +44,7 @@ public class Constants {
     public static final int COLLISION_WITH_ENEMY = config.getInt("collisionWithEnemy");
     public static final int LIVING_REWARD = config.getInt("livingReward");
     public static final int HIT_BY_BULLET = config.getInt("hitByBullet");
+    public static final int MY_BULLET_HITS_ROBOT = config.getInt("myBulletHitsRobot");
 
     public static final int LEARNING_ROUNDS = config.getInt("learningRounds");
 
@@ -65,8 +66,8 @@ public class Constants {
     // Possible distances to wall
     public static final IRange[] DISTANCES_TO_WALL = {
             new Range(0, 19, RangeType.DISTANCES_TO_WALL),
-            new Range(19, 37, RangeType.DISTANCES_TO_WALL),
-            new Range(37, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
+//            new Range(19, 37, RangeType.DISTANCES_TO_WALL),
+            new Range(19, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
     };
 
     // Possible angles to enemy
@@ -89,15 +90,15 @@ public class Constants {
 
     // Enemy's movement direction
     public static final IRange[] ENEMY_MOVEMENT_DIRECTION = {
-            new Range(-180, -135, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(-135, -90, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(-90, -45, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(-45, -1, RangeType.ENEMY_MOVEMENT_DIRECTION),
+            new Range(-180, -90, RangeType.ENEMY_MOVEMENT_DIRECTION),
+//            new Range(-135, -90, RangeType.ENEMY_MOVEMENT_DIRECTION),
+            new Range(-90, -1, RangeType.ENEMY_MOVEMENT_DIRECTION),
+//            new Range(-45, -1, RangeType.ENEMY_MOVEMENT_DIRECTION),
             new Range(-1, 1, RangeType.ENEMY_MOVEMENT_DIRECTION), // stays in place
-            new Range(1, 45, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(45, 90, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(90, 135, RangeType.ENEMY_MOVEMENT_DIRECTION),
-            new Range(135, 181, RangeType.ENEMY_MOVEMENT_DIRECTION),
+//            new Range(1, 45, RangeType.ENEMY_MOVEMENT_DIRECTION),
+            new Range(1, 90, RangeType.ENEMY_MOVEMENT_DIRECTION),
+//            new Range(90, 135, RangeType.ENEMY_MOVEMENT_DIRECTION),
+            new Range(90, 181, RangeType.ENEMY_MOVEMENT_DIRECTION),
     };
 
     public static final IRange[][] ALL_RANGES = {
