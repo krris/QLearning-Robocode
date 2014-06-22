@@ -16,9 +16,11 @@ public class Constants {
     // TODO wrong approach -> to change
     // Place where rewards are saved
     public static final String REWARDS_PATH = config.getString("rewardsPath");
-
     // Place where chart will be printed
     public static final String CHART_PATH = config.getString("chartPath");
+    public static final String TICKS_CHART_PATH = config.getString("ticksChartPath");
+
+    public static final String TICKS_PATH = config.getString("ticksPath");
     public static final String BATTLE_CONFIG_PATH = config.getString("battleConfigPath");
     public static final String serializedQFilePath = config.getString("serializedQFile");
 
@@ -40,10 +42,12 @@ public class Constants {
     // Rewards:
     public static final int HIT_A_WALL = config.getInt("hitAWall");
 
-    public static final int COLLISION_WITH_ENEMY = config.getInt("collisionWithEnemy");
-    public static final int LIVING_REWARD = config.getInt("livingReward");
-    public static final int HIT_BY_BULLET = config.getInt("hitByBullet");
-    public static final int COLLISION_AND_KILL_ENEMY = config.getInt("collisionAndKillEnemy");
+    public static final double COLLISION_WITH_ENEMY = config.getDouble("collisionWithEnemy");
+    public static final double LIVING_REWARD = config.getDouble("livingReward");
+    public static final double HIT_BY_BULLET = config.getDouble("hitByBullet");
+    public static final double COLLISION_AND_KILL_ENEMY = config.getDouble("collisionAndKillEnemy");
+    public static final double DISTANCE_TO_ENEMY_LESS_THAN_200 = config.getDouble("distanceToEnemyLessThan200");
+    public static final double DISTANCE_TO_ENEMY_LESS_THAN_50 = config.getDouble("distanceToEnemyLessThan50");
 
     public static final int LEARNING_ROUNDS = config.getInt("learningRounds");
 
@@ -78,8 +82,8 @@ public class Constants {
 
     // Possible distances to wall
     public static final IRange[] DISTANCES_TO_WALL = {
-            new Range(0, 20, RangeType.DISTANCES_TO_WALL),
-            new Range(20, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
+            new Range(0, 50, RangeType.DISTANCES_TO_WALL),
+            new Range(50, Integer.MAX_VALUE, RangeType.DISTANCES_TO_WALL)
     };
 
     public static final IRange[][] ALL_RANGES = {

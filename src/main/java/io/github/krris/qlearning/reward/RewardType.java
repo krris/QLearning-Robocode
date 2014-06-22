@@ -10,11 +10,13 @@ public enum RewardType {
     COLLISION_WITH_ENEMY(Constants.COLLISION_WITH_ENEMY),
     COLLISION_AND_KILL_ENEMY(Constants.COLLISION_AND_KILL_ENEMY),
     LIVING_REWARD(Constants.LIVING_REWARD),
-    HIT_BY_BULLET(Constants.HIT_BY_BULLET);
+    HIT_BY_BULLET(Constants.HIT_BY_BULLET),
+    DISTANCE_TO_ENEMY_LESS_THAN_50(Constants.DISTANCE_TO_ENEMY_LESS_THAN_50),
+    DISTANCE_TO_ENEMY_LESS_THAN_200(Constants.DISTANCE_TO_ENEMY_LESS_THAN_200);
 
-    private int reward;
+    private double reward;
 
-    RewardType(int reward) {
+    RewardType(double reward) {
         this.reward = reward;
     }
 
