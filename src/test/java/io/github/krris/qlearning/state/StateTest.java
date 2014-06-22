@@ -18,14 +18,14 @@ public class StateTest {
         int distanceToEnemy = 213;
         int angleToEnemy = 90;
         int distanceToWall = 5;
-        boolean enemyShot = true;
-        int enemyMovementDirection = 45;
+        int myEnergy = 40;
+        int opponentEnergy = 20;
         State state = new State.Builder()
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
-                .enemyShotABullet(enemyShot)
-                .enemyMovementDirection(enemyMovementDirection)
+                .opponentEnergy(opponentEnergy)
+                .myEnergy(myEnergy)
                 .build();
 
         // For any non-null reference value x, x.equals(null) must return false.
@@ -41,8 +41,8 @@ public class StateTest {
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
-                .enemyShotABullet(enemyShot)
-                .enemyMovementDirection(enemyMovementDirection)
+                .opponentEnergy(opponentEnergy)
+                .myEnergy(myEnergy)
                 .build();
         assertTrue(state.equals(other) == other.equals(state));
 
@@ -52,8 +52,8 @@ public class StateTest {
                 .distanceToEnemy(distanceToEnemy)
                 .distanceToWall(distanceToWall)
                 .angleToEnemy(angleToEnemy)
-                .enemyShotABullet(enemyShot)
-                .enemyMovementDirection(enemyMovementDirection)
+                .opponentEnergy(opponentEnergy)
+                .myEnergy(myEnergy)
                 .build();
         assertTrue(state.equals(other));
         assertTrue(other.equals(other2));
@@ -67,8 +67,8 @@ public class StateTest {
                 .distanceToEnemy(distanceToEnemy + 123)
                 .distanceToWall(distanceToWall + 123)
                 .angleToEnemy(angleToEnemy - 123)
-                .enemyShotABullet(!enemyShot)
-                .enemyMovementDirection(enemyMovementDirection + 123)
+                .opponentEnergy(opponentEnergy)
+                .myEnergy(myEnergy)
                 .build();
 
         for (int i = 0; i < limit ; i++) {

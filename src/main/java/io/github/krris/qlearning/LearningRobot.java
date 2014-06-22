@@ -216,37 +216,47 @@ public class LearningRobot extends AdvancedRobot {
                         getGunHeadingRadians()));
 		// If the other robot is close by, and we have plenty of life,
 		// fire hard!
-        if (getGunHeat() == 0) {
-            if (e.getDistance() < 50 && game.getMyEnergy() > 50 )
-                fire(3);
-                // otherwise, fire 1.
-            else
-                fire(1);
-        }
+//        if (getGunHeat() == 0) {
+//            if (e.getDistance() < 50 && game.getMyEnergy() > 50 )
+//                fire(3);
+//                // otherwise, fire 1.
+//            else
+//                fire(1);
+//        }
     }
 
     public void onHitByBullet(HitByBulletEvent e) {
         LOG.info("Hit by a bullet! Power: " + e.getPower());
-        rewards.addReward(RewardType.HIT_BY_BULLET);
+        int baseValue = 0;
+        rewards.addReward(baseValue, RewardType.HIT_BY_BULLET);
     }
 
     public void onHitRobot(HitRobotEvent e) {
         LOG.info("Hit another robot!");
-        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+        // check if we kill a robot
+        double damage = game.getEnemyEnergy() - e.getEnergy();
+        LOG.info("Hit damage: " + damage);
+        if (e.getEnergy() <= 0) {
+            LOG.info("Killed an enemy!");
+            rewards.addReward(damage, RewardType.COLLISION_AND_KILL_ENEMY);
+        } else {
+            rewards.addReward(damage, RewardType.COLLISION_WITH_ENEMY);
+        }
     }
 
     public void livingReward() {
-        rewards.addReward(RewardType.LIVING_REWARD);
+        int baseValue = 0;
+        rewards.addReward(baseValue, RewardType.LIVING_REWARD);
     }
 
     public void onBulletHit(BulletHitEvent e) {
-        rewards.addReward(RewardType.MY_BULLET_HITS_ROBOT);
         LOG.info("My bullet hit an opponent!");
     }
 
     public void onHitWall(HitWallEvent e) {
         LOG.info("Hit a wall!");
-        rewards.addReward(RewardType.HIT_A_WALL);
+        double baseValue = 0;
+        rewards.addReward(baseValue, RewardType.HIT_A_WALL);
     }
 
     // Paint a transparent square on top of the last scanned robot
@@ -262,14 +272,16 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     public void onDeath(DeathEvent e) {
+//        LOG.info("Round ended");
+//        rewards.endOfRound();
         game.setAmIAlive(false);
     }
+
 
     @Override
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
-//        Util.printQTable(ql.getQTable());
         rewards.endOfRound();
     }
 
@@ -286,6 +298,8 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     public void onWin(WinEvent e) {
+//        LOG.info("Round ended");
+//        rewards.endOfRound();
         LOG.info("Your robot won!");
     }
 

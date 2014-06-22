@@ -15,21 +15,21 @@ public final class State implements Serializable {
     private transient static final Logger LOG = LoggerFactory.getLogger(State.class);
 
     private transient final GameStatus gameStatus;
+    private final Range myEnergy;
+    private final Range opponentEnergy;
     private final Range distanceToEnemy;
     private final Range angleToEnemy;
     private final Range distanceToWall;
-    private final BoolRange enemyShotABullet;
-    private final Range enemyMovementDirection;
 
     public static class Builder {
 
         private GameStatus gameStatus;
 
+        private Range myEnergy;
+        private Range opponentEnergy;
         private Range distanceToEnemy;
         private Range angleToEnemy;
         private Range distanceToWall;
-        private BoolRange enemyShotABullet;
-        private Range enemyMovementDirection;
 
         public Builder distanceToEnemy(double distance) {
             this.distanceToEnemy = Range.getRange(distance, Constants.DISTANCES_TO_ENEMY);
@@ -46,13 +46,13 @@ public final class State implements Serializable {
             return this;
         }
 
-        public Builder enemyShotABullet(boolean value) {
-            this.enemyShotABullet = BoolRange.getRange(value, Constants.ENEMY_SHOT_A_BULLET);
+        public Builder myEnergy(double energy) {
+            this.myEnergy = Range.getRange(energy, Constants.MY_ENERGIES);
             return this;
         }
 
-        public Builder enemyMovementDirection(double angle) {
-            this.enemyMovementDirection = Range.getRange(angle, Constants.ENEMY_MOVEMENT_DIRECTION);
+        public Builder opponentEnergy(double energy) {
+            this.opponentEnergy = Range.getRange(energy, Constants.OPONNENT_ENERGIES);
             return this;
         }
 
@@ -72,11 +72,11 @@ public final class State implements Serializable {
                 case ANGLES_TO_ENEMY:
                     this.angleToEnemy = (Range)range;
                     return this;
-                case ENEMY_SHOT_A_BULLET:
-                    this.enemyShotABullet = (BoolRange)range;
+                case MY_ENERGY:
+                    this.myEnergy = (Range)range;
                     return this;
-                case ENEMY_MOVEMENT_DIRECTION:
-                    this.enemyMovementDirection = (Range)range;
+                case OPPONENT_ENERGY:
+                    this.opponentEnergy = (Range)range;
                     return this;
                 default:
                     String message = "Range type not found";
@@ -95,8 +95,8 @@ public final class State implements Serializable {
         this.distanceToEnemy = builder.distanceToEnemy;
         this.distanceToWall = builder.distanceToWall;
         this.angleToEnemy = builder.angleToEnemy;
-        this.enemyShotABullet = builder.enemyShotABullet;
-        this.enemyMovementDirection = builder.enemyMovementDirection;
+        this.myEnergy = builder.myEnergy;
+        this.opponentEnergy = builder.opponentEnergy;
     }
 
     public static State updateState(final GameStatus gameStatus) {
@@ -105,8 +105,8 @@ public final class State implements Serializable {
                 .distanceToEnemy(gameStatus.getDistanceToEnemy())
                 .distanceToWall(gameStatus.getDistanceToNearestWall())
                 .angleToEnemy(gameStatus.getAngleToEnemy())
-                .enemyShotABullet(gameStatus.getEnemyShotABullet())
-                .enemyMovementDirection(gameStatus.getEnemyMovementDirection())
+                .opponentEnergy(gameStatus.getEnemyEnergy())
+                .myEnergy(gameStatus.getMyEnergy())
                 .build();
         return state;
     }
@@ -125,8 +125,8 @@ public final class State implements Serializable {
         if (other instanceof State) {
             return (((State)other).distanceToEnemy.equals(this.distanceToEnemy) &&
                     ((State)other).distanceToWall.equals(this.distanceToWall) &&
-                    ((State)other).enemyShotABullet.equals(this.enemyShotABullet) &&
-                    ((State)other).enemyMovementDirection.equals(this.enemyMovementDirection) &&
+                    ((State)other).opponentEnergy.equals(this.opponentEnergy) &&
+                    ((State)other).myEnergy.equals(this.myEnergy) &&
                     ((State)other).angleToEnemy.equals(this.angleToEnemy));
         }
         return false;
@@ -137,8 +137,8 @@ public final class State implements Serializable {
         return Objects.hashCode(
                 this.distanceToEnemy,
                 this.distanceToWall,
-                this.enemyShotABullet,
-                this.enemyMovementDirection,
+                this.myEnergy,
+                this.opponentEnergy,
                 this.angleToEnemy);
     }
 
@@ -147,7 +147,7 @@ public final class State implements Serializable {
         return "ToEnemy: " + distanceToEnemy +
                 " ToWall: " + distanceToWall +
                 " AngleToEnemy: " + angleToEnemy +
-                " EnemyMovementDirection: " + enemyMovementDirection +
-                " EnemyShotABullet: " + enemyShotABullet;
+                " OpponentEnergy: " + opponentEnergy +
+                " MyEnergy: " + myEnergy;
     }
 }

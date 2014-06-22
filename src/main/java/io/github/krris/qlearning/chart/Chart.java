@@ -19,10 +19,10 @@ import java.util.List;
 * Created by krris on 23.03.14.
 */
 public class Chart {
-    public static XYSeriesCollection getSeriesCollection(List<Integer> rewards) {
+    public static XYSeriesCollection getSeriesCollection(List<Double> rewards) {
         XYSeries series = new XYSeries("Reward per round");
         int round = 1;
-        for (int reward : rewards) {
+        for (double reward : rewards) {
             series.add(round, reward);
             round++;
         }
@@ -43,7 +43,7 @@ public class Chart {
         return chart;
     }
 
-    public static void printToFile(List<Integer> rewards) {
+    public static void printToFile(List<Double> rewards) {
         XYSeriesCollection data = getSeriesCollection(rewards);
         JFreeChart qlearning = getJFreeChart(data);
 
@@ -61,9 +61,9 @@ public class Chart {
         try {
             System.out.println("Reading file with rewards ...");
             List<String> lines = Files.readAllLines(Paths.get(Constants.REWARDS_PATH));
-            List<Integer> rewards = new ArrayList<>();
+            List<Double> rewards = new ArrayList<>();
             for (String number : lines) {
-                rewards.add(Integer.parseInt(number));
+                rewards.add(Double.parseDouble(number));
             }
             printToFile(rewards);
             System.out.println("Printing a chart with rewards is finished!");

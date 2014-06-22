@@ -12,13 +12,13 @@ import java.util.List;
 public class Rewards {
     private final Logger LOG = LoggerFactory.getLogger(Rewards.class);
 
-    private List<Integer> rewardsPerRound;
+    private List<Double> rewardsPerRound;
 
     // Collected reward during one round
-    private int roundReward;
+    private double roundReward;
 
     // Collected reward during one cycle
-    private int cycleReward;
+    private double cycleReward;
 
     Rewards() {
         this.rewardsPerRound = new ArrayList<>();
@@ -26,16 +26,16 @@ public class Rewards {
         this.cycleReward = 0;
     }
 
-    public void addReward(RewardType rewardType) {
-        this.roundReward += rewardType.getReward();
-        this.cycleReward += rewardType.getReward();
+    public void addReward(double value, RewardType rewardType) {
+        this.roundReward += rewardType.getReward(value);
+        this.cycleReward += rewardType.getReward(value);
     }
 
-    public int getRoundReward() {
+    public double getRoundReward() {
         return roundReward;
     }
 
-    public int getCycleReward() {
+    public double getCycleReward() {
         return this.cycleReward;
     }
 
@@ -51,7 +51,7 @@ public class Rewards {
         this.cycleReward = 0;
     }
 
-    public List<Integer> getRewardsPerRound() {
+    public List<Double> getRewardsPerRound() {
         return rewardsPerRound;
     }
 }
