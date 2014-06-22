@@ -228,7 +228,7 @@ public class LearningRobot extends AdvancedRobot {
     public void onHitByBullet(HitByBulletEvent e) {
         LOG.info("Hit by a bullet! Power: " + e.getPower());
         int baseValue = 0;
-        rewards.addReward(baseValue, RewardType.HIT_BY_BULLET);
+        rewards.addReward(RewardType.HIT_BY_BULLET);
     }
 
     public void onHitRobot(HitRobotEvent e) {
@@ -238,15 +238,14 @@ public class LearningRobot extends AdvancedRobot {
         LOG.info("Hit damage: " + damage);
         if (e.getEnergy() <= 0) {
             LOG.info("Killed an enemy!");
-            rewards.addReward(damage, RewardType.COLLISION_AND_KILL_ENEMY);
+            rewards.addReward(RewardType.COLLISION_AND_KILL_ENEMY);
         } else {
-            rewards.addReward(damage, RewardType.COLLISION_WITH_ENEMY);
+            rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
         }
     }
 
     public void livingReward() {
-        int baseValue = 0;
-        rewards.addReward(baseValue, RewardType.LIVING_REWARD);
+        rewards.addReward(RewardType.LIVING_REWARD);
     }
 
     public void onBulletHit(BulletHitEvent e) {
@@ -255,8 +254,7 @@ public class LearningRobot extends AdvancedRobot {
 
     public void onHitWall(HitWallEvent e) {
         LOG.info("Hit a wall!");
-        double baseValue = 0;
-        rewards.addReward(baseValue, RewardType.HIT_A_WALL);
+        rewards.addReward(RewardType.HIT_A_WALL);
     }
 
     // Paint a transparent square on top of the last scanned robot

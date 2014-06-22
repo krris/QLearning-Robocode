@@ -18,17 +18,7 @@ public enum RewardType {
         this.reward = reward;
     }
 
-    public double getReward(double value) {
-        switch (this) {
-            case HIT_A_WALL:
-            case LIVING_REWARD:
-            case HIT_BY_BULLET:
-                return this.reward;
-            case COLLISION_WITH_ENEMY:
-            case COLLISION_AND_KILL_ENEMY:
-                return value * this.reward;
-
-        }
+    public double getReward() {
         return this.reward;
     }
 }

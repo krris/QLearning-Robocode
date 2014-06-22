@@ -26,9 +26,9 @@ public class Rewards {
         this.cycleReward = 0;
     }
 
-    public void addReward(double value, RewardType rewardType) {
-        this.roundReward += rewardType.getReward(value);
-        this.cycleReward += rewardType.getReward(value);
+    public void addReward(RewardType rewardType) {
+        this.roundReward += rewardType.getReward();
+        this.cycleReward += rewardType.getReward();
     }
 
     public double getRoundReward() {

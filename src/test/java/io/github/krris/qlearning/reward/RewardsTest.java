@@ -7,6 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Created by krris on 23.03.14.
  */
@@ -20,19 +23,19 @@ public class RewardsTest {
 
     @Test
     public void testReward() {
-//        double expectedSum = RewardType.HIT_A_WALL.getReward(0) + RewardType.HIT_A_WALL.getReward(0);
-//
-//        assertEquals(rewards.getRoundReward(), 0, 0);
-//        assertTrue(rewards.getRewardsPerRound().isEmpty());
-//
-//        rewards.addReward(0,RewardType.HIT_A_WALL);
-//        rewards.addReward(0,RewardType.HIT_A_WALL);
-//
-//        assertEquals(rewards.getRoundReward(), expectedSum, 0);
-//
-//        rewards.endOfRound();
-//
-//        assertEquals(rewards.getRoundReward(), 0);
-//        assertTrue(!rewards.getRewardsPerRound().isEmpty());
+        double expectedSum = RewardType.COLLISION_WITH_ENEMY.getReward() + RewardType.HIT_A_WALL.getReward();
+
+        assertEquals(rewards.getRoundReward(), 0, 0);
+        assertTrue(rewards.getRewardsPerRound().isEmpty());
+
+        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+        rewards.addReward(RewardType.HIT_A_WALL);
+
+        assertEquals(rewards.getRoundReward(), expectedSum, 0);
+
+        rewards.endOfRound();
+
+        assertEquals(rewards.getRoundReward(), 0, 0);
+        assertTrue(!rewards.getRewardsPerRound().isEmpty());
     }
 }
