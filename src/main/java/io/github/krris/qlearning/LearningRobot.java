@@ -56,6 +56,8 @@ public class LearningRobot extends AdvancedRobot {
         initBackAction();
         initTurnLeftAction();
         initTurnRightAction();
+        initAheadLeftAction();
+        initAheadRightAction();
         ql.init();
     }
 
@@ -80,6 +82,22 @@ public class LearningRobot extends AdvancedRobot {
     private void goAhead() {
         this.setAhead(Constants.MOVE_DISTANCE);
         this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAheadLeft() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.setTurnLeft(Constants.TURN_ANGLE_BIG);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAheadRight() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.setTurnRight(Constants.TURN_ANGLE_BIG);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
         this.waitFor(new MoveCompleteCondition(this));
     }
 
@@ -114,6 +132,22 @@ public class LearningRobot extends AdvancedRobot {
             goAhead();
         };
         ql.setActionFunction(Action.AHEAD, aheadAction);
+    }
+
+    private void initAheadLeftAction() {
+        Executable aheadAction = () -> {
+            LOG.info("Ahead left action.");
+            goAheadLeft();
+        };
+        ql.setActionFunction(Action.AHEAD_LEFT, aheadAction);
+    }
+
+    private void initAheadRightAction() {
+        Executable aheadAction = () -> {
+            LOG.info("Ahead right action.");
+            goAheadRight();
+        };
+        ql.setActionFunction(Action.AHEAD_RIGHT, aheadAction);
     }
 
     public void run() {

@@ -39,6 +39,7 @@ public class Constants {
 
     // Default distance for turn actions
     public static final int TURN_ANGLE = 30;
+    public static final int TURN_ANGLE_BIG = 90;
     // Rewards:
     public static final int HIT_A_WALL = config.getInt("hitAWall");
 

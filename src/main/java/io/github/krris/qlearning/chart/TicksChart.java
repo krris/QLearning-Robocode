@@ -20,11 +20,14 @@ import java.util.List;
 */
 public class TicksChart {
     public static XYSeriesCollection getSeriesCollection(List<Double> rewards) {
+        Double[] arr = rewards.toArray(new Double[rewards.size()]);
+
         XYSeries series = new XYSeries("Num of ticks per round");
-        int round = 1;
-        for (double reward : rewards) {
-            series.add(round, reward);
-            round++;
+
+        for (int i = 1; i < rewards.size(); i +=3) {
+            double x = arr[i-1] + arr[i] + arr[i+1];
+            x = x / 3;
+            series.add(i, x);
         }
         return new XYSeriesCollection(series);
     }
