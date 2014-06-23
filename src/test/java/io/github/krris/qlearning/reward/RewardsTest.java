@@ -23,19 +23,19 @@ public class RewardsTest {
 
     @Test
     public void testReward() {
-        int expectedSum = RewardType.COLLISION_WITH_ENEMY.getReward() + RewardType.HIT_A_WALL.getReward();
+        double expectedSum = RewardType.COLLISION_WITH_ENEMY.getReward() + RewardType.HIT_A_WALL.getReward();
 
-        assertEquals(rewards.getRoundReward(), 0);
+        assertEquals(rewards.getRoundReward(), 0, 0);
         assertTrue(rewards.getRewardsPerRound().isEmpty());
 
         rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
         rewards.addReward(RewardType.HIT_A_WALL);
 
-        assertEquals(rewards.getRoundReward(), expectedSum);
+        assertEquals(rewards.getRoundReward(), expectedSum, 0);
 
         rewards.endOfRound();
 
-        assertEquals(rewards.getRoundReward(), 0);
+        assertEquals(rewards.getRoundReward(), 0, 0);
         assertTrue(!rewards.getRewardsPerRound().isEmpty());
     }
 }

@@ -8,15 +8,19 @@ import io.github.krris.qlearning.util.Constants;
 public enum RewardType {
     HIT_A_WALL(Constants.HIT_A_WALL),
     COLLISION_WITH_ENEMY(Constants.COLLISION_WITH_ENEMY),
-    LIVING_REWARD(Constants.LIVING_REWARD);
+    COLLISION_AND_KILL_ENEMY(Constants.COLLISION_AND_KILL_ENEMY),
+    LIVING_REWARD(Constants.LIVING_REWARD),
+    HIT_BY_BULLET(Constants.HIT_BY_BULLET),
+    DISTANCE_TO_ENEMY_LESS_THAN_50(Constants.DISTANCE_TO_ENEMY_LESS_THAN_50),
+    DISTANCE_TO_ENEMY_LESS_THAN_200(Constants.DISTANCE_TO_ENEMY_LESS_THAN_200);
 
-    private int reward;
+    private double reward;
 
-    RewardType(int reward) {
+    RewardType(double reward) {
         this.reward = reward;
     }
 
-    public int getReward() {
+    public double getReward() {
         return this.reward;
     }
 }
