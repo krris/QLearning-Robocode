@@ -46,9 +46,9 @@ public class FeatureExtractor {
         double newX = newCoords[0];
         double newY = newCoords[1];
 
-        double angle = Util.angleToEnemy(newX, newY, status.getEnemyX(), status.getEnemyY());
-        double minAngle = 0;
-        double maxAngle = 360;
+        double angle = Util.angleBetween2Points(newX, newY, status.getEnemyX(), status.getEnemyY());
+        double minAngle = -180;
+        double maxAngle = 180;
         return Util.normalize(angle, minAngle,maxAngle);
 //        return angle;
     }

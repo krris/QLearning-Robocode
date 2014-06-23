@@ -5,7 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import robocode.RobotStatus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,8 +21,13 @@ public class GameStatus {
     // The coordinates of the last scanned enemy robot
     private double enemyX;
     private double enemyY;
+    private double previousEnemyX;
+    private double previousEnemyY;
 
     private double enemyEnergy;
+    private double previousEnemyEnergy;
+    private List<Boolean> enemyShoots = new ArrayList<>();
+
     private double angleToEnemy;
 
     private double battleFieldWith;
@@ -46,6 +53,9 @@ public class GameStatus {
         this.battleFieldWith = builder.battleFieldWidth;
     }
 
+    public void resetDataAtTheEndOfCycle() {
+        this.enemyShoots = new ArrayList<>();
+    }
 
     public static class Builder {
         private RobotStatus robotStatus;
@@ -153,6 +163,7 @@ public class GameStatus {
     }
 
     public void setEnemyX(double enemyX) {
+        this.previousEnemyX = this.enemyX;
         this.enemyX = enemyX;
     }
 
@@ -161,6 +172,7 @@ public class GameStatus {
     }
 
     public void setEnemyY(double enemyY) {
+        this.previousEnemyY = this.enemyY;
         this.enemyY = enemyY;
     }
 
@@ -169,6 +181,7 @@ public class GameStatus {
     }
 
     public void setEnemyEnergy(double enemyEnergy) {
+        this.previousEnemyEnergy = this.enemyEnergy;
         this.enemyEnergy = enemyEnergy;
     }
 
@@ -246,4 +259,25 @@ public class GameStatus {
     public double getBattleFieldHeight() {
         return battleFieldHeight;
     }
+
+    public boolean getEnemyShotABullet() {
+        double minDifference = 0.1;
+        double maxDifference = 3.0;
+
+        double difference = this.previousEnemyEnergy - this.enemyEnergy;
+        if (difference >= minDifference && difference <= maxDifference) {
+            this.enemyShoots.add(true);
+        }
+        this.enemyShoots.add(false);
+
+        if (this.enemyShoots.contains(true)) {
+            return true;
+        }
+        return false;
+    }
+
+    public double getEnemyMovementDirection() {
+        return Util.angleBetween2Points(this.enemyX, this.enemyY, this.previousEnemyX, this.previousEnemyX);
+    }
+
 }

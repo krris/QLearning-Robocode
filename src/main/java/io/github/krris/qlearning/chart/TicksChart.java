@@ -18,22 +18,25 @@ import java.util.List;
 /**
 * Created by krris on 23.03.14.
 */
-public class Chart {
+public class TicksChart {
     public static XYSeriesCollection getSeriesCollection(List<Double> rewards) {
-        XYSeries series = new XYSeries("Reward per round");
-        int round = 1;
-        for (double reward : rewards) {
-            series.add(round, reward);
-            round++;
+        Double[] arr = rewards.toArray(new Double[rewards.size()]);
+
+        XYSeries series = new XYSeries("Num of ticks per round");
+
+        for (int i = 1; i < rewards.size(); i +=3) {
+            double x = arr[i-1] + arr[i] + arr[i+1];
+            x = x / 3;
+            series.add(i, x);
         }
         return new XYSeriesCollection(series);
     }
 
     private static JFreeChart getJFreeChart(XYSeriesCollection data) {
         final JFreeChart chart = ChartFactory.createXYLineChart(
-                "QLearning",
+                "Ticks",
                 "round",
-                "reward",
+                "Num",
                 data,
                 PlotOrientation.VERTICAL,
                 true,
@@ -47,10 +50,10 @@ public class Chart {
         XYSeriesCollection data = getSeriesCollection(rewards);
         JFreeChart qlearning = getJFreeChart(data);
 
-        File file = new File(Constants.CHART_PATH);
+        File file = new File(Constants.TICKS_CHART_PATH);
 
         try {
-            System.out.println("Printing a chart...");
+            System.out.println("Printing a chart with ticks...");
             ChartUtilities.saveChartAsPNG(file, qlearning, Constants.CHART_WIDTH, Constants.CHART_HEIGHT);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,13 +63,13 @@ public class Chart {
     public static void main(String[] args) {
         try {
             System.out.println("Reading file with rewards ...");
-            List<String> lines = Files.readAllLines(Paths.get(Constants.REWARDS_PATH));
+            List<String> lines = Files.readAllLines(Paths.get(Constants.TICKS_PATH));
             List<Double> rewards = new ArrayList<>();
             for (String number : lines) {
                 rewards.add(Double.parseDouble(number));
             }
             printToFile(rewards);
-            System.out.println("Printing a chart with rewards is finished!");
+            System.out.println("Printing a chart with ticks is finished!");
         } catch (IOException e) {
             e.printStackTrace();
         }

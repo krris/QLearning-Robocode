@@ -14,6 +14,41 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class RangeTest {
 
+//    @Test
+//    public void equalsBoolRange() {
+//        boolean value = true;
+//        BoolRange range = new BoolRange(value, RangeType.ENEMY_SHOT_A_BULLET);
+//
+//        // For any non-null reference value x, x.equals(null) must return false.
+//        BoolRange other = null;
+//        assertFalse(range.equals(other));
+//
+//        // Reflexive: For any non-null reference value x, x.equals(x) must return true
+//        assertTrue(range.equals(range));
+//
+//        // Symmetric: For any non-null reference values x and y, x.equals(y) must
+//        // return true if and only if y.equals(x) returns true.
+//        other = new BoolRange(value, RangeType.ENEMY_SHOT_A_BULLET);
+//        assertTrue(range.equals(other) == other.equals(range));
+//
+//        // Transitive: For any non-null reference values x, y, z, if x.equals(y) returns
+//        // true and y.equals(z) returns true, then x.equals(z) must return true.
+//        BoolRange other2 = new BoolRange(value, RangeType.ENEMY_SHOT_A_BULLET);
+//        assertTrue(range.equals(other));
+//        assertTrue(other.equals(other2));
+//        assertTrue(range.equals(other2));
+//
+//        // Consistent: For any non-null reference values x and y, multiple invocations
+//        // of x.equals(y) consistently return true or consistently return false, provided
+//        // no information used in equals comparisons on the objects is modified.
+//        int limit = 1000;
+//        BoolRange different = new BoolRange(!value, RangeType.DISTANCES_TO_WALL);
+//        for (int i = 0; i < limit ; i++) {
+//            assertTrue(range.equals(other));
+//            assertFalse(range.equals(different));
+//        }
+//    }
+
     @Test
     public void equals() {
         int min = 100;
@@ -52,7 +87,7 @@ public class RangeTest {
 
     @Test(expected = IllegalStateException.class)
     public void getRangeTest() {
-        int wrongValue = -9999;
+        double wrongValue = -9999;
         Range.getRange(wrongValue, Constants.DISTANCES_TO_ENEMY);
     }
 }

@@ -8,6 +8,7 @@ import io.github.krris.qlearning.reward.RewardType;
 import io.github.krris.qlearning.reward.Rewards;
 import io.github.krris.qlearning.state.State;
 import io.github.krris.qlearning.util.Constants;
+import io.github.krris.qlearning.util.TickCounter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +33,8 @@ public class LearningRobot extends AdvancedRobot {
     private static boolean serialize;
     private boolean isOptimalPolicy;
 
+    private TickCounter tickCounter;
+
     private static Config config = ConfigFactory.parseFile(new File("/home/krris/programowanie/idea-robot/QLearning-Robocode/application.conf"));
 
     static {
@@ -45,6 +48,7 @@ public class LearningRobot extends AdvancedRobot {
                 .amIAlive(true)
                 .enemyEnergy(100)
                 .build();
+        tickCounter = new TickCounter();
     }
 
     private void init() {
@@ -52,6 +56,8 @@ public class LearningRobot extends AdvancedRobot {
         initBackAction();
         initTurnLeftAction();
         initTurnRightAction();
+        initAheadLeftAction();
+        initAheadRightAction();
         ql.init();
     }
 
@@ -76,6 +82,22 @@ public class LearningRobot extends AdvancedRobot {
     private void goAhead() {
         this.setAhead(Constants.MOVE_DISTANCE);
         this.execute();
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAheadLeft() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.setTurnLeft(Constants.TURN_ANGLE_BIG);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
+        this.waitFor(new MoveCompleteCondition(this));
+    }
+
+    private void goAheadRight() {
+        this.setAhead(Constants.MOVE_DISTANCE);
+        this.setTurnRight(Constants.TURN_ANGLE_BIG);
+        this.execute();
+        this.waitFor(new TurnCompleteCondition(this));
         this.waitFor(new MoveCompleteCondition(this));
     }
 
@@ -112,6 +134,22 @@ public class LearningRobot extends AdvancedRobot {
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
+    private void initAheadLeftAction() {
+        Executable aheadAction = () -> {
+            LOG.info("Ahead left action.");
+            goAheadLeft();
+        };
+        ql.setActionFunction(Action.AHEAD_LEFT, aheadAction);
+    }
+
+    private void initAheadRightAction() {
+        Executable aheadAction = () -> {
+            LOG.info("Ahead right action.");
+            goAheadRight();
+        };
+        ql.setActionFunction(Action.AHEAD_RIGHT, aheadAction);
+    }
+
     public void run() {
         // Gun, radar and tank movements are independent
         setAdjustGunForRobotTurn(true);
@@ -133,6 +171,7 @@ public class LearningRobot extends AdvancedRobot {
             Action action = chooseAction(state);
             action.execute();
             this.livingReward();
+            this.distanceToEnemyReward();
             this.setDebugProperties();
             // Prevents updating q-table after the end of the round.
             if (game.isAmIAlive() == false || game.getMyEnergy() == 0)
@@ -142,6 +181,8 @@ public class LearningRobot extends AdvancedRobot {
                 ql.updateQ(state, action, nextState);
             }
             rewards.endOfCycle();
+            game.resetDataAtTheEndOfCycle();
+            tickCounter.tick();
         }
     }
 
@@ -169,6 +210,8 @@ public class LearningRobot extends AdvancedRobot {
         this.setDebugProperty("AngleToEnemy", String.valueOf(this.game.getAngleToEnemy()));
         this.setDebugProperty("DistToEnemy", String.valueOf(this.game.getDistanceToEnemy()));
         this.setDebugProperty("DistToNearestWall", String.valueOf(this.game.getDistanceToNearestWall()));
+        this.setDebugProperty("EnemeShotABullet", String.valueOf(this.game.getEnemyShotABullet()));
+        this.setDebugProperty("EnemeMovementDirection", String.valueOf(this.game.getEnemyMovementDirection()));
     }
 
     public void onStatus(StatusEvent e) {
@@ -211,19 +254,50 @@ public class LearningRobot extends AdvancedRobot {
         setTurnGunRightRadians(
                 robocode.util.Utils.normalRelativeAngle(absoluteBearing -
                         getGunHeadingRadians()));
+		// If the other robot is close by, and we have plenty of life,
+		// fire hard!
+//        if (getGunHeat() == 0) {
+//            if (e.getDistance() < 50 && game.getMyEnergy() > 50 )
+//                fire(3);
+//                // otherwise, fire 1.
+//            else
+//                fire(1);
+//        }
     }
 
     public void onHitByBullet(HitByBulletEvent e) {
         LOG.info("Hit by a bullet! Power: " + e.getPower());
+        int baseValue = 0;
+        rewards.addReward(RewardType.HIT_BY_BULLET);
     }
 
     public void onHitRobot(HitRobotEvent e) {
         LOG.info("Hit another robot!");
-        rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+        // check if we kill a robot
+        double damage = game.getEnemyEnergy() - e.getEnergy();
+        LOG.info("Hit damage: " + damage);
+        if (e.getEnergy() <= 0) {
+            LOG.info("Killed an enemy!");
+            rewards.addReward(RewardType.COLLISION_AND_KILL_ENEMY);
+        } else {
+            rewards.addReward(RewardType.COLLISION_WITH_ENEMY);
+        }
     }
 
     public void livingReward() {
         rewards.addReward(RewardType.LIVING_REWARD);
+    }
+
+    private void distanceToEnemyReward() {
+        double tooClose = 50;
+        double close = 200;
+        if (game.getDistanceToEnemy() < tooClose) {
+            LOG.debug("Too close to the enemy! Distance < 50!!!");
+            rewards.addReward(RewardType.DISTANCE_TO_ENEMY_LESS_THAN_50);
+        } else if (game.getDistanceToEnemy() < close) {
+            LOG.debug("close to the enemy! Distance < 200!");
+            rewards.addReward(RewardType.DISTANCE_TO_ENEMY_LESS_THAN_200);
+        }
     }
 
     public void onBulletHit(BulletHitEvent e) {
@@ -248,15 +322,18 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     public void onDeath(DeathEvent e) {
+//        LOG.info("Round ended");
+//        rewards.endOfRound();
         game.setAmIAlive(false);
     }
+
 
     @Override
     public void onRoundEnded(RoundEndedEvent event) {
         super.onRoundEnded(event);
         LOG.info("Round ended");
-//        Util.printQTable(ql.getQTable());
         rewards.endOfRound();
+        tickCounter.endOfRound();
     }
 
     @Override
@@ -272,6 +349,8 @@ public class LearningRobot extends AdvancedRobot {
     }
 
     public void onWin(WinEvent e) {
+//        LOG.info("Round ended");
+//        rewards.endOfRound();
         LOG.info("Your robot won!");
     }
 

@@ -3,7 +3,7 @@ package io.github.krris.qlearning.util;
 import com.google.common.collect.Table;
 import io.github.krris.qlearning.action.Action;
 import io.github.krris.qlearning.feature.Feature;
-import io.github.krris.qlearning.state.Range;
+import io.github.krris.qlearning.state.IRange;
 import io.github.krris.qlearning.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,18 +26,18 @@ public class Util {
         return generateStates(Constants.ALL_RANGES);
     }
 
-    public static Set<State> generateStates(Range[][] ranges) {
+    public static Set<State> generateStates(IRange[][] ranges) {
         int depth = 0;
         Set<State> generatedStates = new HashSet<>();
         return generate(ranges, depth, new State.Builder(), generatedStates);
     }
 
-    private static Set<State> generate(Range[][] ranges, int depth, State.Builder stateBuilder,
+    private static Set<State> generate(IRange[][] ranges, int depth, State.Builder stateBuilder,
                                        Set<State> generatedStates) {
         if (ranges.length < depth + 1) {
             generatedStates.add(stateBuilder.build());
         } else {
-            for (Range range : ranges[depth]) {
+            for (IRange range : ranges[depth]) {
                 stateBuilder.setProperty(range);
                 depth++;
                 generate(ranges, depth, stateBuilder, generatedStates);
@@ -50,6 +50,12 @@ public class Util {
     static public double distanceBetween2Points(double x1, double y1, double x2, double y2) {
         double distance = Math.sqrt( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
         return distance;
+    }
+
+    static public double angleBetween2Points(double x1, double y1, double x2, double y2) {
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        return Math.atan2(dy, dx) * 180 / Math.PI;
     }
 
     static public double angleToEnemy(double myX, double myY, double enemyX, double enemyY) {

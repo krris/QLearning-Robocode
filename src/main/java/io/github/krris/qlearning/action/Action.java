@@ -7,6 +7,8 @@ import io.github.krris.qlearning.util.Constants;
  */
 public enum Action {
     AHEAD(Constants.MOVE_DISTANCE),
+    AHEAD_LEFT(Constants.MOVE_DISTANCE),
+    AHEAD_RIGHT(Constants.MOVE_DISTANCE),
     BACK(Constants.MOVE_DISTANCE),
     TURN_LEFT(Constants.TURN_ANGLE),
     TURN_RIGHT(Constants.TURN_ANGLE);
