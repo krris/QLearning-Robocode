@@ -56,8 +56,6 @@ public class LearningRobot extends AdvancedRobot {
         initBackAction();
         initTurnLeftAction();
         initTurnRightAction();
-        initAheadLeftAction();
-        initAheadRightAction();
         ql.init();
     }
 
@@ -82,22 +80,6 @@ public class LearningRobot extends AdvancedRobot {
     private void goAhead() {
         this.setAhead(Constants.MOVE_DISTANCE);
         this.execute();
-        this.waitFor(new MoveCompleteCondition(this));
-    }
-
-    private void goAheadLeft() {
-        this.setAhead(Constants.MOVE_DISTANCE);
-        this.setTurnLeft(Constants.TURN_ANGLE_BIG);
-        this.execute();
-        this.waitFor(new TurnCompleteCondition(this));
-        this.waitFor(new MoveCompleteCondition(this));
-    }
-
-    private void goAheadRight() {
-        this.setAhead(Constants.MOVE_DISTANCE);
-        this.setTurnRight(Constants.TURN_ANGLE_BIG);
-        this.execute();
-        this.waitFor(new TurnCompleteCondition(this));
         this.waitFor(new MoveCompleteCondition(this));
     }
 
@@ -134,22 +116,6 @@ public class LearningRobot extends AdvancedRobot {
         ql.setActionFunction(Action.AHEAD, aheadAction);
     }
 
-    private void initAheadLeftAction() {
-        Executable aheadAction = () -> {
-            LOG.info("Ahead left action.");
-            goAheadLeft();
-        };
-        ql.setActionFunction(Action.AHEAD_LEFT, aheadAction);
-    }
-
-    private void initAheadRightAction() {
-        Executable aheadAction = () -> {
-            LOG.info("Ahead right action.");
-            goAheadRight();
-        };
-        ql.setActionFunction(Action.AHEAD_RIGHT, aheadAction);
-    }
-
     public void run() {
         // Gun, radar and tank movements are independent
         setAdjustGunForRobotTurn(true);
@@ -158,6 +124,8 @@ public class LearningRobot extends AdvancedRobot {
         setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
 
         addCustomEvent(new UpdateCoordsEvent("update_my_tank_coords"));
+//        addCustomEvent(new ActionEvent("action_event"));
+        addCustomEvent(new TickEvent("tick_event"));
 
         deserialize();
         this.updateIsOptimalPolicy();
@@ -182,7 +150,6 @@ public class LearningRobot extends AdvancedRobot {
             }
             rewards.endOfCycle();
             game.resetDataAtTheEndOfCycle();
-            tickCounter.tick();
         }
     }
 
@@ -300,6 +267,30 @@ public class LearningRobot extends AdvancedRobot {
         }
     }
 
+//    public void onCustomEvent(CustomEvent event) {
+//        if (event.getCondition().getName().equals("action_event")) {
+//            LOG.debug("OnCustomEvent: action_event");
+////            this.onActionEvent();
+//        }
+//    }
+
+    private void onActionEvent() {
+        State state = State.updateState(game);
+        Action action = chooseAction(state);
+        action.execute();
+        this.livingReward();
+        this.distanceToEnemyReward();
+        // Prevents updating q-table after the end of the round.
+        if (game.isAmIAlive() == false || game.getMyEnergy() == 0)
+            return;
+        if (!isOptimalPolicy) {
+            State nextState = State.updateState(game);
+            ql.updateQ(state, action, nextState);
+        }
+        rewards.endOfCycle();
+        game.resetDataAtTheEndOfCycle();
+    }
+
     public void onBulletHit(BulletHitEvent e) {
         LOG.info("My bullet hit an opponent!");
     }
@@ -366,6 +357,42 @@ public class LearningRobot extends AdvancedRobot {
             } else {
                 return false;
             }
+        }
+    }
+//
+//    class ActionEvent extends Condition {
+//        private int counter = 0;
+//        private final int ticksPerEvent = 8;
+//
+//        public ActionEvent(String string) {
+//            super(string);
+//        }
+//
+//        @Override
+//        public boolean test() {
+//            if (counter == 0) {
+//                counter += 1;
+//                counter = counter % ticksPerEvent;
+//                LOG.debug("ActionEvent");
+//                return true;
+//            } else {
+//                counter += 1;
+//                counter = counter % ticksPerEvent;
+//                return false;
+//            }
+//        }
+//    }
+
+    class TickEvent extends Condition {
+        public TickEvent(String string) {
+            super(string);
+        }
+
+        @Override
+        public boolean test() {
+            tickCounter.tick();
+            return true;
+
         }
     }
 }

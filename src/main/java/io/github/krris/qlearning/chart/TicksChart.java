@@ -24,7 +24,7 @@ public class TicksChart {
 
         XYSeries series = new XYSeries("Num of ticks per round");
 
-        for (int i = 1; i < rewards.size(); i +=3) {
+        for (int i = 1; i < (arr.length - 1); i +=3) {
             double x = arr[i-1] + arr[i] + arr[i+1];
             x = x / 3;
             series.add(i, x);
