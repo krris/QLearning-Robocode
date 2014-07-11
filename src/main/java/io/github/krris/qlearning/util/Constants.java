@@ -35,11 +35,10 @@ public class Constants {
     public static final double WEIGHT_INIT_VALUE = 1;
     public static final double INITIAL_Q = 0;
     // Default distance for movement actions
-    public static final int MOVE_DISTANCE = 50;
+    public static final int MOVE_DISTANCE = 25;
 
     // Default distance for turn actions
     public static final int TURN_ANGLE = 30;
-    public static final int TURN_ANGLE_BIG = 90;
     // Rewards:
     public static final int HIT_A_WALL = config.getInt("hitAWall");
 
